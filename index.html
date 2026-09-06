@@ -202,6 +202,32 @@ body.fs-open{ overflow:hidden; }
 footer{ position:relative; z-index:2; border-top:1px solid rgba(201,166,104,.15); padding:50px 6vw 30px; text-align:center; color:rgba(236,225,200,.55); font-size:.82rem; background:var(--ink-black); }
 footer .flogo{ height:56px; margin:0 auto 18px; opacity:.85; }
 footer .i18n{ display:block; }
+
+/* SEZIONE: BADGE SOCIAL FISSO (Instagram + copyright, sempre visibili) */
+.fixed-social{
+  position:fixed; right:22px; bottom:20px; z-index:900;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  pointer-events:none;
+}
+.fixed-social a{
+  width:44px; height:44px; border-radius:50%; pointer-events:auto;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(11,7,5,.55); border:1px solid rgba(201,166,104,.4);
+  backdrop-filter:blur(4px);
+  transition:background .3s ease, border-color .3s ease, transform .3s ease;
+}
+.fixed-social a:hover{ background:var(--bordeaux); border-color:var(--bordeaux); transform:translateY(-2px); }
+.fixed-social a img{ width:20px; height:20px; opacity:.92; }
+.fixed-social .fs-copy{
+  font-size:.58rem; letter-spacing:.4px; color:rgba(236,225,200,.45);
+  text-align:center; max-width:110px; line-height:1.3;
+}
+@media (max-width:760px){
+  .fixed-social{ right:14px; bottom:14px; }
+  .fixed-social a{ width:38px; height:38px; }
+  .fixed-social a img{ width:17px; height:17px; }
+  .fixed-social .fs-copy{ max-width:88px; font-size:.52rem; }
+}
 </style>
 </head>
 <body>
@@ -258,6 +284,14 @@ footer .i18n{ display:block; }
 
 <button class="fo-close" id="foClose" aria-label="Close">✕</button>
 
+<!-- SEZIONE: BADGE SOCIAL FISSO -->
+<div class="fixed-social">
+  <a href="https://www.instagram.com/sormariagriculture?igsh=OW9nY2o4NzQ4bXo3" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+    <img src="instagram.png" alt="Instagram">
+  </a>
+  <div class="fs-copy">© 2026 - SORMARI AGRICULTURE LTD - TUTTI I DIRITTI RISERVATI</div>
+</div>
+
 <script>
 /* ============================================================
    SORMARI.ORG — MASTER SCRIPT (v4: tutto e' un tunnel di schede)
@@ -296,36 +330,39 @@ introScreen.addEventListener('click', dismissIntro);
    INIZIO SEZIONE: CONTENUTI (ogni elemento e' una scheda del tunnel)
    ============================================================ */
 const PILLARS = [
-  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Innovative', el:'Καινοτόμοι'}, img:'IMG_2717.jpeg',
-    body:{ en:"<p>Rosé. No-intervention wines. Biodynamics. Ungrafted vines. Grand Vins.</p><p>We keep one foot in the experimental cellar and one in the market — so every innovation we suggest is one your future customers will actually want to drink.</p>",
-           el:"<p>Ροζέ. Κρασιά χωρίς παρέμβαση. Βιοδυναμική. Μη εμβολιασμένα κλήματα. Grand Vins.</p><p>Κρατάμε το ένα πόδι στο πειραματικό κελάρι και το άλλο στην αγορά.</p>" } },
-  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Organized', el:'Οργανωμένοι'}, img:'IMG_2722.jpeg',
-    body:{ en:"<p>Not just between us — but, in a way, also with our partners and clients. That's how closely we work together.</p><p>Every harvest, every crate, every hour in the field is coordinated so nothing is left improvising.</p>",
-           el:"<p>Όχι μόνο μεταξύ μας — αλλά και με τους συνεργάτες και τους πελάτες μας. Τόσο στενά συνεργαζόμαστε.</p>" } },
-  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Sustainable', el:'Βιώσιμοι'}, img:'IMG_2714.jpeg',
+  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Oenologists', el:'Οινολόγοι'}, img:'IMG_2714.jpeg',
+    body:{ en:"<p>Or better, we are a team of oenologists with muddy hands and shoes. That's how close to the vines we work. That's why we also like being called “winemakers”.</p><p>With Mario Sormarí in the lead, we offer 360° oenological consulting services.</p><p>From nothing to finding the right field, to turning it into your vineyard, your winery, wine, bottle, etiquette. Your story.</p>",
+           el:"<p>Ή καλύτερα, είμαστε μια ομάδα οινολόγων με λασπωμένα χέρια και παπούτσια. Έτσι δουλεύουμε, τόσο κοντά στ' αμπέλια. Γι' αυτό μας αρέσει να μας λένε και «οινοποιούς».</p><p>Με επικεφαλής τον Mario Sormarí, προσφέρουμε συμβουλευτικές υπηρεσίες οινολογίας 360°.</p><p>Από το μηδέν, στην εύρεση του κατάλληλου χωραφιού, μέχρι να το μετατρέψουμε στον αμπελώνα σας, το οινοποιείο σας, το κρασί, το μπουκάλι, την ετικέτα σας. Τη δική σας ιστορία.</p>" } },
+  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Team management', el:'Διαχείριση Ομάδας'}, img:'IMG_2722.jpeg',
+    body:{ en:"<p>Not just between us. But, in a way, also with our partners and our clients. That's how closely we work together.</p>",
+           el:"<p>Όχι μόνο μεταξύ μας. Κατά κάποιον τρόπο, και με τους συνεργάτες και τους πελάτες μας. Τόσο στενά συνεργαζόμαστε.</p>" } },
+  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Innovation', el:'Καινοτομία'}, img:'IMG_2717.jpeg',
+    body:{ en:"<ul><li>Rosé</li><li>No intervention wines</li><li>Biodynamics</li><li>Ungrafted vines</li><li>Grand Vins</li><li>360º services</li></ul>",
+           el:"<ul><li>Ροζέ</li><li>Κρασιά χωρίς παρέμβαση</li><li>Βιοδυναμική</li><li>Μη εμβολιασμένα κλήματα</li><li>Grand Vins</li><li>Υπηρεσίες 360º</li></ul>" } },
+  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Sustainable', el:'Βιώσιμοι'}, img:'IMG_2727.jpeg',
     body:{ en:"<p>Respect for nature, respect for nature, respect for nature, respect for nature, respect for nature.</p><p>We cannot repeat this enough to show you how much we mean it.</p>",
-           el:"<p>Σεβασμός στη φύση, σεβασμός στη φύση, σεβασμός στη φύση.</p><p>Δεν μπορούμε να το επαναλάβουμε αρκετά.</p>" } }
+           el:"<p>Σεβασμός στη φύση, σεβασμός στη φύση, σεβασμός στη φύση, σεβασμός στη φύση, σεβασμός στη φύση.</p><p>Δεν μπορούμε να το επαναλάβουμε αρκετά για να σας δείξουμε πόσο το εννοούμε.</p>" } }
 ];
 
 const SERVICES = [
-  { title:{en:'360° Services', el:'Υπηρεσίες 360°'}, tag:{en:'Full circle', el:'Πλήρης κύκλος'}, img:'IMG_2723.jpeg',
-    body:{ en:"<p>We are there for you, every step of the way — from choosing and acquiring your vineyard to affixing the labels on your wine bottles.</p><p>A complete range of services that lets you stay as flexible as you need.</p>",
-           el:"<p>Είμαστε δίπλα σας σε κάθε βήμα — από την επιλογή του αμπελώνα έως την επικόλληση των ετικετών.</p>" } },
-  { title:{en:'Oenological Consulting', el:'Οινολογική Συμβουλευτική'}, tag:{en:'Grape to bottle', el:'Από το σταφύλι στο μπουκάλι'}, img:'IMG_2715.jpeg',
-    body:{ en:"<p>Guidance throughout the whole procedure, from harvesting the grape to bottling your wine:</p><ul><li>Oenological analyses</li><li>Wine monitoring</li><li>Vinification, ageing, stabilisation, bottling</li></ul><p>Modern techniques: organic, biodynamic, experimental, low SO₂, wild fermentation.</p>",
-           el:"<p>Καθοδήγηση σε όλη τη διαδικασία, από τη συγκομιδή έως την εμφιάλωση:</p><ul><li>Οινολογικές αναλύσεις</li><li>Παρακολούθηση κρασιού</li><li>Οινοποίηση, ωρίμανση, εμφιάλωση</li></ul>" } },
-  { title:{en:'Viticultural Consulting', el:'Αμπελουργική Συμβουλευτική'}, tag:{en:'In the field', el:'Στο χωράφι'}, img:'IMG_2718.jpeg',
-    body:{ en:"<p>Yearly, everyday cultivation consulting, until grape harvest — precision viticulture, adapted to the terroir:</p><ul><li>Vine monitoring</li><li>Viticulture management</li><li>Plant protection management</li><li>Irrigation management</li></ul>",
-           el:"<p>Ετήσια, καθημερινή συμβουλευτική καλλιέργειας, μέχρι τον τρύγο:</p><ul><li>Παρακολούθηση κλήματος</li><li>Διαχείριση αμπελουργίας</li></ul>" } },
-  { title:{en:'Vineyard &amp; Winery Installation', el:'Εγκατάσταση Αμπελώνα &amp; Οινοποιείου'}, tag:{en:'From scratch', el:'Από το μηδέν'}, img:'IMG_2719.jpeg',
-    body:{ en:"<p>Advice on finding and purchasing the right field, and a full vineyard installation study: variety selection, soil preparation, cost evaluation, irrigation.</p><p>Design &amp; construction of a fully equipped winery, tailored to your needs.</p>",
-           el:"<p>Συμβουλές για την εύρεση του κατάλληλου χωραφιού και πλήρης μελέτη εγκατάστασης αμπελώνα.</p>" } },
-  { title:{en:'Wine Collections', el:'Συλλογές Κρασιού'}, tag:{en:'Assistance', el:'Υποστήριξη'}, img:'IMG_2730.jpeg',
-    body:{ en:"<p>Evaluation of wines or wine collections, and hands-on help building a personal collection for ageing — chosen bottle by bottle.</p>",
-           el:"<p>Αξιολόγηση κρασιών ή συλλογών κρασιού, και πρακτική βοήθεια στη δημιουργία προσωπικής συλλογής.</p>" } },
-  { title:{en:'Administrative Support', el:'Διοικητική Υποστήριξη'}, tag:{en:'Paperwork, handled', el:'Το χαρτί, τακτοποιημένο'}, img:'IMG_2720.jpeg',
-    body:{ en:"<p>We take on all the official-legal paperwork your project requires — applications for plantation rights, production declarations, subsidy dossiers.</p><p>Plus certification for organic and biodynamic standards.</p>",
-           el:"<p>Αναλαμβάνουμε όλη τη γραφειοκρατία που απαιτεί το έργο σας — αιτήσεις, δηλώσεις, φακέλους επιδοτήσεων.</p>" } }
+  { title:{en:'360°', el:'360°'}, tag:{en:'Services', el:'Υπηρεσίες'}, img:'IMG_2723.jpeg',
+    body:{ en:"<p>We are there for you, every step of the way. From choosing and acquiring your vineyard to affixing the labels on your wine bottles.</p><p>We offer a complete range of services that allows you to be as flexible as you need with respect to the size of the investment, as well as to the degree of personal involvement in the project.</p>",
+           el:"<p>Είμαστε δίπλα σας σε κάθε βήμα. Από την επιλογή και απόκτηση του αμπελώνα σας έως την επικόλληση των ετικετών στα μπουκάλια του κρασιού σας.</p><p>Προσφέρουμε ένα πλήρες φάσμα υπηρεσιών που σας επιτρέπει να είστε όσο ευέλικτοι χρειάζεται, τόσο ως προς το μέγεθος της επένδυσης όσο και ως προς τον βαθμό προσωπικής εμπλοκής στο έργο.</p>" } },
+  { title:{en:'Oenological consulting', el:'Οινολογική Συμβουλευτική'}, tag:{en:'Grape to bottle', el:'Από το σταφύλι στο μπουκάλι'}, img:'IMG_2715.jpeg',
+    body:{ en:"<p>Guidance throughout the procedure followed from harvesting the grape, to bottling your wine. Specifically:</p><ul><li>Oenological analyses</li><li>Wine monitoring</li><li>Vinification, aging, stabilization, bottling</li></ul><p>Modern and innovative vinification techniques:</p><ul><li>Organic</li><li>Biodynamic</li><li>Experimental</li><li>No or low SO₂ added</li><li>Wild fermentation</li></ul><p>Winery management: grape sourcing, dealing and negotiating with suppliers.</p>",
+           el:"<p>Καθοδήγηση σε όλη τη διαδικασία, από τη συγκομιδή του σταφυλιού έως την εμφιάλωση του κρασιού σας. Συγκεκριμένα:</p><ul><li>Οινολογικές αναλύσεις</li><li>Παρακολούθηση κρασιού</li><li>Οινοποίηση, ωρίμανση, σταθεροποίηση, εμφιάλωση</li></ul><p>Σύγχρονες και καινοτόμες τεχνικές οινοποίησης:</p><ul><li>Βιολογική</li><li>Βιοδυναμική</li><li>Πειραματική</li><li>Χωρίς ή με χαμηλή προσθήκη SO₂</li><li>Αυθόρμητη ζύμωση</li></ul><p>Διαχείριση οινοποιείου: προμήθεια σταφυλιών, διαπραγμάτευση με προμηθευτές.</p>" } },
+  { title:{en:'Viticultural consulting', el:'Αμπελουργική Συμβουλευτική'}, tag:{en:'In the field', el:'Στο χωράφι'}, img:'IMG_2718.jpeg',
+    body:{ en:"<p>Yearly, everyday cultivation consulting, until grape harvest. Precision viticulture, adapted to the terroir:</p><ul><li>Vine monitoring</li><li>Viticulture management</li><li>Plant protection management</li><li>Irrigation management</li></ul><p>Conversion of vineyard into organic or biodynamic.</p>",
+           el:"<p>Ετήσια, καθημερινή συμβουλευτική καλλιέργειας, μέχρι τον τρύγο. Αμπελουργία ακριβείας, προσαρμοσμένη στο terroir:</p><ul><li>Παρακολούθηση κλήματος</li><li>Διαχείριση αμπελουργίας</li><li>Διαχείριση φυτοπροστασίας</li><li>Διαχείριση άρδευσης</li></ul><p>Μετατροπή αμπελώνα σε βιολογική ή βιοδυναμική καλλιέργεια.</p>" } },
+  { title:{en:'Vineyard and winery installation-optimization', el:'Εγκατάσταση & Βελτιστοποίηση Αμπελώνα και Οινοποιείου'}, tag:{en:'From scratch', el:'Από το μηδέν'}, img:'IMG_2719.jpeg',
+    body:{ en:"<p>Advice on finding and purchasing the right field. Vineyard installation study:</p><ul><li>Vine variety selection</li><li>Soil preparation</li><li>Cost evaluation</li><li>Irrigation</li></ul><p>Design &amp; construction of a fully equipped winery, tailored to your needs.</p><p>Project management: we undertake all the necessary actions, regarding the oenological requirements of the project, in order to deliver to you a fully functional and productive vineyard and/or winery.</p>",
+           el:"<p>Συμβουλές για την εύρεση και απόκτηση του κατάλληλου χωραφιού. Μελέτη εγκατάστασης αμπελώνα:</p><ul><li>Επιλογή ποικιλίας κλήματος</li><li>Προετοιμασία εδάφους</li><li>Αξιολόγηση κόστους</li><li>Άρδευση</li></ul><p>Σχεδιασμός &amp; κατασκευή πλήρως εξοπλισμένου οινοποιείου, προσαρμοσμένου στις ανάγκες σας.</p><p>Διαχείριση έργου: αναλαμβάνουμε όλες τις απαραίτητες ενέργειες, όσον αφορά τις οινολογικές απαιτήσεις του έργου, ώστε να σας παραδώσουμε έναν πλήρως λειτουργικό και παραγωγικό αμπελώνα ή/και οινοποιείο.</p>" } },
+  { title:{en:'Assistance with wine collections', el:'Υποστήριξη Συλλογών Κρασιού'}, tag:{en:'Assistance', el:'Υποστήριξη'}, img:'IMG_2730.jpeg',
+    body:{ en:"<p>Evaluation of wines or wine collections.</p><p>Build a personal wine collection for aging, with our help.</p>",
+           el:"<p>Αξιολόγηση κρασιών ή συλλογών κρασιού.</p><p>Δημιουργήστε μια προσωπική συλλογή κρασιού για παλαίωση, με τη βοήθειά μας.</p>" } },
+  { title:{en:'Administrative support', el:'Διοικητική Υποστήριξη'}, tag:{en:'Paperwork, handled', el:'Το χαρτί, τακτοποιημένο'}, img:'IMG_2720.jpeg',
+    body:{ en:"<p>We take on all the official-legal paperwork that your project requires, from an oenological point of view. For example, applications for plantation rights and production declarations.</p><p>Subsidy dossiers implementation and submission.</p><p>Vineyard and winery certification procedures, as to compliance with organic and biodynamic official standards.</p>",
+           el:"<p>Αναλαμβάνουμε όλη την επίσημη-νομική γραφειοκρατία που απαιτεί το έργο σας, από οινολογική σκοπιά. Για παράδειγμα, αιτήσεις δικαιωμάτων φύτευσης και δηλώσεις παραγωγής.</p><p>Υλοποίηση και υποβολή φακέλων επιδότησης.</p><p>Διαδικασίες πιστοποίησης αμπελώνα και οινοποιείου, ως προς τη συμμόρφωση με τα επίσημα πρότυπα βιολογικής και βιοδυναμικής καλλιέργειας.</p>" } }
 ];
 
 const PROJECTS = [
@@ -356,10 +393,10 @@ cardsData.push({kind:'about'});
 PILLARS.forEach(p=> cardsData.push({kind:'std', ...p}));
 cardsData.push({kind:'compare', side:'tradition', img:'IMG_2726.jpeg',
   title:{en:'Tradition', el:'Παράδοση'}, tag:{en:'We are contrasted', el:'Είμαστε αντίθεση'},
-  body:{en:"<p>Mules, hand tools, a rhythm set by the land — methods proven over generations.</p>", el:"<p>Μουλάρια, εργαλεία στο χέρι, ρυθμός που ορίζει η γη.</p>"}});
+  body:{en:"<p>Sormarí. Tradition and innovation. Past and future.</p><p>Old worn-out barrels and new big ones.</p>", el:"<p>Sormarí. Παράδοση και καινοτομία. Παρελθόν και μέλλον.</p><p>Παλιά φθαρμένα βαρέλια και καινούργια, μεγάλα.</p>"}});
 cardsData.push({kind:'compare', side:'innovation', img:'IMG_2717.jpeg',
   title:{en:'Innovation', el:'Καινοτομία'}, tag:{en:'We are contrasted', el:'Είμαστε αντίθεση'},
-  body:{en:"<p>Precision viticulture, monitoring, and analysis, adapted to every terroir. Old worn-out barrels and new ones, passion and realism, nature and science — balance in every bottle.</p>", el:"<p>Αμπελουργία ακριβείας, προσαρμοσμένη σε κάθε terroir.</p>"}});
+  body:{en:"<p>Passion and realism. Nature and science.</p><p>Differences complement each other to reach perfect balance. In color, in taste, in texture, in each bottle.</p>", el:"<p>Πάθος και ρεαλισμός. Φύση και επιστήμη.</p><p>Οι διαφορές αλληλοσυμπληρώνονται για να φτάσουν στην τέλεια ισορροπία. Στο χρώμα, στη γεύση, στην υφή, σε κάθε μπουκάλι.</p>"}});
 cardsData.push({kind:'title', tag:{en:'Services', el:'Υπηρεσίες'}, title:{en:'360°, from soil to label', el:'360°, από το χώμα έως την ετικέτα'},
   sub:{en:'We are there for you, every step of the way.', el:'Είμαστε δίπλα σας σε κάθε βήμα.'}});
 SERVICES.forEach(s=> cardsData.push({kind:'std', ...s}));
@@ -401,7 +438,7 @@ function buildCard(item){
       <div class="tc-body">
         <img class="tc-logo" src="Logo.png" alt="Sormarí">
         <h1 class="i18n" ${i18nAttrs({en:'Welcome to <em>Sormarí</em>.<br>Oenology, told properly.', el:"Καλώς ήρθατε στη <em>Sormarí</em>.<br>Οινολογία, όπως πρέπει."})}>Welcome to <em>Sormarí</em>.<br>Oenology, told properly.</h1>
-        <p class="i18n" ${i18nAttrs({en:'Discover a world of oenology, great wine and amazing winemaking experiences — the next wine we make will tell your story.', el:'Ανακαλύψτε έναν κόσμο οινολογίας και εξαιρετικού κρασιού.'})}>Discover a world of oenology, great wine and amazing winemaking experiences — the next wine we make will tell your story.</p>
+        <p class="i18n" ${i18nAttrs({en:'Discover a world of oenology, great wine and amazing winemaking experiences. Find all the support and guidance you need to achieve your wine goals! Get to know our philosophy, our work and our complete range of oenological consulting services. We hope that the next wine we make will tell your story.', el:'Ανακαλύψτε έναν κόσμο οινολογίας, εξαιρετικού κρασιού και μοναδικών εμπειριών οινοποίησης. Βρείτε όλη την υποστήριξη και την καθοδήγηση που χρειάζεστε για να πετύχετε τους στόχους σας στο κρασί! Γνωρίστε τη φιλοσοφία μας, τη δουλειά μας και το πλήρες φάσμα των συμβουλευτικών μας υπηρεσιών οινολογίας. Ελπίζουμε το επόμενο κρασί που θα φτιάξουμε να αφηγηθεί τη δική σας ιστορία.'})}>Discover a world of oenology, great wine and amazing winemaking experiences. Find all the support and guidance you need to achieve your wine goals! Get to know our philosophy, our work and our complete range of oenological consulting services. We hope that the next wine we make will tell your story.</p>
       </div>`;
     return card;
   }
@@ -452,7 +489,7 @@ function buildCard(item){
 
   if(item.kind==='garage'){
     card.classList.add('tc-clickable','tc-wide');
-    const garageBody = {en:"The term 'garage wine' refers to a small, private, high-quality wine production unit — at your place, your field, your garden. Let us guide you step by step.", el:"Ο όρος «garage wine» αναφέρεται σε μια μικρή, ιδιωτική, υψηλής ποιότητας μονάδα παραγωγής κρασιού."};
+    const garageBody = {en:"The term 'garage wine' refers to a small, private, high-quality wine production unit, that is not necessarily set up in a garage but at your place, your field, your gardens! If you aspire to make your own private label, let us guide you step by step. With the right partner and with the right know-how, creating such a small winery very much resembles creating a small jewel!", el:"Ο όρος «garage wine» αναφέρεται σε μια μικρή, ιδιωτική, υψηλής ποιότητας μονάδα παραγωγής κρασιού, που δεν βρίσκεται απαραίτητα μέσα σε ένα γκαράζ, αλλά στο σπίτι σας, στο χωράφι σας, στον κήπο σας! Αν φιλοδοξείτε να δημιουργήσετε τη δική σας ιδιωτική ετικέτα, αφήστε μας να σας καθοδηγήσουμε βήμα-βήμα. Με τον σωστό συνεργάτη και την κατάλληλη τεχνογνωσία, η δημιουργία ενός τέτοιου μικρού οινοποιείου μοιάζει πολύ με τη δημιουργία ενός μικρού κοσμήματος!"};
     card.innerHTML = `
       <div class="tc-bg"><img src="IMG_2730.jpeg" alt=""></div>
       <div class="tc-body">
