@@ -6,7 +6,10 @@
 <title>Sormarí — Oenological Consulting</title>
 <style>
 /* ============================================================
-   SORMARI.ORG — MASTER STYLESHEET (v8: Percorsi e Nomi Perfettamente Allineati)
+   SORMARI.ORG — MASTER STYLESHEET (v4)
+   Tutto il sito e' un unico tunnel di schede in profondita'.
+   Nessuna sezione a griglia: solo schede che si avvicinano lungo
+   l'asse Z mentre si scorre, incorniciate da anelli di vite.
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap');
@@ -37,6 +40,7 @@ h1,h2,h3,h4{font-family:var(--serif); font-weight:500; letter-spacing:.2px;}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 .vignette{ position:fixed; inset:0; z-index:9997; pointer-events:none; background:radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,.55) 100%); }
 
+/* SEZIONE: NAVIGAZIONE (i pulsanti richiamano scrollToCard, non href) */
 header.nav{ position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:14px 4vw;
   background:linear-gradient(to bottom, rgba(11,7,5,.85), rgba(11,7,5,0)); backdrop-filter:blur(2px); transition:background .4s ease, padding .4s ease; }
 header.nav.scrolled{ background:rgba(11,7,5,.86); padding:8px 4vw; border-bottom:1px solid rgba(201,166,104,.15); }
@@ -58,6 +62,7 @@ header.nav.scrolled .nav-logo img{height:40px;}
   .burger{display:flex;}
 }
 
+/* SEZIONE: INTRO CINEMATOGRAFICA (logo grande, preloader) */
 .intro-screen{ position:fixed; inset:0; z-index:5000; background:var(--ink-black); display:flex; align-items:center; justify-content:center; transition:opacity 1s ease, visibility 1s ease; }
 .intro-screen.hide{ opacity:0; visibility:hidden; pointer-events:none; }
 .intro-logo-wrap{ position:relative; display:flex; align-items:center; justify-content:center; }
@@ -68,8 +73,13 @@ header.nav.scrolled .nav-logo img{height:40px;}
 .intro-ring.i2{ width:150%; height:150%; border-color:rgba(156,44,70,.5); animation-delay:.3s; }
 .intro-ring.i3{ width:185%; height:185%; border-style:dashed; animation-delay:.5s; }
 @keyframes introRingIn{ 0%{ opacity:0; transform:scale(.4);} 60%{ opacity:.7;} 100%{ opacity:.25; transform:scale(1);} }
+.intro-particles span{ position:absolute; width:3px; height:3px; border-radius:50%; background:var(--gold-pale); opacity:0; animation: introSpark 1.8s ease-out forwards; }
+@keyframes introSpark{ 0%{ opacity:0; transform:translate(0,0) scale(.5);} 30%{ opacity:1;} 100%{ opacity:0; transform:translate(var(--dx), var(--dy)) scale(1.4);} }
 
-.tunnel-wrap{ position:relative; height:600vh; background:var(--ink-black); }
+/* ============================================================
+   IL TUNNEL — UNICA MECCANICA DI TUTTO IL SITO
+   ============================================================ */
+.tunnel-wrap{ position:relative; background:var(--ink-black); }
 .tunnel-stage{
   position:sticky; top:0; height:100vh; overflow:hidden;
   perspective:1000px; perspective-origin:50% 50%;
@@ -79,13 +89,23 @@ header.nav.scrolled .nav-logo img{height:40px;}
 }
 .tunnel-world{ position:relative; width:1px; height:1px; transform-style:preserve-3d; will-change:transform; }
 
+.tunnel-ring{ position:absolute; top:50%; left:50%; width:600px; height:600px; margin:-300px 0 0 -300px; pointer-events:none; will-change:transform, opacity; }
+.ring-wreath{ position:absolute; inset:0; width:100%; height:100%; opacity:.42; filter:brightness(.8); }
+.ring-grape{ position:absolute; width:190px; left:50%; filter:drop-shadow(0 10px 22px rgba(0,0,0,.6)); opacity:.55; }
+.ring-grape.rg-top{ top:-58px; transform:translateX(-50%) rotate(3deg); }
+.ring-grape.rg-bottom{ bottom:-58px; transform:translateX(-50%) rotate(179deg); }
+
+.tunnel-vine-bit{ position:absolute; top:50%; left:50%; width:150px; height:360px; margin:-180px 0 0 -75px; pointer-events:none; opacity:.55; will-change:transform, opacity; }
+.tunnel-vine-bit img{ width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 8px 18px rgba(0,0,0,.5)); opacity:.6; }
+
 .tunnel-card{
   position:absolute; top:50%; left:50%; width:480px; height:320px; margin:-160px 0 0 -240px;
   border-radius:16px; overflow:hidden;
   background:linear-gradient(155deg, rgba(76,106,63,.16), rgba(10,6,5,.9) 55%, rgba(60,13,26,.35));
   border:1px solid rgba(201,166,104,.4); box-shadow:0 40px 100px rgba(0,0,0,.6);
-  will-change:transform, opacity; cursor:pointer;
+  will-change:transform, opacity;
 }
+.tunnel-card.tc-clickable{ cursor:pointer; }
 .tunnel-card .tc-bg{ position:absolute; inset:0; }
 .tunnel-card .tc-bg img{ width:100%; height:100%; object-fit:cover; opacity:.48; filter:grayscale(.2) saturate(1.05); }
 .tunnel-card .tc-bg::after{ content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(6,3,2,.93) 10%, rgba(6,3,2,.2) 65%); }
@@ -94,6 +114,7 @@ header.nav.scrolled .nav-logo img{height:40px;}
 .tunnel-card h3{ font-size:1.5rem; color:var(--gold-pale); line-height:1.25; }
 .tunnel-card .tc-hint{ margin-top:12px; font-size:.7rem; letter-spacing:1.5px; text-transform:uppercase; color:rgba(236,225,200,.55); }
 
+/* ---- varianti di scheda (nessuna e' una griglia di pagina: sono layout interni a UNA scheda) ---- */
 .tunnel-card.tc-wide{ width:640px; height:440px; margin:-220px 0 0 -320px; }
 .tunnel-card.tc-hero{ background:radial-gradient(ellipse at 50% 30%, rgba(156,44,70,.35), rgba(10,6,5,.92) 70%); text-align:center; }
 .tunnel-card.tc-hero .tc-body{ align-items:center; justify-content:center; padding:40px; }
@@ -101,6 +122,15 @@ header.nav.scrolled .nav-logo img{height:40px;}
 .tunnel-card.tc-hero h1{ font-size:2.1rem; color:var(--gold-pale); margin-bottom:14px; }
 .tunnel-card.tc-hero h1 em{ font-style:italic; color:var(--bordeaux-bright); }
 .tunnel-card.tc-hero p{ font-size:.92rem; color:rgba(236,225,200,.8); max-width:44ch; }
+
+.tunnel-card.tc-nav .tc-body{ align-items:center; justify-content:center; padding:30px; }
+.tc-nav-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; max-width:480px; }
+.tc-nav-grid button{
+  padding:11px 22px; border:1px solid rgba(201,166,104,.45); border-radius:20px;
+  font-size:.76rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold-pale);
+  transition:background .3s ease, border-color .3s ease;
+}
+.tc-nav-grid button:hover{ background:var(--bordeaux); border-color:var(--bordeaux); }
 
 .tunnel-card.tc-text .tc-body{ justify-content:center; }
 .tunnel-card.tc-text .kicker{ font-family:var(--serif); font-style:italic; color:var(--gold); font-size:1rem; margin-bottom:10px; }
@@ -111,7 +141,7 @@ header.nav.scrolled .nav-logo img{height:40px;}
 .tunnel-card.tc-about p{ font-size:.85rem; color:rgba(236,225,200,.85); margin-bottom:10px; }
 .tunnel-card.tc-about .quote{ font-family:var(--serif); font-style:italic; color:var(--gold-pale); font-size:1.05rem; margin:10px 0; }
 .tunnel-card.tc-about .ceo-line{ display:flex; align-items:center; gap:12px; margin-top:10px; }
-.tunnel-card.tc-about .ceo-line img{ width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--gold); }
+.tunnel-card.tc-about .ceo-line img{ width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--gold); filter:grayscale(1); }
 .tunnel-card.tc-about .ceo-line .n{ font-family:var(--serif); color:var(--gold-pale); font-size:.95rem; }
 .tunnel-card.tc-about .ceo-line .r{ font-size:.66rem; letter-spacing:1px; text-transform:uppercase; color:var(--gold); }
 
@@ -129,12 +159,14 @@ header.nav.scrolled .nav-logo img{height:40px;}
   align-self:flex-start; margin-top:6px; padding:9px 22px; border:1px solid var(--gold); background:var(--bordeaux);
   border-radius:2px; font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold-pale);
 }
+.tunnel-card.tc-contact .contact-meta{ font-size:.72rem; color:rgba(236,225,200,.6); margin-top:10px; line-height:1.7; }
 
 .tunnel-progress-hint{
   position:absolute; bottom:30px; left:0; right:0; text-align:center; z-index:5;
   font-size:.7rem; letter-spacing:2px; text-transform:uppercase; color:rgba(236,225,200,.4); pointer-events:none;
 }
 
+/* ---- scheda espansa a schermo intero (click su una scheda "std") ---- */
 .fullscreen-overlay{
   position:fixed; z-index:3000; overflow:hidden; background:linear-gradient(160deg, #1c0d10, #0a0504);
   display:flex; flex-direction:column; box-shadow:0 60px 140px rgba(0,0,0,.7);
@@ -156,8 +188,20 @@ header.nav.scrolled .nav-logo img{height:40px;}
 .fo-close:hover{ background:var(--bordeaux); transform:rotate(90deg); }
 body.fs-open{ overflow:hidden; }
 
+@media (max-width:760px){
+  .tunnel-card{ width:82vw; height:280px; margin:-140px 0 0 -41vw; }
+  .tunnel-card.tc-wide{ width:86vw; height:400px; margin:-200px 0 0 -43vw; }
+  .tunnel-ring{ width:420px; height:420px; margin:-210px 0 0 -210px; }
+  .ring-grape{ width:130px; }
+  .ring-grape.rg-top{ top:-40px; }
+  .ring-grape.rg-bottom{ bottom:-40px; }
+  .tunnel-vine-bit{ width:100px; height:240px; margin:-120px 0 0 -50px; }
+}
+
+/* SEZIONE: FOOTER (chiusura statica, non e' una griglia di contenuti) */
 footer{ position:relative; z-index:2; border-top:1px solid rgba(201,166,104,.15); padding:50px 6vw 30px; text-align:center; color:rgba(236,225,200,.55); font-size:.82rem; background:var(--ink-black); }
 footer .flogo{ height:56px; margin:0 auto 18px; opacity:.85; }
+footer .i18n{ display:block; }
 </style>
 </head>
 <body>
@@ -165,356 +209,444 @@ footer .flogo{ height:56px; margin:0 auto 18px; opacity:.85; }
 <div class="grain"></div>
 <div class="vignette"></div>
 
-<!-- INTRO SCREEN -->
+<!-- SEZIONE: INTRO CINEMATOGRAFICA -->
 <div class="intro-screen" id="introScreen">
+  <div class="intro-particles" id="introParticles"></div>
   <div class="intro-logo-wrap">
-    <img src="Logo.png" alt="Sormarí Logo">
+    <div class="intro-ring i1"></div>
+    <div class="intro-ring i2"></div>
+    <div class="intro-ring i3"></div>
+    <img src="Logo.png" alt="Sormarí">
   </div>
 </div>
 
+<!-- SEZIONE: NAVIGAZIONE -->
 <header class="nav" id="siteNav">
-  <div class="nav-logo">
-    <img src="Logo.png" alt="Logo">
-  </div>
-  <div class="nav-links" id="navLinks">
-    <button onclick="scrollToCard(0)">Vision</button>
-    <button onclick="scrollToCard(1)">Terroir</button>
-    <button onclick="scrollToCard(2)">About</button>
-    <button onclick="scrollToCard(3)">Craft</button>
-    <button onclick="scrollToCard(4)">Services</button>
-    <button onclick="scrollToCard(5)">Contact</button>
-  </div>
+  <button class="nav-logo" data-nav="home"><img src="Logo.png" alt="Sormarí logo"></button>
+  <nav class="nav-links" id="navLinks">
+    <button data-nav="home" class="i18n" data-en="Home" data-el="Αρχική">Home</button>
+    <button data-nav="about" class="i18n" data-en="About" data-el="Σχετικά">About</button>
+    <button data-nav="services" class="i18n" data-en="Services" data-el="Υπηρεσίες">Services</button>
+    <button data-nav="projects" class="i18n" data-en="Projects" data-el="Έργα">Projects</button>
+    <button data-nav="garage" class="i18n" data-en="Garage Wine" data-el="Garage Wine">Garage Wine</button>
+    <button data-nav="blog" class="i18n" data-en="Blog" data-el="Blog">Blog</button>
+    <button data-nav="contact" class="i18n" data-en="Contact" data-el="Επικοινωνία">Contact</button>
+  </nav>
   <div class="nav-right">
     <div class="lang-toggle">
-      <button class="active" onclick="setLang('en')">EN</button>
-      <span>/</span>
-      <button onclick="setLang('it')">IT</button>
+      <button data-setlang="en" class="active">EN</button>
+      <span style="opacity:.4">/</span>
+      <button data-setlang="el">ΕΛ</button>
     </div>
-    <button class="burger" id="burgerBtn" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="burger" id="burgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </header>
 
+<!-- SEZIONE: IL TUNNEL — TUTTO IL SITO E' QUI DENTRO -->
 <div class="tunnel-wrap" id="tunnelWrap">
   <div class="tunnel-stage">
-    <div class="tunnel-world" id="tunnelWorld">
-      
-      <!-- SCHEDA 0: HERO -->
-      <div class="tunnel-card tc-hero" data-index="0" onclick="openModal(0)">
-        <div class="tc-bg"><img src="IMG_2730.jpeg" alt="Hero"></div>
-        <div class="tc-body">
-          <img src="Logo.png" class="tc-logo" alt="Logo">
-          <h1 data-i18n="heroTitle">Oenological Excellence & <em>Terroir</em></h1>
-          <p data-i18n="heroDesc">The art and science of volcanic viticulture in Santorini.</p>
-          <span class="tc-hint" data-i18n="tapExplore">Tap to Explore</span>
-        </div>
-      </div>
-
-      <!-- SCHEDA 1 -->
-      <div class="tunnel-card tc-text" data-index="1" onclick="openModal(1)">
-        <div class="tc-bg"><img src="IMG_2731.jpeg" alt="Terroir"></div>
-        <div class="tc-body">
-          <div class="kicker" data-i18n="card1Kicker">Volcanic Essence</div>
-          <h2 data-i18n="card1Title">The Ancient Soil</h2>
-          <p data-i18n="card1Desc">Unlocking the unique mineral profile born from ancient eruptions and sea winds.</p>
-          <span class="tc-hint" data-i18n="tapExplore">Tap to Discover</span>
-        </div>
-      </div>
-
-      <!-- SCHEDA 2: ABOUT CON CEO -->
-      <div class="tunnel-card tc-wide tc-about" data-index="2" onclick="openModal(2)">
-        <div class="tc-bg"><img src="IMG_2728.jpeg" alt="About"></div>
-        <div class="tc-body">
-          <div class="tunnel-tag" data-i18n="card2Tag">Philosophy</div>
-          <h3 data-i18n="card2Title">Rooted in Tradition, Guided by Science</h3>
-          <p class="quote" data-i18n="card2Quote">“The wine is made in the vineyard, perfected in the cellar.”</p>
-          <div class="ceo-line">
-            <img src="CEO.jpeg" alt="Master Oenologist">
-            <div>
-              <div class="n">Paolo Sormarí</div>
-              <div class="r" data-i18n="card2Role">Master Oenologist</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SCHEDA 3 -->
-      <div class="tunnel-card tc-text" data-index="3" onclick="openModal(3)">
-        <div class="tc-bg"><img src="IMG_2723.jpeg" alt="Cellar"></div>
-        <div class="tc-body">
-          <div class="kicker" data-i18n="card3Kicker">Craftsmanship</div>
-          <h2 data-i18n="card3Title">Harvest & Vinification</h2>
-          <p data-i18n="card3Desc">From ancient basket-pruned vines to meticulous cellar maturation.</p>
-          <span class="tc-hint" data-i18n="tapExplore">Tap to Read More</span>
-        </div>
-      </div>
-
-      <!-- SCHEDA 4 -->
-      <div class="tunnel-card tc-soon" data-index="4" onclick="openModal(4)">
-        <div class="tc-bg"><img src="IMG_2719.jpg" alt="Consulting"></div>
-        <div class="tc-body">
-          <div class="tunnel-tag" data-i18n="card4Tag">Services</div>
-          <h3 data-i18n="card4Title">Tailored Oenological Consulting</h3>
-          <span class="tc-hint" data-i18n="tapExplore">Tap for Details</span>
-        </div>
-      </div>
-
-      <!-- SCHEDA 5 -->
-      <div class="tunnel-card tc-contact" data-index="5" onclick="openModal(5)">
-        <div class="tc-bg"><img src="IMG_2712.jpeg" alt="Contact"></div>
-        <div class="tc-body" onclick="event.stopPropagation()">
-          <div class="tunnel-tag" data-i18n="card5Tag">Direct Access</div>
-          <h3 data-i18n="card5Title">Get in Touch</h3>
-          <form onsubmit="event.preventDefault(); alert('Message sent successfully.');">
-            <div class="cf-row">
-              <input type="text" placeholder="Your Name" required data-i18n-ph="namePh">
-              <input type="email" placeholder="Your Email" required data-i18n-ph="emailPh">
-            </div>
-            <textarea placeholder="Your Message..." required data-i18n-ph="msgPh"></textarea>
-            <button type="submit" class="send-btn" data-i18n="sendBtn">Send Inquiry</button>
-          </form>
-        </div>
-      </div>
-
-    </div>
+    <div class="tunnel-world" id="tunnelWorld"></div>
+    <div class="tunnel-progress-hint i18n" data-en="Scroll or swipe to travel through" data-el="Scorri per proseguire il viaggio">Scroll or swipe to travel through</div>
   </div>
-  <div class="tunnel-progress-hint" data-i18n="scrollHint">↓ Scroll to Navigate Tunnel</div>
 </div>
 
-<div class="fullscreen-overlay" id="fsOverlay" style="top:100vh; left:0; width:100vw; height:100vh; opacity:0; pointer-events:none;">
-  <button class="fo-close" id="foClose" onclick="closeModal()">✕</button>
-  <div class="fo-media">
-    <img id="foImg" src="" alt="Detail">
-  </div>
-  <div class="fo-body" id="foBody"></div>
-</div>
-
+<!-- SEZIONE: FOOTER -->
 <footer>
-  <img src="Logo.png" class="flogo" alt="Footer Logo">
-  <p>© 2026 Sormarí Oenological Consulting. All rights reserved.</p>
+  <img class="flogo" src="Logo.png" alt="Sormarí">
+  <div class="i18n" data-en="© 2026 Sormarí. All rights reserved." data-el="© 2026 Sormarí. Με επιφύλαξη παντός δικαιώματος.">© 2026 Sormarí. All rights reserved.</div>
 </footer>
 
+<button class="fo-close" id="foClose" aria-label="Close">✕</button>
+
 <script>
-const cardsData = [
-  {
-    tag: { en: "Volcanic Heritage", it: "Eredità Vulcanica" },
-    title: { en: "Oenological Excellence & Terroir", it: "Eccellenza Enologica & Terroir" },
-    desc: { 
-      en: "The unique interaction between ancient volcanic soils, fierce Aegean winds, and indigenous grape varieties creates wines of unparalleled personality.", 
-      it: "L'interazione unica tra suoli vulcanici antichi, venti egei sferzanti e vitigni autoctoni dà vita a vini di ineguagliabile personalità." 
-    },
-    details: {
-      en: ["Strict selection of old-vine Assyrtiko.", "Micro-vinification respecting fruit purity.", "Balanced acidity and distinctive mineral salinity."],
-      it: ["Selezione rigorosa di viti vecchie di Assyrtiko.", "Micro-vinificazione che rispetta la purezza del frutto.", "Acidità bilanciata e spiccata sapidità minerale."]
-    },
-    img: "IMG_2730.jpeg"
-  },
-  {
-    tag: { en: "The Ancient Soil", it: "Il Suolo Antico" },
-    title: { en: "Volcanic Terroir of Santorini", it: "Il Terroir Vulcanico di Santorini" },
-    desc: { 
-      en: "Unlocking the mineral profile born from prehistoric ash, pumice, and extreme climate conditions.", 
-      it: "Alla scoperta del profilo minerale nato da ceneri preistoriche, pomice e condizioni climatiche estreme." 
-    },
-    details: {
-      en: ["Un-grafted ancient rootstocks surviving centuries.", "Volcanic ash retaining precious nocturnal humidity.", "Intense diurnal temperature shifts enhancing complexity."],
-      it: ["Piede franco centenario sopravvissuto ai secoli.", "Cenere vulcanica capace di trattenere l'umidità notturna.", "Forti escursioni termiche che esaltano la complessità aromatica."]
-    },
-    img: "IMG_2731.jpeg"
-  },
-  {
-    tag: { en: "Philosophy", it: "Filosofia" },
-    title: { en: "Rooted in Tradition, Guided by Science", it: "Radicati nella Tradizione, Guidati dalla Scienza" },
-    desc: { 
-      en: "Blending ancestral viticultural wisdom with state-of-the-art oenological analysis to elevate every single vintage.", 
-      it: "Unire la saggezza viticola ancestrale alle analisi enologiche più avanzate per esaltare ogni singola annata." 
-    },
-    details: {
-      en: ["Customized fermentation curves.", "Scientific assessment of polyphenol precursors.", "Complete respect for terroir expression."],
-      it: ["Curve di fermentazione personalizzate.", "Valutazione scientifica dei precursori polifenolici.", "Rispetto assoluto dell'espressione del terroir."]
-    },
-    img: "IMG_2728.jpeg"
-  },
-  {
-    tag: { en: "Craftsmanship", it: "Artigianalità" },
-    title: { en: "Harvest, Pressing & Maturation", it: "Vendemmia, Torchiatura & Affinamento" },
-    desc: { 
-      en: "Meticulous protocols from hand-picking baskets to oak barrels and stainless steel tanks.", 
-      it: "Protocolli meticolosi dalla raccolta manuale in ceste fino all'affinamento in legno e acciaio." 
-    },
-    details: {
-      en: ["Gentle whole-bunch pressing.", "Lees stirring protocols (battonage).", "Optimization of vessel selection."],
-      it: ["Pressatura soffice a grappolo intero.", "Protocolli di battonage mirati sulle fecce fini.", "Ottimizzazione dei contenitori di affinamento."]
-    },
-    img: "IMG_2723.jpeg"
-  },
-  {
-    tag: { en: "Services", it: "Servizi" },
-    title: { en: "Tailored Oenological Consulting", it: "Consulenza Enologica su Misura" },
-    desc: { 
-      en: "Comprehensive guidance for wineries seeking distinction, quality enhancement, and market positioning.", 
-      it: "Assistenza completa per cantine alla ricerca di distinzione, incremento qualitativo e posizionamento di mercato." 
-    },
-    details: {
-      en: ["Vineyard health and ripeness monitoring.", "Cellar troubleshooting and quality protocols.", "Blend formulation and new product development."],
-      it: ["Monitoraggio dello stato sanitario e della maturazione.", "Risoluzione delle criticità di cantina e controllo qualità.", "Formulazione dei blend e sviluppo di nuovi prodotti."]
-    },
-    img: "IMG_2719.jpg"
-  },
-  {
-    tag: { en: "Direct Access", it: "Contatto Diretto" },
-    title: { en: "Start Your Project with Sormarí", it: "Avvia il Tuo Progetto con Sormarí" },
-    desc: { 
-      en: "Reach out for private consultations, technical audits, or partnership inquiries.", 
-      it: "Contattaci per consulenze private, audit tecnici o richieste di collaborazione." 
-    },
-    details: {
-      en: ["Direct expert advisory.", "Customized intervention roadmaps.", "Global availability for select projects."],
-      it: ["Consulenza diretta con l'esperto.", "Piani di intervento personalizzati.", "Disponibilità internazionale per progetti selezionati."]
-    },
-    img: "IMG_2712.jpeg"
-  }
+/* ============================================================
+   SORMARI.ORG — MASTER SCRIPT (v4: tutto e' un tunnel di schede)
+   ============================================================ */
+const siteNav = document.getElementById('siteNav');
+window.addEventListener('scroll', ()=>{ siteNav.classList.toggle('scrolled', window.scrollY > 40); }, {passive:true});
+const burgerBtn = document.getElementById('burgerBtn');
+const navLinks = document.getElementById('navLinks');
+burgerBtn.addEventListener('click', ()=> navLinks.classList.toggle('open'));
+
+const langButtons = document.querySelectorAll('[data-setlang]');
+function setLang(lang){
+  document.documentElement.setAttribute('data-lang', lang);
+  document.querySelectorAll('.i18n').forEach(el=>{ const val = el.getAttribute('data-'+lang); if(val) el.innerHTML = val; });
+  langButtons.forEach(b=> b.classList.toggle('active', b.dataset.setlang===lang));
+}
+langButtons.forEach(b=> b.addEventListener('click', ()=> setLang(b.dataset.setlang)));
+
+const introScreen = document.getElementById('introScreen');
+const introParticles = document.getElementById('introParticles');
+for(let i=0;i<26;i++){
+  const s = document.createElement('span');
+  const angle = Math.random()*Math.PI*2;
+  const dist = 120+Math.random()*260;
+  s.style.setProperty('--dx', (Math.cos(angle)*dist).toFixed(0)+'px');
+  s.style.setProperty('--dy', (Math.sin(angle)*dist).toFixed(0)+'px');
+  s.style.left='50%'; s.style.top='50%';
+  s.style.animationDelay = (0.2+Math.random()*0.6)+'s';
+  introParticles.appendChild(s);
+}
+function dismissIntro(){ introScreen.classList.add('hide'); }
+setTimeout(dismissIntro, 2400);
+introScreen.addEventListener('click', dismissIntro);
+
+/* ============================================================
+   INIZIO SEZIONE: CONTENUTI (ogni elemento e' una scheda del tunnel)
+   ============================================================ */
+const PILLARS = [
+  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Innovative', el:'Καινοτόμοι'}, img:'IMG_2717.jpeg',
+    body:{ en:"<p>Rosé. No-intervention wines. Biodynamics. Ungrafted vines. Grand Vins.</p><p>We keep one foot in the experimental cellar and one in the market — so every innovation we suggest is one your future customers will actually want to drink.</p>",
+           el:"<p>Ροζέ. Κρασιά χωρίς παρέμβαση. Βιοδυναμική. Μη εμβολιασμένα κλήματα. Grand Vins.</p><p>Κρατάμε το ένα πόδι στο πειραματικό κελάρι και το άλλο στην αγορά.</p>" } },
+  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Organized', el:'Οργανωμένοι'}, img:'IMG_2722.jpeg',
+    body:{ en:"<p>Not just between us — but, in a way, also with our partners and clients. That's how closely we work together.</p><p>Every harvest, every crate, every hour in the field is coordinated so nothing is left improvising.</p>",
+           el:"<p>Όχι μόνο μεταξύ μας — αλλά και με τους συνεργάτες και τους πελάτες μας. Τόσο στενά συνεργαζόμαστε.</p>" } },
+  { tag:{en:'We are', el:'Είμαστε'}, title:{en:'Sustainable', el:'Βιώσιμοι'}, img:'IMG_2714.jpeg',
+    body:{ en:"<p>Respect for nature, respect for nature, respect for nature, respect for nature, respect for nature.</p><p>We cannot repeat this enough to show you how much we mean it.</p>",
+           el:"<p>Σεβασμός στη φύση, σεβασμός στη φύση, σεβασμός στη φύση.</p><p>Δεν μπορούμε να το επαναλάβουμε αρκετά.</p>" } }
 ];
 
-let currentLang = 'en';
+const SERVICES = [
+  { title:{en:'360° Services', el:'Υπηρεσίες 360°'}, tag:{en:'Full circle', el:'Πλήρης κύκλος'}, img:'IMG_2723.jpeg',
+    body:{ en:"<p>We are there for you, every step of the way — from choosing and acquiring your vineyard to affixing the labels on your wine bottles.</p><p>A complete range of services that lets you stay as flexible as you need.</p>",
+           el:"<p>Είμαστε δίπλα σας σε κάθε βήμα — από την επιλογή του αμπελώνα έως την επικόλληση των ετικετών.</p>" } },
+  { title:{en:'Oenological Consulting', el:'Οινολογική Συμβουλευτική'}, tag:{en:'Grape to bottle', el:'Από το σταφύλι στο μπουκάλι'}, img:'IMG_2715.jpeg',
+    body:{ en:"<p>Guidance throughout the whole procedure, from harvesting the grape to bottling your wine:</p><ul><li>Oenological analyses</li><li>Wine monitoring</li><li>Vinification, ageing, stabilisation, bottling</li></ul><p>Modern techniques: organic, biodynamic, experimental, low SO₂, wild fermentation.</p>",
+           el:"<p>Καθοδήγηση σε όλη τη διαδικασία, από τη συγκομιδή έως την εμφιάλωση:</p><ul><li>Οινολογικές αναλύσεις</li><li>Παρακολούθηση κρασιού</li><li>Οινοποίηση, ωρίμανση, εμφιάλωση</li></ul>" } },
+  { title:{en:'Viticultural Consulting', el:'Αμπελουργική Συμβουλευτική'}, tag:{en:'In the field', el:'Στο χωράφι'}, img:'IMG_2718.jpeg',
+    body:{ en:"<p>Yearly, everyday cultivation consulting, until grape harvest — precision viticulture, adapted to the terroir:</p><ul><li>Vine monitoring</li><li>Viticulture management</li><li>Plant protection management</li><li>Irrigation management</li></ul>",
+           el:"<p>Ετήσια, καθημερινή συμβουλευτική καλλιέργειας, μέχρι τον τρύγο:</p><ul><li>Παρακολούθηση κλήματος</li><li>Διαχείριση αμπελουργίας</li></ul>" } },
+  { title:{en:'Vineyard &amp; Winery Installation', el:'Εγκατάσταση Αμπελώνα &amp; Οινοποιείου'}, tag:{en:'From scratch', el:'Από το μηδέν'}, img:'IMG_2719.jpeg',
+    body:{ en:"<p>Advice on finding and purchasing the right field, and a full vineyard installation study: variety selection, soil preparation, cost evaluation, irrigation.</p><p>Design &amp; construction of a fully equipped winery, tailored to your needs.</p>",
+           el:"<p>Συμβουλές για την εύρεση του κατάλληλου χωραφιού και πλήρης μελέτη εγκατάστασης αμπελώνα.</p>" } },
+  { title:{en:'Wine Collections', el:'Συλλογές Κρασιού'}, tag:{en:'Assistance', el:'Υποστήριξη'}, img:'IMG_2730.jpeg',
+    body:{ en:"<p>Evaluation of wines or wine collections, and hands-on help building a personal collection for ageing — chosen bottle by bottle.</p>",
+           el:"<p>Αξιολόγηση κρασιών ή συλλογών κρασιού, και πρακτική βοήθεια στη δημιουργία προσωπικής συλλογής.</p>" } },
+  { title:{en:'Administrative Support', el:'Διοικητική Υποστήριξη'}, tag:{en:'Paperwork, handled', el:'Το χαρτί, τακτοποιημένο'}, img:'IMG_2720.jpeg',
+    body:{ en:"<p>We take on all the official-legal paperwork your project requires — applications for plantation rights, production declarations, subsidy dossiers.</p><p>Plus certification for organic and biodynamic standards.</p>",
+           el:"<p>Αναλαμβάνουμε όλη τη γραφειοκρατία που απαιτεί το έργο σας — αιτήσεις, δηλώσεις, φακέλους επιδοτήσεων.</p>" } }
+];
 
-function setLang(lang) {
-  currentLang = lang;
-  document.documentElement.setAttribute('data-lang', lang);
-  document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === lang));
-  
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if(translations[lang][key]) el.innerHTML = translations[lang][key];
-  });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-    const key = el.getAttribute('data-i18n-ph');
-    if(translations[lang][key]) el.setAttribute('placeholder', translations[lang][key]);
-  });
+const PROJECTS = [
+  { title:{en:'Cyclades — Ungrafted Vines', el:'Κυκλάδες — Μη Εμβολιασμένα Κλήματα'}, tag:{en:'Case Study', el:'Μελέτη Περίπτωσης'}, img:'IMG_2732.jpeg',
+    body:{ en:"<p>On volcanic soil, phylloxera never took hold — some of these vines are over a century old, still ungrafted, still bush-trained low against the wind.</p><p>Our role: bring modern winemaking only where it helps the grape, never where it fights it.</p>",
+           el:"<p>Στο ηφαιστειογενές έδαφος, η φυλλοξήρα δεν κατάφερε ποτέ να εγκατασταθεί.</p>" } },
+  { title:{en:'Argentina — From Bare Land', el:'Αργεντινή — Από Ακαλλιέργητη Γη'}, tag:{en:'Case Study', el:'Μελέτη Περίπτωσης'}, img:'IMG_2710.jpeg',
+    body:{ en:"<p>A high-altitude valley, no vines yet planted. We walked the site, mapped the soil, chose the varieties, and stayed on through the first harvests.</p><p>From bare land to a bottled wine with a story worth telling.</p>",
+           el:"<p>Μια κοιλάδα σε μεγάλο υψόμετρο, χωρίς κλήματα ακόμα.</p>" } },
+  { title:{en:'Santorini — Coastal Terraces', el:'Σαντορίνη — Παράκτιες Αναβαθμίδες'}, tag:{en:'Case Study', el:'Μελέτη Περίπτωσης'}, img:'IMG_2712.jpeg',
+    body:{ en:"<p>Vertiginous caldera cliffs, terraces cut into pumice, and vines that survive on sea mist alone through the dry summer months.</p><p>Low intervention, careful timing, deep respect for a landscape with no room for mistakes.</p>",
+           el:"<p>Απόκρημνοι βράχοι της καλδέρας, αναβαθμίδες σκαμμένες στην ελαφρόπετρα.</p>" } }
+];
+
+const BLOG = [
+  { title:{en:'The Cyclades diary', el:'Το ημερολόγιο των Κυκλάδων'}, tag:{en:'Field notes', el:'Σημειώσεις πεδίου'}, img:'IMG_2733.jpeg',
+    body:{ en:"<p>Field notes, tasting logs, and stories from the terroirs we work in — coming soon to this page.</p>", el:"<p>Σημειώσεις πεδίου — σύντομα σε αυτή τη σελίδα.</p>" } },
+  { title:{en:'Notes on low intervention', el:'Σημειώσεις για την ελάχιστη παρέμβαση'}, tag:{en:'Philosophy', el:'Φιλοσοφία'}, img:'IMG_2727.jpeg',
+    body:{ en:"<p>Field notes, tasting logs, and stories from the terroirs we work in — coming soon to this page.</p>", el:"<p>Σημειώσεις πεδίου — σύντομα σε αυτή τη σελίδα.</p>" } },
+  { ending:true }
+];
+
+/* Costruzione dell'elenco unico di schede: TUTTO il sito e' qui dentro */
+const cardsData = [];
+cardsData.push({kind:'hero'});
+cardsData.push({kind:'nav'});
+cardsData.push({kind:'about'});
+PILLARS.forEach(p=> cardsData.push({kind:'std', ...p}));
+cardsData.push({kind:'compare', side:'tradition', img:'IMG_2726.jpeg',
+  title:{en:'Tradition', el:'Παράδοση'}, tag:{en:'We are contrasted', el:'Είμαστε αντίθεση'},
+  body:{en:"<p>Mules, hand tools, a rhythm set by the land — methods proven over generations.</p>", el:"<p>Μουλάρια, εργαλεία στο χέρι, ρυθμός που ορίζει η γη.</p>"}});
+cardsData.push({kind:'compare', side:'innovation', img:'IMG_2717.jpeg',
+  title:{en:'Innovation', el:'Καινοτομία'}, tag:{en:'We are contrasted', el:'Είμαστε αντίθεση'},
+  body:{en:"<p>Precision viticulture, monitoring, and analysis, adapted to every terroir. Old worn-out barrels and new ones, passion and realism, nature and science — balance in every bottle.</p>", el:"<p>Αμπελουργία ακριβείας, προσαρμοσμένη σε κάθε terroir.</p>"}});
+cardsData.push({kind:'title', tag:{en:'Services', el:'Υπηρεσίες'}, title:{en:'360°, from soil to label', el:'360°, από το χώμα έως την ετικέτα'},
+  sub:{en:'We are there for you, every step of the way.', el:'Είμαστε δίπλα σας σε κάθε βήμα.'}});
+SERVICES.forEach(s=> cardsData.push({kind:'std', ...s}));
+cardsData.push({kind:'garage'});
+cardsData.push({kind:'title', tag:{en:'Projects', el:'Έργα'}, title:{en:'From the Cyclades to Argentina', el:'Από τις Κυκλάδες έως την Αργεντινή'},
+  sub:{en:'From scratch to success — a glimpse at the terroirs that shape our work.', el:'Από το μηδέν έως την επιτυχία.'}});
+PROJECTS.forEach(p=> cardsData.push({kind:'std', ...p}));
+cardsData.push({kind:'title', tag:{en:'Blog', el:'Blog'}, title:{en:'Notes from the vineyard', el:'Σημειώσεις από τον αμπελώνα'}, sub:null});
+BLOG.forEach(b=> cardsData.push(b.ending ? {kind:'soon'} : {kind:'std', ...b}));
+cardsData.push({kind:'contact'});
+
+/* Indici delle sezioni per la navigazione */
+const NAV_INDEX = {
+  home: 0,
+  about: cardsData.findIndex(c=>c.kind==='about'),
+  services: cardsData.findIndex(c=>c.kind==='title' && c.tag.en==='Services'),
+  projects: cardsData.findIndex(c=>c.kind==='title' && c.tag.en==='Projects'),
+  garage: cardsData.findIndex(c=>c.kind==='garage'),
+  blog: cardsData.findIndex(c=>c.kind==='title' && c.tag.en==='Blog'),
+  contact: cardsData.length - 1
+};
+/* FINE SEZIONE: CONTENUTI */
+
+/* ============================================================
+   INIZIO SEZIONE: MOTORE DEL TUNNEL (unica meccanica del sito)
+   ============================================================ */
+const GRAPE_IMAGES = ['grape1.png','grape2.png','grape3.png','grape4.png','grape5.png'];
+
+function t(field){ const lang = document.documentElement.getAttribute('data-lang') || 'en'; return field ? field[lang] : ''; }
+function i18nAttrs(field){ return field ? `data-en="${field.en.replace(/"/g,'&quot;')}" data-el="${(field.el||field.en).replace(/"/g,'&quot;')}"` : ''; }
+
+function buildCard(item){
+  const card = document.createElement('div');
+  card.className = 'tunnel-card';
+
+  if(item.kind==='hero'){
+    card.classList.add('tc-hero','tc-wide');
+    card.innerHTML = `
+      <div class="tc-body">
+        <img class="tc-logo" src="Logo.png" alt="Sormarí">
+        <h1 class="i18n" ${i18nAttrs({en:'Welcome to <em>Sormarí</em>.<br>Oenology, told properly.', el:"Καλώς ήρθατε στη <em>Sormarí</em>.<br>Οινολογία, όπως πρέπει."})}>Welcome to <em>Sormarí</em>.<br>Oenology, told properly.</h1>
+        <p class="i18n" ${i18nAttrs({en:'Discover a world of oenology, great wine and amazing winemaking experiences — the next wine we make will tell your story.', el:'Ανακαλύψτε έναν κόσμο οινολογίας και εξαιρετικού κρασιού.'})}>Discover a world of oenology, great wine and amazing winemaking experiences — the next wine we make will tell your story.</p>
+      </div>`;
+    return card;
+  }
+
+  if(item.kind==='nav'){
+    card.classList.add('tc-nav','tc-wide');
+    const labels = [
+      ['about', {en:'About', el:'Σχετικά'}],
+      ['services', {en:'Services', el:'Υπηρεσίες'}],
+      ['projects', {en:'Projects', el:'Έργα'}],
+      ['garage', {en:'Garage Wine', el:'Garage Wine'}],
+      ['blog', {en:'Blog', el:'Blog'}],
+      ['contact', {en:'Contact', el:'Επικοινωνία'}],
+    ];
+    const btns = labels.map(([key,label])=> `<button data-nav="${key}" class="i18n" ${i18nAttrs(label)}>${t(label)}</button>`).join('');
+    card.innerHTML = `<div class="tc-body"><div class="tc-nav-grid">${btns}</div></div>`;
+    card.querySelectorAll('[data-nav]').forEach(b=> b.addEventListener('click', (e)=>{ e.stopPropagation(); scrollToCard(NAV_INDEX[b.dataset.nav]); }));
+    return card;
+  }
+
+  if(item.kind==='about'){
+    card.classList.add('tc-about','tc-wide');
+    card.innerHTML = `
+      <div class="tc-bg"><img src="IMG_2716.jpeg" alt=""></div>
+      <div class="tc-body">
+        <div class="tunnel-tag i18n" ${i18nAttrs({en:'We are', el:'Είμαστε'})}>We are</div>
+        <h3 class="i18n" ${i18nAttrs({en:'Oenologists, with muddy hands and shoes', el:'Οινολόγοι, με λασπωμένα χέρια'})}>Oenologists, with muddy hands and shoes</h3>
+        <p class="i18n" ${i18nAttrs({en:"With Mario Sormarí in the lead, we offer 360° oenological consulting — from finding the right field to your vineyard, your wine, your label. Your story.", el:'Με επικεφαλής τον Mario Sormarí, προσφέρουμε συμβουλευτικές υπηρεσίες οινολογίας 360°.'})}>With Mario Sormarí in the lead, we offer 360° oenological consulting — from finding the right field to your vineyard, your wine, your label. Your story.</p>
+        <div class="quote i18n" ${i18nAttrs({en:'“We have to be close to nature. Intervene as little as possible.”', el:'«Πρέπει να είμαστε κοντά στη φύση.»'})}>“We have to be close to nature. Intervene as little as possible.”</div>
+        <div class="ceo-line">
+          <img src="CEO.jpeg" alt="Mario Sormarí">
+          <div><div class="n">Mario Sormarí</div><div class="r i18n" ${i18nAttrs({en:'Founder &amp; Head Oenologist', el:'Ιδρυτής &amp; Επικεφαλής Οινολόγος'})}>Founder &amp; Head Oenologist</div></div>
+        </div>
+      </div>`;
+    return card;
+  }
+
+  if(item.kind==='title'){
+    card.classList.add('tc-text','tc-wide');
+    card.innerHTML = `
+      <div class="tc-body">
+        <div class="kicker i18n" ${i18nAttrs(item.tag)}>${t(item.tag)}</div>
+        <h2 class="i18n" ${i18nAttrs(item.title)}>${t(item.title)}</h2>
+        ${item.sub ? `<p class="i18n" ${i18nAttrs(item.sub)}>${t(item.sub)}</p>` : ''}
+      </div>`;
+    return card;
+  }
+
+  if(item.kind==='garage'){
+    card.classList.add('tc-clickable','tc-wide');
+    const garageBody = {en:"The term 'garage wine' refers to a small, private, high-quality wine production unit — at your place, your field, your garden. Let us guide you step by step.", el:"Ο όρος «garage wine» αναφέρεται σε μια μικρή, ιδιωτική, υψηλής ποιότητας μονάδα παραγωγής κρασιού."};
+    card.innerHTML = `
+      <div class="tc-bg"><img src="IMG_2730.jpeg" alt=""></div>
+      <div class="tc-body">
+        <div class="tunnel-tag i18n" ${i18nAttrs({en:'Garage Wine', el:'Garage Wine'})}>Garage Wine</div>
+        <h3 class="i18n" ${i18nAttrs({en:'A small, private, high-quality production', el:'Μια μικρή, ιδιωτική, υψηλής ποιότητας παραγωγή'})}>A small, private, high-quality production</h3>
+        <div class="tc-hint i18n" ${i18nAttrs({en:'Discover', el:'Ανακαλύψτε'})}>Discover</div>
+      </div>`;
+    card.addEventListener('click', ()=>{ if(!tunnelDraggedFar) openFullscreen(card, {tag:{en:'Garage Wine',el:'Garage Wine'}, title:{en:'A small, private, high-quality production', el:'Μια μικρή, ιδιωτική, υψηλής ποιότητας παραγωγή'}, img:'IMG_2730.jpeg', body:garageBody}); });
+    return card;
+  }
+
+  if(item.kind==='compare'){
+    card.classList.add('tc-clickable');
+    card.innerHTML = `
+      <div class="tc-bg"><img src="${item.img}" alt=""></div>
+      <div class="tc-body">
+        <div class="tunnel-tag i18n" ${i18nAttrs(item.tag)}>${t(item.tag)}</div>
+        <h3 class="i18n" ${i18nAttrs(item.title)}>${t(item.title)}</h3>
+        <div class="tc-hint i18n" ${i18nAttrs({en:'Discover', el:'Ανακαλύψτε'})}>Discover</div>
+      </div>`;
+    card.addEventListener('click', ()=>{ if(!tunnelDraggedFar) openFullscreen(card, item); });
+    return card;
+  }
+
+  if(item.kind==='soon'){
+    card.classList.add('tc-soon');
+    card.innerHTML = `<div class="tc-bg"><img src="IMG_2731.jpeg" alt=""></div>
+      <div class="tc-body"><h3 class="i18n" ${i18nAttrs({en:'Coming Soon', el:'Σύντομα Κοντά Σας'})}>Coming Soon</h3></div>`;
+    return card;
+  }
+
+  if(item.kind==='contact'){
+    card.classList.add('tc-contact','tc-wide');
+    card.innerHTML = `
+      <div class="tc-body">
+        <div class="kicker i18n" ${i18nAttrs({en:"Life is too short to drink bad wine", el:'Η ζωή είναι πολύ σύντομη για κακό κρασί'})}>Life is too short to drink bad wine</div>
+        <h2 class="i18n" ${i18nAttrs({en:"Let's make a great one, together", el:'Ας φτιάξουμε ένα εξαιρετικό, μαζί'})}>Let's make a great one, together</h2>
+        <div class="cf-row"><input type="text" placeholder="Name"><input type="email" placeholder="Email"></div>
+        <textarea placeholder="Message"></textarea>
+        <button class="send-btn i18n" ${i18nAttrs({en:'Send message', el:'Αποστολή μηνύματος'})}>Send message</button>
+        <div class="contact-meta">[TELEFONO — inserire numero] · [EMAIL — inserire indirizzo] · [INDIRIZZO — inserire sede]</div>
+      </div>`;
+    return card;
+  }
+
+  // kind === 'std' (pillars / services / projects / blog)
+  card.classList.add('tc-clickable');
+  card.innerHTML = `
+    <div class="tc-bg"><img src="${item.img}" alt="" loading="lazy"></div>
+    <div class="tc-body">
+      <div class="tunnel-tag i18n" ${i18nAttrs(item.tag)}>${t(item.tag)}</div>
+      <h3 class="i18n" ${i18nAttrs(item.title)}>${t(item.title)}</h3>
+      <div class="tc-hint i18n" ${i18nAttrs({en:'Discover', el:'Ανακαλύψτε'})}>Discover</div>
+    </div>`;
+  card.addEventListener('click', ()=>{ if(!tunnelDraggedFar) openFullscreen(card, item); });
+  return card;
 }
 
-const translations = {
-  en: {
-    heroTitle: "Oenological Excellence & <em>Terroir</em>",
-    heroDesc: "The art and science of volcanic viticulture in Santorini.",
-    tapExplore: "Tap to Explore",
-    card1Kicker: "Volcanic Essence",
-    card1Title: "The Ancient Soil",
-    card1Desc: "Unlocking the unique mineral profile born from ancient eruptions and sea winds.",
-    card2Tag: "Philosophy",
-    card2Title: "Rooted in Tradition, Guided by Science",
-    card2Quote: "“The wine is made in the vineyard, perfected in the cellar.”",
-    card2Role: "Master Oenologist",
-    card3Kicker: "Craftsmanship",
-    card3Title: "Harvest & Vinification",
-    card3Desc: "From ancient basket-pruned vines to meticulous cellar maturation.",
-    card4Tag: "Services",
-    card4Title: "Tailored Oenological Consulting",
-    card5Tag: "Direct Access",
-    card5Title: "Get in Touch",
-    namePh: "Your Name",
-    emailPh: "Your Email",
-    msgPh: "Your Message...",
-    sendBtn: "Send Inquiry",
-    scrollHint: "↓ Scroll to Navigate Tunnel"
-  },
-  it: {
-    heroTitle: "Eccellenza Enologica & <em>Terroir</em>",
-    heroDesc: "L'arte e la scienza della viticoltura vulcanica a Santorini.",
-    tapExplore: "Tocca per esplorare",
-    card1Kicker: "Essenza Vulcanica",
-    card1Title: "Il Suolo Antico",
-    card1Desc: "Alla scoperta del profilo minerale nato da antiche eruzioni e venti marini.",
-    card2Tag: "Filosofia",
-    card2Title: "Radicati nella Tradizione, Guidati dalla Scienza",
-    card2Quote: "“Il vino si fa in vigna, si perfeziona in cantina.”",
-    card2Role: "Master Oenologist",
-    card3Kicker: "Artigianalità",
-    card3Title: "Vendemmia & Vinificazione",
-    card3Desc: "Dalle viti secolari ad albereto alla meticolosa maturazione in cantina.",
-    card4Tag: "Servizi",
-    card4Title: "Consulenza Enologica su Misura",
-    card5Tag: "Contatto Diretto",
-    card5Title: "Mettiti in Contatto",
-    namePh: "Il tuo Nome",
-    emailPh: "La tua Email",
-    msgPh: "Il tuo Messaggio...",
-    sendBtn: "Invia Richiesta",
-    scrollHint: "↓ Scorri per navigare nel tunnel"
+const wrap = document.getElementById('tunnelWrap');
+const world = document.getElementById('tunnelWorld');
+const SPACING = 900;
+const N = cardsData.length;
+const pieces = [];
+
+cardsData.forEach((item, i)=>{
+  const z = -i * SPACING;
+
+  const ring = document.createElement('div');
+  ring.className = 'tunnel-ring';
+  const gTop = GRAPE_IMAGES[i % GRAPE_IMAGES.length];
+  const gBottom = GRAPE_IMAGES[(i+2) % GRAPE_IMAGES.length];
+  ring.innerHTML = `
+    <img class="ring-wreath" src="wreath.png" alt="">
+    <img class="ring-grape rg-top" src="${gTop}" alt="">
+    <img class="ring-grape rg-bottom" src="${gBottom}" alt="">`;
+  ring.dataset.z = z;
+  world.appendChild(ring);
+  pieces.push(ring);
+
+  const card = buildCard(item);
+  card.dataset.z = z;
+  world.appendChild(card);
+  pieces.push(card);
+
+  if(i < N-1){
+    [0.33, 0.66].forEach((f,k)=>{
+      const bit = document.createElement('div');
+      bit.className = 'tunnel-vine-bit';
+      const gi = GRAPE_IMAGES[(i*2+k+1) % GRAPE_IMAGES.length];
+      bit.innerHTML = `<img src="${gi}" alt="">`;
+      bit.dataset.z = z - SPACING*f;
+      bit.style.marginLeft = (k===0 ? '-170px' : '100px');
+      world.appendChild(bit);
+      pieces.push(bit);
+    });
   }
-};
-
-const tunnelWrap = document.getElementById('tunnelWrap');
-const cards = document.querySelectorAll('.tunnel-card');
-const nav = document.getElementById('siteNav');
-
-window.addEventListener('scroll', () => {
-  const scrollTop = window.scrollY;
-  const maxScroll = tunnelWrap.offsetHeight - window.innerHeight;
-  const progress = Math.max(0, Math.min(1, scrollTop / maxScroll));
-
-  if(scrollTop > 50) nav.classList.add('scrolled');
-  else nav.classList.remove('scrolled');
-
-  cards.forEach((card, index) => {
-    const cardOffset = progress * 6 - index * 1.1;
-    const zPos = cardOffset * 400 - 300;
-    const scale = Math.max(0.1, Math.min(1.4, 1 + zPos / 1000));
-    const opacity = zPos > 400 ? 0 : Math.max(0, Math.min(1, (600 - Math.abs(zPos)) / 300));
-    
-    card.style.transform = `translate(-50%, -50%) translate3d(0, 0, ${zPos}px) scale(${scale})`;
-    card.style.opacity = opacity;
-    card.style.pointerEvents = opacity > 0.3 ? 'auto' : 'none';
-  });
 });
 
-function scrollToCard(index) {
-  const maxScroll = tunnelWrap.offsetHeight - window.innerHeight;
-  const targetScroll = (index / 5) * maxScroll;
-  window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+function setWrapHeight(){ wrap.style.height = (N * 1.0 * window.innerHeight) + 'px'; }
+setWrapHeight();
+
+const PERSPECTIVE = 1000;
+function render(){
+  const wrapRect = wrap.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const scrollableDist = wrap.offsetHeight - vh;
+  const scrolled = Math.min(Math.max(-wrapRect.top, 0), scrollableDist);
+  const tt = scrollableDist > 0 ? scrolled/scrollableDist : 0;
+  const worldZ = tt * (N-1) * SPACING;
+
+  pieces.forEach((el, idx)=>{
+    const baseZ = parseFloat(el.dataset.z);
+    const d = baseZ + worldZ; // distanza effettiva dalla camera (0 = davanti all'obiettivo) — SEMPRE un numero piccolo
+    const absD = Math.abs(d);
+    let opacity = Math.max(0, 1 - absD/SPACING);
+    if(d > PERSPECTIVE*0.82) opacity = 0;
+    el.style.opacity = opacity.toFixed(2);
+    const isInteractive = el.classList.contains('tc-clickable') || el.classList.contains('tc-nav') || el.classList.contains('tc-contact');
+    el.style.pointerEvents = (isInteractive && opacity >= 0.6) ? 'auto' : 'none';
+
+    if(el.classList.contains('tunnel-ring')){
+      const rot = (d/SPACING) * 18;
+      el.style.transform = `translateZ(${d}px) rotate(${rot}deg) scale(${1+Math.max(0,-d/SPACING)*0.15})`;
+    } else if(el.classList.contains('tunnel-vine-bit')){
+      el.style.transform = `translateZ(${d}px) rotate(${(d/SPACING)*10}deg)`;
+    } else {
+      const swaySign = (idx % 2 === 0) ? 1 : -1;
+      const rotY = swaySign * Math.min(18, absD/SPACING*18);
+      const xOff = swaySign * Math.min(60, (d/SPACING) * -60);
+      el.style.transform = `translateZ(${d}px) translateX(${xOff}px) rotateY(${rotY}deg)`;
+    }
+  });
 }
 
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('open');
+let ticking = false;
+window.addEventListener('scroll', ()=>{ if(!ticking){ requestAnimationFrame(()=>{ render(); ticking=false; }); ticking=true; } }, {passive:true});
+window.addEventListener('resize', ()=>{ setWrapHeight(); render(); });
+render();
+
+function scrollToCard(index){
+  if(index==null || index<0) return;
+  const scrollableDist = wrap.offsetHeight - window.innerHeight;
+  const targetT = index/(N-1);
+  const targetY = wrap.offsetTop + targetT*scrollableDist;
+  window.scrollTo({ top: targetY, behavior:'smooth' });
 }
+document.querySelectorAll('[data-nav]').forEach(btn=>{
+  btn.addEventListener('click', ()=> scrollToCard(NAV_INDEX[btn.dataset.nav]));
+});
 
-const fsOverlay = document.getElementById('fsOverlay');
-const foClose = document.getElementById('foClose');
-const foImg = document.getElementById('foImg');
-const foBody = document.getElementById('foBody');
+let tunnelDraggedFar = false;
+/* FINE SEZIONE: MOTORE DEL TUNNEL */
 
-function openModal(index) {
-  const data = cardsData[index];
-  if(!data) return;
+/* ---------- Espansione a schermo intero ---------- */
+const foCloseBtn = document.getElementById('foClose');
+let activeFO = null;
+let foOriginCard = null;
 
+function openFullscreen(cardEl, item){
+  foOriginCard = cardEl;
+  const rect = cardEl.getBoundingClientRect();
+  const lang = document.documentElement.getAttribute('data-lang') || 'en';
+  const overlay = document.createElement('div');
+  overlay.className = 'fullscreen-overlay';
+  overlay.style.top = rect.top+'px'; overlay.style.left = rect.left+'px';
+  overlay.style.width = rect.width+'px'; overlay.style.height = rect.height+'px';
+  overlay.style.borderRadius = '16px';
+  overlay.innerHTML = `
+    <div class="fo-media"><img src="${item.img}" alt=""></div>
+    <div class="fo-body">
+      <div class="fo-tag i18n" ${i18nAttrs(item.tag)}>${t(item.tag)}</div>
+      <h2 class="i18n" ${i18nAttrs(item.title)}>${t(item.title)}</h2>
+      <div class="fo-text i18n" ${i18nAttrs(item.body)}>${t(item.body)}</div>
+    </div>`;
+  document.body.appendChild(overlay);
   document.body.classList.add('fs-open');
-  foImg.src = data.img;
-  
-  let detailsHtml = '<ul>';
-  data.details[currentLang].forEach(item => { detailsHtml += `<li>${item}</li>`; });
-  detailsHtml += '</ul>';
-
-  foBody.innerHTML = `
-    <div class="fo-tag">${data.tag[currentLang]}</div>
-    <h2>${data.title[currentLang]}</h2>
-    <p><strong>${data.desc[currentLang]}</strong></p>
-    ${detailsHtml}
-  `;
-
-  fsOverlay.style.top = '0';
-  fsOverlay.style.opacity = '1';
-  fsOverlay.style.pointerEvents = 'auto';
-  foClose.classList.add('show');
+  cardEl.style.visibility = 'hidden';
+  requestAnimationFrame(()=>{
+    overlay.style.top='0px'; overlay.style.left='0px'; overlay.style.width='100vw'; overlay.style.height='100vh'; overlay.style.borderRadius='0px';
+  });
+  setTimeout(()=> foCloseBtn.classList.add('show'), 350);
+  activeFO = { overlay, rect };
 }
-
-function closeModal() {
-  document.body.classList.remove('fs-open');
-  fsOverlay.style.top = '100vh';
-  fsOverlay.style.opacity = '0';
-  fsOverlay.style.pointerEvents = 'none';
-  foClose.classList.remove('show');
+function closeFullscreen(){
+  if(!activeFO) return;
+  const { overlay, rect } = activeFO;
+  foCloseBtn.classList.remove('show');
+  overlay.style.top = rect.top+'px'; overlay.style.left = rect.left+'px';
+  overlay.style.width = rect.width+'px'; overlay.style.height = rect.height+'px';
+  overlay.style.borderRadius = '16px';
+  setTimeout(()=>{ overlay.remove(); if(foOriginCard) foOriginCard.style.visibility='visible'; document.body.classList.remove('fs-open'); activeFO=null; }, 600);
 }
+foCloseBtn.addEventListener('click', closeFullscreen);
+window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && activeFO) closeFullscreen(); });
 </script>
 </body>
 </html>
