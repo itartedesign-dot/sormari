@@ -100,10 +100,29 @@ header.nav.scrolled .nav-logo img{height:40px;}
 
 .tunnel-card{
   position:absolute; top:50%; left:50%; width:480px; height:320px; margin:-160px 0 0 -240px;
-  border-radius:16px; overflow:hidden;
-  background:linear-gradient(155deg, rgba(76,106,63,.16), rgba(10,6,5,.9) 55%, rgba(60,13,26,.35));
-  border:1px solid rgba(201,166,104,.4); box-shadow:0 40px 100px rgba(0,0,0,.6);
   will-change:transform, opacity;
+  transform-style:preserve-3d;
+}
+/* SEZIONE: SPESSORE 3D DELLE SCHEDE — bordi laterali che simulano un oggetto solido */
+.tunnel-card::before, .tunnel-card::after{
+  content:''; position:absolute; inset:0; border-radius:16px;
+  border:1px solid rgba(201,166,104,.22);
+}
+.tunnel-card::before{
+  z-index:-1; background:linear-gradient(155deg, #6d1b2e, #1a0a0d 75%);
+  transform:translate(7px,9px) translateZ(-14px);
+  box-shadow:0 20px 40px rgba(0,0,0,.5);
+}
+.tunnel-card::after{
+  z-index:-2; background:linear-gradient(155deg, #45101c, #0c0605 75%);
+  transform:translate(14px,18px) translateZ(-28px);
+  box-shadow:0 20px 40px rgba(0,0,0,.5);
+}
+.tc-face{
+  position:absolute; inset:0; border-radius:16px; overflow:hidden;
+  background:linear-gradient(155deg, rgba(76,106,63,.16), rgba(10,6,5,.9) 55%, rgba(60,13,26,.35));
+  border:1px solid rgba(232,213,168,.55); box-shadow:0 40px 100px rgba(0,0,0,.6), inset 1px 0 0 rgba(255,255,255,.08), inset -1px 0 0 rgba(255,255,255,.08);
+  transform:translateZ(2px);
 }
 .tunnel-card.tc-clickable{ cursor:pointer; }
 .tunnel-card .tc-bg{ position:absolute; inset:0; }
@@ -116,8 +135,8 @@ header.nav.scrolled .nav-logo img{height:40px;}
 
 /* ---- varianti di scheda (nessuna e' una griglia di pagina: sono layout interni a UNA scheda) ---- */
 .tunnel-card.tc-wide{ width:640px; height:440px; margin:-220px 0 0 -320px; }
-.tunnel-card.tc-hero{ background:radial-gradient(ellipse at 50% 30%, rgba(156,44,70,.35), rgba(10,6,5,.92) 70%); text-align:center; }
-.tunnel-card.tc-hero .tc-body{ align-items:center; justify-content:center; padding:40px; }
+.tunnel-card.tc-hero .tc-face{ background:radial-gradient(ellipse at 50% 30%, rgba(156,44,70,.35), rgba(10,6,5,.92) 70%); }
+.tunnel-card.tc-hero .tc-body{ align-items:center; justify-content:center; padding:40px; text-align:center; }
 .tunnel-card.tc-hero img.tc-logo{ width:130px; margin-bottom:22px; filter:drop-shadow(0 0 30px rgba(201,166,104,.4)); }
 .tunnel-card.tc-hero h1{ font-size:2.1rem; color:var(--gold-pale); margin-bottom:14px; }
 .tunnel-card.tc-hero h1 em{ font-style:italic; color:var(--bordeaux-bright); }
@@ -190,7 +209,12 @@ body.fs-open{ overflow:hidden; }
 
 @media (max-width:760px){
   .tunnel-card{ width:82vw; height:280px; margin:-140px 0 0 -41vw; }
-  .tunnel-card.tc-wide{ width:86vw; height:400px; margin:-200px 0 0 -43vw; }
+  .tunnel-card.tc-wide{ width:90vw; height:560px; margin:-280px 0 0 -45vw; }
+  .tc-face{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  .tunnel-card.tc-hero img.tc-logo{ width:92px; margin-bottom:16px; }
+  .tunnel-card.tc-hero h1{ font-size:1.55rem; margin-bottom:12px; }
+  .tunnel-card.tc-hero p{ font-size:.86rem; }
+  .tunnel-card.tc-hero .tc-body{ padding:30px 24px; }
   .tunnel-ring{ width:420px; height:420px; margin:-210px 0 0 -210px; }
   .ring-grape{ width:130px; }
   .ring-grape.rg-top{ top:-40px; }
@@ -198,38 +222,45 @@ body.fs-open{ overflow:hidden; }
   .tunnel-vine-bit{ width:100px; height:240px; margin:-120px 0 0 -50px; }
 }
 
+@media (max-width:400px){
+  .tunnel-card.tc-wide{ height:600px; }
+}
+
 /* SEZIONE: FOOTER (chiusura statica, non e' una griglia di contenuti) */
 footer{ position:relative; z-index:2; border-top:1px solid rgba(201,166,104,.15); padding:50px 6vw 30px; text-align:center; color:rgba(236,225,200,.55); font-size:.82rem; background:var(--ink-black); }
 footer .flogo{ height:56px; margin:0 auto 18px; opacity:.85; }
 footer .i18n{ display:block; }
 
-/* SEZIONE: BADGE SOCIAL FISSO (Instagram + copyright, sempre visibili) */
+/* SEZIONE: BARRA FISSA IN FONDO (Instagram + copyright, unica riga adattiva) */
 .fixed-social{
-  position:fixed; right:22px; bottom:20px; z-index:900;
-  display:flex; flex-direction:column; align-items:center; gap:8px;
+  position:fixed; left:0; right:0; bottom:0; z-index:900;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  padding:8px 14px calc(8px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top, rgba(11,7,5,.75), rgba(11,7,5,0));
   pointer-events:none;
 }
 .fixed-social a{
-  width:44px; height:44px; border-radius:50%; pointer-events:auto;
+  width:30px; height:30px; border-radius:50%; pointer-events:auto; flex:0 0 auto;
   display:flex; align-items:center; justify-content:center;
   background:rgba(11,7,5,.55); border:1px solid rgba(201,166,104,.4);
   backdrop-filter:blur(4px);
   transition:background .3s ease, border-color .3s ease, transform .3s ease;
 }
 .fixed-social a:hover{ background:var(--bordeaux); border-color:var(--bordeaux); transform:translateY(-2px); }
-.fixed-social a img{ width:20px; height:20px; opacity:.92; }
+.fixed-social a img{ width:15px; height:15px; opacity:.92; }
 .fixed-social .fs-copy{
-  font-size:.58rem; letter-spacing:.4px; color:rgba(236,225,200,.45);
-  text-align:center; max-width:110px; line-height:1.3;
+  font-size:.62rem; letter-spacing:.3px; color:rgba(236,225,200,.5);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-@media (max-width:760px){
-  .fixed-social{ right:14px; bottom:14px; }
-  .fixed-social a{ width:38px; height:38px; }
-  .fixed-social a img{ width:17px; height:17px; }
-  .fixed-social .fs-copy{ max-width:88px; font-size:.52rem; }
+@media (max-width:500px){
+  .fixed-social{ gap:7px; padding:7px 8px calc(7px + env(safe-area-inset-bottom)); }
+  .fixed-social a{ width:26px; height:26px; }
+  .fixed-social a img{ width:13px; height:13px; }
+  .fixed-social .fs-copy{ font-size:.5rem; }
 }
 </style>
 </head>
+
 <body>
 
 <div class="grain"></div>
@@ -289,7 +320,7 @@ footer .i18n{ display:block; }
   <a href="https://www.instagram.com/sormariagriculture?igsh=OW9nY2o4NzQ4bXo3" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
     <img src="instagram.png" alt="Instagram">
   </a>
-  <div class="fs-copy">© 2026 - SORMARI AGRICULTURE LTD - TUTTI I DIRITTI RISERVATI</div>
+  <div class="fs-copy i18n" data-en="© 2026 - SORMARI AGRICULTURE LTD - ALL RIGHTS RESERVED" data-el="© 2026 - SORMARI AGRICULTURE LTD - ΜΕ ΕΠΙΦΥΛΑΞΗ ΠΑΝΤΟΣ ΔΙΚΑΙΩΜΑΤΟΣ">© 2026 - SORMARI AGRICULTURE LTD - ALL RIGHTS RESERVED</div>
 </div>
 
 <script>
@@ -427,6 +458,16 @@ const GRAPE_IMAGES = ['grape1.png','grape2.png','grape3.png','grape4.png','grape
 
 function t(field){ const lang = document.documentElement.getAttribute('data-lang') || 'en'; return field ? field[lang] : ''; }
 function i18nAttrs(field){ return field ? `data-en="${field.en.replace(/"/g,'&quot;')}" data-el="${(field.el||field.en).replace(/"/g,'&quot;')}"` : ''; }
+
+/* Sposta tutto il contenuto generato da buildCard() dentro un div .tc-face:
+   la scheda esterna (.tunnel-card) resta libera per ospitare i bordi
+   laterali che simulano lo spessore 3D, senza che 'overflow:hidden' li tagli. */
+function wrapCardFace(card){
+  const face = document.createElement('div');
+  face.className = 'tc-face';
+  while(card.firstChild) face.appendChild(card.firstChild);
+  card.appendChild(face);
+}
 
 function buildCard(item){
   const card = document.createElement('div');
@@ -586,6 +627,7 @@ function mountSlot(i){
   s.ring = ring;
 
   const card = buildCard(s.item);
+  wrapCardFace(card);
   world.appendChild(card);
   s.card = card;
 
@@ -637,7 +679,7 @@ function applyTransform(el, baseZ, kind, idx){
     el.style.transform = `translateZ(${d}px) rotate(${(d/SPACING)*10}deg)`;
   } else {
     const swaySign = (idx % 2 === 0) ? 1 : -1;
-    const rotY = swaySign * Math.min(18, absD/SPACING*18);
+    const rotY = swaySign * Math.min(30, (absD/SPACING) * 70);
     const xOff = swaySign * Math.min(60, (d/SPACING) * -60);
     el.style.transform = `translateZ(${d}px) translateX(${xOff}px) rotateY(${rotY}deg)`;
   }
