@@ -101,28 +101,11 @@ header.nav.scrolled .nav-logo img{height:40px;}
 .tunnel-card{
   position:absolute; top:50%; left:50%; width:480px; height:320px; margin:-160px 0 0 -240px;
   will-change:transform, opacity;
-  transform-style:preserve-3d;
-}
-/* SEZIONE: SPESSORE 3D DELLE SCHEDE — bordi laterali che simulano un oggetto solido */
-.tunnel-card::before, .tunnel-card::after{
-  content:''; position:absolute; inset:0; border-radius:16px;
-  border:1px solid rgba(201,166,104,.22);
-}
-.tunnel-card::before{
-  z-index:-1; background:linear-gradient(155deg, #6d1b2e, #1a0a0d 75%);
-  transform:translate(7px,9px) translateZ(-14px);
-  box-shadow:0 20px 40px rgba(0,0,0,.5);
-}
-.tunnel-card::after{
-  z-index:-2; background:linear-gradient(155deg, #45101c, #0c0605 75%);
-  transform:translate(14px,18px) translateZ(-28px);
-  box-shadow:0 20px 40px rgba(0,0,0,.5);
 }
 .tc-face{
   position:absolute; inset:0; border-radius:16px; overflow:hidden;
   background:linear-gradient(155deg, rgba(76,106,63,.16), rgba(10,6,5,.9) 55%, rgba(60,13,26,.35));
-  border:1px solid rgba(232,213,168,.55); box-shadow:0 40px 100px rgba(0,0,0,.6), inset 1px 0 0 rgba(255,255,255,.08), inset -1px 0 0 rgba(255,255,255,.08);
-  transform:translateZ(2px);
+  border:1px solid rgba(201,166,104,.4); box-shadow:0 40px 100px rgba(0,0,0,.6);
 }
 .tunnel-card.tc-clickable{ cursor:pointer; }
 .tunnel-card .tc-bg{ position:absolute; inset:0; }
@@ -137,7 +120,8 @@ header.nav.scrolled .nav-logo img{height:40px;}
 .tunnel-card.tc-wide{ width:640px; height:440px; margin:-220px 0 0 -320px; }
 .tunnel-card.tc-hero .tc-face{ background:radial-gradient(ellipse at 50% 30%, rgba(156,44,70,.35), rgba(10,6,5,.92) 70%); }
 .tunnel-card.tc-hero .tc-body{ align-items:center; justify-content:center; padding:40px; text-align:center; }
-.tunnel-card.tc-hero img.tc-logo{ width:130px; margin-bottom:22px; filter:drop-shadow(0 0 30px rgba(201,166,104,.4)); }
+.tunnel-card.tc-hero{ width:700px; height:600px; margin:-300px 0 0 -350px; }
+.tunnel-card.tc-hero img.tc-logo{ width:260px; margin-bottom:18px; filter:drop-shadow(0 0 30px rgba(201,166,104,.4)); }
 .tunnel-card.tc-hero h1{ font-size:2.1rem; color:var(--gold-pale); margin-bottom:14px; }
 .tunnel-card.tc-hero h1 em{ font-style:italic; color:var(--bordeaux-bright); }
 .tunnel-card.tc-hero p{ font-size:.92rem; color:rgba(236,225,200,.8); max-width:44ch; }
@@ -180,10 +164,11 @@ header.nav.scrolled .nav-logo img{height:40px;}
 }
 .tunnel-card.tc-contact .contact-meta{ font-size:.72rem; color:rgba(236,225,200,.6); margin-top:10px; line-height:1.7; }
 
-.tunnel-progress-hint{
-  position:absolute; bottom:30px; left:0; right:0; text-align:center; z-index:5;
-  font-size:.7rem; letter-spacing:2px; text-transform:uppercase; color:rgba(236,225,200,.4); pointer-events:none;
+.tc-swipe-hint{
+  font-size:.68rem; letter-spacing:2.5px; text-transform:uppercase; color:rgba(236,225,200,.45);
+  margin-bottom:22px; transition:opacity .6s ease, transform .6s ease;
 }
+.tc-swipe-hint.hide{ opacity:0; transform:translateY(-6px); }
 
 /* ---- scheda espansa a schermo intero (click su una scheda "std") ---- */
 .fullscreen-overlay{
@@ -211,7 +196,8 @@ body.fs-open{ overflow:hidden; }
   .tunnel-card{ width:82vw; height:280px; margin:-140px 0 0 -41vw; }
   .tunnel-card.tc-wide{ width:90vw; height:560px; margin:-280px 0 0 -45vw; }
   .tc-face{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
-  .tunnel-card.tc-hero img.tc-logo{ width:92px; margin-bottom:16px; }
+  .tunnel-card.tc-hero{ width:92vw; height:660px; margin:-330px 0 0 -46vw; }
+  .tunnel-card.tc-hero img.tc-logo{ width:184px; margin-bottom:14px; }
   .tunnel-card.tc-hero h1{ font-size:1.55rem; margin-bottom:12px; }
   .tunnel-card.tc-hero p{ font-size:.86rem; }
   .tunnel-card.tc-hero .tc-body{ padding:30px 24px; }
@@ -224,6 +210,7 @@ body.fs-open{ overflow:hidden; }
 
 @media (max-width:400px){
   .tunnel-card.tc-wide{ height:600px; }
+  .tunnel-card.tc-hero{ height:700px; margin-top:-350px; }
 }
 
 /* SEZIONE: FOOTER (chiusura statica, non e' una griglia di contenuti) */
@@ -303,7 +290,6 @@ footer .i18n{ display:block; }
 <div class="tunnel-wrap" id="tunnelWrap">
   <div class="tunnel-stage">
     <div class="tunnel-world" id="tunnelWorld"></div>
-    <div class="tunnel-progress-hint i18n" data-en="Scroll or swipe to travel through" data-el="Scorri per proseguire il viaggio">Scroll or swipe to travel through</div>
   </div>
 </div>
 
@@ -329,6 +315,12 @@ footer .i18n{ display:block; }
    ============================================================ */
 const siteNav = document.getElementById('siteNav');
 window.addEventListener('scroll', ()=>{ siteNav.classList.toggle('scrolled', window.scrollY > 40); }, {passive:true});
+window.addEventListener('scroll', ()=>{
+  if(!heroHintDismissed){
+    heroHintDismissed = true;
+    document.querySelectorAll('.tc-swipe-hint').forEach(el=> el.classList.add('hide'));
+  }
+}, {passive:true, once:true});
 const burgerBtn = document.getElementById('burgerBtn');
 const navLinks = document.getElementById('navLinks');
 burgerBtn.addEventListener('click', ()=> navLinks.classList.toggle('open'));
@@ -469,6 +461,8 @@ function wrapCardFace(card){
   card.appendChild(face);
 }
 
+let heroHintDismissed = false;
+
 function buildCard(item){
   const card = document.createElement('div');
   card.className = 'tunnel-card';
@@ -477,6 +471,7 @@ function buildCard(item){
     card.classList.add('tc-hero','tc-wide');
     card.innerHTML = `
       <div class="tc-body">
+        <div class="tc-swipe-hint i18n ${heroHintDismissed ? 'hide' : ''}" ${i18nAttrs({en:'Scroll or swipe to travel through', el:'Σύρετε ή κάντε κύλιση για να προχωρήσετε'})}>Scroll or swipe to travel through</div>
         <img class="tc-logo" src="Logo.png" alt="Sormarí">
         <h1 class="i18n" ${i18nAttrs({en:'Welcome to <em>Sormarí</em>.<br>Oenology, told properly.', el:"Καλώς ήρθατε στη <em>Sormarí</em>.<br>Οινολογία, όπως πρέπει."})}>Welcome to <em>Sormarí</em>.<br>Oenology, told properly.</h1>
         <p class="i18n" ${i18nAttrs({en:'Discover a world of oenology, great wine and amazing winemaking experiences. Find all the support and guidance you need to achieve your wine goals! Get to know our philosophy, our work and our complete range of oenological consulting services. We hope that the next wine we make will tell your story.', el:'Ανακαλύψτε έναν κόσμο οινολογίας, εξαιρετικού κρασιού και μοναδικών εμπειριών οινοποίησης. Βρείτε όλη την υποστήριξη και την καθοδήγηση που χρειάζεστε για να πετύχετε τους στόχους σας στο κρασί! Γνωρίστε τη φιλοσοφία μας, τη δουλειά μας και το πλήρες φάσμα των συμβουλευτικών μας υπηρεσιών οινολογίας. Ελπίζουμε το επόμενο κρασί που θα φτιάξουμε να αφηγηθεί τη δική σας ιστορία.'})}>Discover a world of oenology, great wine and amazing winemaking experiences. Find all the support and guidance you need to achieve your wine goals! Get to know our philosophy, our work and our complete range of oenological consulting services. We hope that the next wine we make will tell your story.</p>
@@ -673,13 +668,14 @@ function applyTransform(el, baseZ, kind, idx){
   el.style.pointerEvents = (isInteractive && opacity >= 0.6) ? 'auto' : 'none';
 
   if(kind === 'ring'){
-    const rot = (d/SPACING) * 18;
-    el.style.transform = `translateZ(${d}px) rotate(${rot}deg) scale(${1+Math.max(0,-d/SPACING)*0.15})`;
+    /* fade omogeneo, senza rotazione: evita l'effetto "si illumina a meta'"
+       causato dalla rotazione di un'immagine non simmetrica */
+    el.style.transform = `translateZ(${d}px)`;
   } else if(kind === 'bit'){
-    el.style.transform = `translateZ(${d}px) rotate(${(d/SPACING)*10}deg)`;
+    el.style.transform = `translateZ(${d}px)`;
   } else {
     const swaySign = (idx % 2 === 0) ? 1 : -1;
-    const rotY = swaySign * Math.min(30, (absD/SPACING) * 70);
+    const rotY = swaySign * Math.min(18, absD/SPACING*18);
     const xOff = swaySign * Math.min(60, (d/SPACING) * -60);
     el.style.transform = `translateZ(${d}px) translateX(${xOff}px) rotateY(${rotY}deg)`;
   }
