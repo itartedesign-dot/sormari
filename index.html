@@ -65,50 +65,80 @@ header.nav{
 .nav-links a:hover{ opacity:1; }
 .nav-links a::after{ content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--bordeaux); transition:width .3s ease; }
 .nav-links a:hover::after{ width:100%; }
-.nav-close-btn{ display:none; }
 .nav-right{ display:flex; align-items:center; gap:18px; }
 .lang-toggle{ display:flex; align-items:center; gap:6px; font-size:.72rem; letter-spacing:1px; border:1px solid var(--line); border-radius:20px; padding:5px 12px; }
 .lang-toggle button{ opacity:.5; font-size:.72rem; letter-spacing:1px; }
 .lang-toggle button.active{ opacity:1; color:var(--bordeaux); font-weight:500; }
-.burger{ display:none; flex-direction:column; gap:5px; width:24px; }
-.burger span{ height:1.5px; background:var(--ink); width:100%; }
+/* il tasto e' sempre una X (non un hamburger): apre e chiude lo stesso pannello */
+.burger{ display:none; position:relative; width:22px; height:16px; }
+.burger span{ position:absolute; left:0; width:100%; height:1.5px; background:var(--ink); transition:transform .35s ease, opacity .35s ease, top .35s ease; }
+.burger span:nth-child(1){ top:0; }
+.burger span:nth-child(2){ top:50%; margin-top:-.75px; }
+.burger span:nth-child(3){ top:100%; margin-top:-1.5px; }
+.burger.open span:nth-child(1){ top:50%; margin-top:-.75px; transform:rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ top:50%; margin-top:-.75px; transform:rotate(-45deg); }
+
+.mobile-menu-panel{ display:none; }
+
 @media (max-width:1080px){
-  /* SEZIONE: MENU MOBILE A BROCHURE 3D (trittico a 2 pieghe) */
-  .nav-links{
-    position:fixed; top:0; right:0; height:100vh; width:78vw; max-width:320px;
-    display:block; perspective:1400px; pointer-events:none;
+  /* SEZIONE: MENU MOBILE — "copertina di menu da ristorante" con bordi
+     arrotondati: 1) il pannello chiuso arriva da destra verso sinistra,
+     2) una volta in posizione si apre come una vera copertina (cardine
+     a sinistra) rivelando i tasti. Chiusura: sequenza esattamente inversa.
+     Elemento completamente separato dal nav desktop, per evitare che le
+     regole dell'uno interferiscano con l'altro. */
+  .nav-links{ display:none; }
+  .mobile-menu-panel{
+    display:block;
+    position:fixed; top:0; right:0; height:100vh; width:82vw; max-width:340px;
+    perspective:1800px; pointer-events:none;
+    transform:translateX(105%);
+    transition:transform .55s cubic-bezier(0.45, 0, 0.15, 1);
+    z-index:1100;
   }
-  .nav-links.open{ pointer-events:auto; }
-  .nav-close-btn{ display:block; position:absolute; top:22px; right:22px; z-index:5; font-size:1.3rem; color:var(--ink); opacity:.7; }
-  .nav-close-btn:hover{ opacity:1; }
+  .mobile-menu-panel.open{ transform:translateX(0%); transition-delay:0s; pointer-events:auto; }
+  .mobile-menu-panel:not(.open){ transition-delay:1s; }
 
-  .brochure-panel{
-    position:absolute; left:0; right:0; height:50%; width:100%;
-    background:var(--cream); border-left:1px solid var(--line);
-    display:flex; flex-direction:column; justify-content:center; gap:22px; padding:20px 40px;
-    backface-visibility:hidden; transform-style:preserve-3d;
-    transition:transform .65s cubic-bezier(.65,0,.35,1);
+  .menu-content, .menu-cover{
+    position:absolute; inset:14px; border-radius:26px; overflow:hidden;
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
   }
-  .panel-top{ top:0; transform-origin:bottom center; transform:rotateX(-100deg); box-shadow:0 -18px 40px rgba(0,0,0,.18); }
-  .panel-bottom{ bottom:0; transform-origin:top center; transform:rotateX(100deg); box-shadow:0 18px 40px rgba(0,0,0,.18); }
+  .menu-content{
+    background:var(--cream); z-index:1;
+    display:flex; flex-direction:column; justify-content:center; gap:20px; padding:34px 30px;
+  }
+  .menu-cover{
+    z-index:2; background:linear-gradient(155deg, var(--bordeaux-bright), var(--bordeaux-deep) 70%);
+    transform-style:preserve-3d; backface-visibility:hidden;
+    transform-origin:left center; transform:rotateY(0deg);
+    transition:transform 1s cubic-bezier(0.45, 0, 0.15, 1);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .menu-cover img{ width:38%; max-width:110px; opacity:.92; filter:drop-shadow(0 6px 16px rgba(0,0,0,.4)); }
+  .mobile-menu-panel.open .menu-cover{ transform:rotateY(-165deg); transition-delay:.55s; }
+  .mobile-menu-panel:not(.open) .menu-cover{ transition-delay:0s; }
 
-  /* apertura: il pannello superiore si dispiega per primo, quello inferiore segue a cascata */
-  .nav-links.open .panel-top{ transform:rotateX(0deg); transition-delay:0s; }
-  .nav-links.open .panel-bottom{ transform:rotateX(0deg); transition-delay:.16s; }
-  /* chiusura: si ripiegano nell'ordine inverso, come un libro che si richiude */
-  .nav-links:not(.open) .panel-bottom{ transition-delay:0s; }
-  .nav-links:not(.open) .panel-top{ transition-delay:.14s; }
-  .burger{ display:flex; }
+  .menu-content{ pointer-events:none; }
+  .mobile-menu-panel.revealed .menu-content{ pointer-events:auto; }
+  .menu-content a{ font-size:.72rem; letter-spacing:1.4px; text-transform:uppercase; color:var(--ink); opacity:.85; }
+  .menu-close-x{ position:absolute; top:18px; right:18px; z-index:3; font-size:1.15rem; color:var(--ink); opacity:.7; }
+  .menu-close-x:hover{ opacity:1; }
+
+  .burger{ display:block; transition:opacity .2s ease; }
+  .burger.menu-open-hide{ opacity:0; pointer-events:none; }
 }
 
 /* INIZIO SEZIONE: HOME / HERO */
 .hero{ position:relative; min-height:88vh; display:flex; align-items:center; padding:150px 0 70px; overflow:hidden; }
 .hero-bg{ position:absolute; inset:0; z-index:0; }
 .hero-bg img{ width:100%; height:100%; object-fit:cover; filter:grayscale(.25) brightness(.62); }
-.hero-bg::after{ content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(20,16,13,.92), rgba(20,16,13,.35) 55%, rgba(20,16,13,.15)); }
-.hero-split{ position:relative; z-index:2; display:grid; grid-template-columns:.85fr 1.15fr; gap:4vw; align-items:center; }
+.hero-bg::after{ content:''; position:absolute; inset:0; background:
+  linear-gradient(to right, rgba(20,16,13,.88) 0%, rgba(20,16,13,.55) 45%, rgba(20,16,13,.15) 78%, rgba(20,16,13,.05) 100%),
+  linear-gradient(to top, rgba(20,16,13,.75), rgba(20,16,13,.25) 55%, rgba(20,16,13,.1)); }
+.hero-split{ position:relative; z-index:2; display:grid; grid-template-columns:1.15fr .85fr; gap:4vw; align-items:center; }
 .hero-logo-col{ display:flex; justify-content:center; align-items:center; }
-.hero-logo-col img{ width:min(360px, 88%); height:auto; filter:drop-shadow(0 20px 50px rgba(0,0,0,.5)); }
+.hero-logo-col img{ width:min(440px, 92%); height:auto; filter:drop-shadow(0 20px 50px rgba(0,0,0,.5)); }
 .hero-inner{ text-align:center; }
 .hero-inner .kicker{ color:var(--gold-pale); justify-content:center; }
 .hero-inner h1{ font-size:clamp(2.2rem,4.4vw,3.6rem); color:#fff; line-height:1.1; }
@@ -117,7 +147,7 @@ header.nav{
 .hero-cta{ margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
 @media (max-width:900px){
   .hero-split{ grid-template-columns:1fr; text-align:center; }
-  .hero-logo-col img{ width:190px; }
+  .hero-logo-col img{ width:280px; }
 }
 /* FINE SEZIONE: HOME / HERO */
 
@@ -142,11 +172,19 @@ header.nav{
 @media (max-width:900px){ .pillars-grid{ grid-template-columns:1fr 1fr; } }
 @media (max-width:560px){ .pillars-grid{ grid-template-columns:1fr; } }
 
-.ceo-block{ display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:center; max-width:640px; margin-bottom:80px; }
-.ceo-block img{ width:88px; height:88px; border-radius:50%; object-fit:cover; filter:grayscale(1); }
-.ceo-block .quote{ font-family:var(--serif); font-style:italic; font-size:1.25rem; line-height:1.5; margin-bottom:10px; }
-.ceo-block .who{ font-size:.78rem; letter-spacing:1px; text-transform:uppercase; color:var(--gold); }
-.ceo-block .who b{ color:var(--ink); font-family:var(--serif); font-style:normal; font-size:.95rem; letter-spacing:0; text-transform:none; display:block; margin-bottom:2px; }
+.ceo-standalone{ padding:0; overflow:hidden; }
+.ceo-standalone-grid{ display:grid; grid-template-columns:1fr 1fr; align-items:stretch; min-height:520px; }
+.ceo-photo-col{ position:relative; min-height:420px; }
+.ceo-photo-col img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 20%; }
+.ceo-text-col{ display:flex; flex-direction:column; justify-content:center; padding:60px 8vw; }
+.ceo-text-col .quote{ font-family:var(--serif); font-style:italic; font-size:1.7rem; line-height:1.5; margin-bottom:18px; color:var(--cream); }
+.ceo-text-col .who{ font-size:.78rem; letter-spacing:1px; text-transform:uppercase; color:var(--gold-pale); }
+.ceo-text-col .who b{ color:var(--cream); font-family:var(--serif); font-style:normal; font-size:1.1rem; letter-spacing:0; text-transform:none; display:block; margin-bottom:4px; }
+@media (max-width:800px){
+  .ceo-standalone-grid{ grid-template-columns:1fr; }
+  .ceo-photo-col{ min-height:340px; }
+  .ceo-text-col{ padding:40px 8vw; }
+}
 
 .contrast-row{ display:grid; grid-template-columns:1fr 1fr; gap:0; }
 .contrast-col{ position:relative; min-height:380px; }
@@ -217,7 +255,10 @@ header.nav{
 .partner-logos .partner-tile{ cursor:pointer; transition:border-color .3s ease; }
 .partner-logos .partner-tile:hover{ border-color:var(--bordeaux); }
 .partner-logos .partner-tile img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-.partner-logos .partner-tile .pt-caption{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:10px 12px; font-size:.66rem; line-height:1.35; color:#fff; text-transform:none; letter-spacing:.2px; text-align:left; background:linear-gradient(to top, rgba(0,0,0,.8), transparent); }
+.partner-logos .partner-tile .pt-caption{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:10px 12px; font-size:.66rem; line-height:1.35; color:#fff; text-transform:none; letter-spacing:.2px; text-align:left; background:rgba(0,0,0,.82); }
+.partner-logos .partner-tile.logo-tile{ background:#fff; }
+.partner-logos .partner-tile.logo-tile img{ inset:0 0 26px 0; object-fit:contain; padding:16px; }
+.partner-logos .partner-tile.logo-tile .pt-caption{ background:#fff; color:var(--ink-soft); text-align:center; height:26px; display:flex; align-items:center; justify-content:center; }
 
 .merch-row{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
 .merch-row img{ width:100%; border-radius:2px; }
@@ -227,13 +268,29 @@ header.nav{
 .webradio-img img{ width:100%; max-width:380px; margin:0 auto; filter:drop-shadow(0 30px 50px rgba(0,0,0,.25)); }
 @media (max-width:800px){ .webradio-row{ grid-template-columns:1fr; } .webradio-img{ order:-1; } }
 
-.ambient-player{ display:flex; align-items:center; gap:12px; margin-top:28px; }
+.ambient-player{ display:flex; align-items:center; gap:12px; margin-top:16px; }
 .ap-btn{ width:38px; height:38px; flex:0 0 auto; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--ink-soft); transition:background .3s ease, color .3s ease, border-color .3s ease; }
 .ap-btn:hover{ border-color:var(--bordeaux); color:var(--bordeaux); }
 .ap-btn.active{ background:var(--bordeaux); border-color:var(--bordeaux); color:#fff; }
 .ap-btn svg{ width:15px; height:15px; }
 .ap-label{ font-size:.7rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-soft); }
 /* FINE SEZIONE PLACEHOLDER */
+
+/* SEZIONE: ISTITUTIONAL PARTNERS */
+.inst-partners{ padding:0; overflow:hidden; }
+.inst-partners-grid{ display:grid; grid-template-columns:.9fr 1.1fr; align-items:stretch; min-height:380px; }
+.inst-photo-col{ position:relative; min-height:320px; background:var(--dark); }
+.inst-photo-col img{ position:absolute; bottom:0; left:50%; transform:translateX(-50%); height:100%; width:auto; max-width:none; object-fit:contain; }
+.inst-text-col{ display:flex; flex-direction:column; justify-content:center; gap:24px; padding:50px 8vw; }
+.inst-logos{ display:flex; gap:20px; flex-wrap:wrap; }
+.inst-logo-tile{ background:#fff; border-radius:4px; width:200px; height:90px; padding:14px 20px; display:flex; align-items:center; justify-content:center; transition:transform .3s ease; }
+.inst-logo-tile:hover{ transform:translateY(-3px); }
+.inst-logo-tile img{ width:100%; height:100%; object-fit:contain; }
+@media (max-width:800px){
+  .inst-partners-grid{ grid-template-columns:1fr; }
+  .inst-photo-col{ min-height:260px; }
+  .inst-text-col{ padding:40px 8vw; }
+}
 
 /* INIZIO SEZIONE: CONTATTI */
 .contact-grid{ display:grid; grid-template-columns:.9fr 1.1fr; gap:70px; }
@@ -285,8 +342,13 @@ header.nav{
 .depth-el{ transition:transform .15s linear, opacity .15s linear; will-change:transform, opacity; }
 
 /* SEZIONE: MOTION BLUR DINAMICO — sfocatura leggera durante scroll/rotazione rapidi */
-#pageContent{ transition:filter .18s ease-out; will-change:filter; }
-.gallery-ring{ transition:filter .18s ease-out; }
+/* SEZIONE: SCHIARITURA AI BORDI (sostituisce il blur) — solo alto/basso, centro sempre nitido */
+.edge-fade{ position:fixed; left:0; right:0; height:16vh; pointer-events:none; z-index:950; opacity:0; mix-blend-mode:screen; transition:opacity .22s ease-out; }
+.edge-fade.top{ top:0; background:linear-gradient(to bottom, rgba(255,255,255,.55), transparent); }
+.edge-fade.bottom{ bottom:0; background:linear-gradient(to top, rgba(255,255,255,.55), transparent); }
+.stage-fade{ position:absolute; top:0; bottom:0; width:20%; pointer-events:none; z-index:5; opacity:0; mix-blend-mode:screen; transition:opacity .22s ease-out; }
+.stage-fade.left{ left:0; background:linear-gradient(to right, rgba(255,255,255,.4), transparent); }
+.stage-fade.right{ right:0; background:linear-gradient(to left, rgba(255,255,255,.4), transparent); }
 
 footer{ background:var(--dark); color:rgba(239,231,214,.6); padding:50px 6vw 30px; text-align:center; }
 footer .flogo{ height:92px; margin:0 auto 20px; opacity:.9; filter:brightness(1.1); }
@@ -340,19 +402,14 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 <header class="nav" id="siteNav">
   <a href="#home" class="nav-logo"><img src="Logo.png" alt="Sormarí"></a>
   <nav class="nav-links" id="navLinks">
-    <button class="nav-close-btn" id="navCloseBtn" aria-label="Close menu">✕</button>
-    <div class="brochure-panel panel-top">
-      <a href="#home" class="i18n" data-en="Home" data-el="Αρχική">Home</a>
-      <a href="#about" class="i18n" data-en="About" data-el="Σχετικά">About</a>
-      <a href="#projects" class="i18n" data-en="Projects" data-el="Έργα">Projects</a>
-      <a href="#services" class="i18n" data-en="Services" data-el="Υπηρεσίες">Services</a>
-    </div>
-    <div class="brochure-panel panel-bottom">
-      <a href="#partners" class="i18n" data-en="Partners" data-el="Συνεργάτες">Partners</a>
-      <a href="#merchandising" class="i18n" data-en="Merchandising" data-el="Merchandising">Merchandising</a>
-      <a href="#webradio" class="i18n" data-en="Web Radio" data-el="Web Radio">Web Radio</a>
-      <a href="#contact" class="i18n" data-en="Contact" data-el="Επικοινωνία">Contact</a>
-    </div>
+    <a href="#home" class="i18n" data-en="Home" data-el="Αρχική">Home</a>
+    <a href="#about" class="i18n" data-en="About" data-el="Σχετικά">About</a>
+    <a href="#projects" class="i18n" data-en="Projects" data-el="Έργα">Projects</a>
+    <a href="#services" class="i18n" data-en="Services" data-el="Υπηρεσίες">Services</a>
+    <a href="#partners" class="i18n" data-en="Partners" data-el="Συνεργάτες">Partners</a>
+    <a href="#merchandising" class="i18n" data-en="Merchandising" data-el="Merchandising">Merchandising</a>
+    <a href="#webradio" class="i18n" data-en="Web Radio" data-el="Web Radio">Web Radio</a>
+    <a href="#contact" class="i18n" data-en="Contact" data-el="Επικοινωνία">Contact</a>
   </nav>
   <div class="nav-right">
     <div class="lang-toggle">
@@ -362,12 +419,29 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
   </div>
 </header>
 
+<!-- SEZIONE: PANNELLO MENU MOBILE (copertina 3D) — elemento indipendente dal nav desktop -->
+<nav class="mobile-menu-panel" id="mobileMenuPanel">
+  <div class="menu-cover"><img src="Logo.png" alt="Sormarí"></div>
+  <div class="menu-content">
+    <button class="menu-close-x" id="menuCloseX" aria-label="Close menu">✕</button>
+    <a href="#home" class="i18n" data-en="Home" data-el="Αρχική">Home</a>
+    <a href="#about" class="i18n" data-en="About" data-el="Σχετικά">About</a>
+    <a href="#projects" class="i18n" data-en="Projects" data-el="Έργα">Projects</a>
+    <a href="#services" class="i18n" data-en="Services" data-el="Υπηρεσίες">Services</a>
+    <a href="#partners" class="i18n" data-en="Partners" data-el="Συνεργάτες">Partners</a>
+    <a href="#merchandising" class="i18n" data-en="Merchandising" data-el="Merchandising">Merchandising</a>
+    <a href="#webradio" class="i18n" data-en="Web Radio" data-el="Web Radio">Web Radio</a>
+    <a href="#contact" class="i18n" data-en="Contact" data-el="Επικοινωνία">Contact</a>
+  </div>
+</nav>
+
 <!-- INIZIO SEZIONE: HOME / HERO -->
+<div class="edge-fade top" id="edgeFadeTop"></div>
+<div class="edge-fade bottom" id="edgeFadeBottom"></div>
 <div id="pageContent">
 <section class="hero" id="home">
-  <div class="hero-bg"><img src="IMG_2712.jpeg" alt="Sormarí vineyards"></div>
+  <div class="hero-bg"><img src="harvest_crate.jpg" alt="Sormarí grape harvest"></div>
   <div class="wrap hero-split">
-    <div class="hero-logo-col"><img src="Logo.png" alt="Sormarí"></div>
     <div class="hero-inner">
       <div class="kicker i18n" data-en="Est. 2024" data-el="Ίδρυση 2024">Est. 2024</div>
       <h1 class="i18n" data-en="Welcome to <em>Sormarí</em>." data-el="Καλώς ήρθατε στη <em>Sormarí</em>.">Welcome to <em>Sormarí</em>.</h1>
@@ -377,6 +451,7 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
         <a href="#contact" class="btn on-dark i18n" data-en="Get in touch" data-el="Επικοινωνήστε">Get in touch</a>
       </div>
     </div>
+    <div class="hero-logo-col"><img src="Logo.png" alt="Sormarí"></div>
   </div>
 </section>
 <!-- FINE SEZIONE: HOME / HERO -->
@@ -397,14 +472,6 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
       <div class="pillar depth-el"><span class="p-num">04</span><h3 class="i18n" data-en="Sustainable" data-el="Βιώσιμοι">Sustainable</h3><p class="i18n" data-en="Respect for nature, respect for nature, respect for nature. We cannot repeat this enough." data-el="Σεβασμός στη φύση, σεβασμός στη φύση, σεβασμός στη φύση. Δεν μπορούμε να το επαναλάβουμε αρκετά.">Respect for nature, respect for nature, respect for nature. We cannot repeat this enough.</p></div>
     </div>
 
-    <div class="ceo-block depth-el">
-      <img src="CEO.jpeg" alt="Mario Sorbello">
-      <div>
-        <div class="quote i18n" data-en="“We have to be close to nature. Intervene as little as possible.”" data-el="«Πρέπει να είμαστε κοντά στη φύση. Να παρεμβαίνουμε όσο το δυνατόν λιγότερο.»">“We have to be close to nature. Intervene as little as possible.”</div>
-        <div class="who"><b>Mario Sorbello</b><span class="i18n" data-en="Founder &amp; Head Oenologist" data-el="Ιδρυτής &amp; Επικεφαλής Οινολόγος">Founder &amp; Head Oenologist</span></div>
-      </div>
-    </div>
-
     <div class="contrast-row">
       <div class="contrast-col tradition depth-el">
         <img src="IMG_2726.jpeg" alt="Tradition">
@@ -419,12 +486,24 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 </section>
 <!-- FINE SEZIONE: CHI SIAMO -->
 
+<!-- INIZIO SEZIONE: CEO (a se stante, sfondo scuro) -->
+<section class="section dark ceo-standalone">
+  <div class="ceo-standalone-grid">
+    <div class="ceo-photo-col"><img src="ceo_statue.jpg" alt="Mario Sorbello"></div>
+    <div class="ceo-text-col">
+      <div class="quote i18n" data-en="“We have to be close to nature. Intervene as little as possible.”" data-el="«Πρέπει να είμαστε κοντά στη φύση. Να παρεμβαίνουμε όσο το δυνατόν λιγότερο.»">“We have to be close to nature. Intervene as little as possible.”</div>
+      <div class="who"><b>Mario Sorbello</b><span class="i18n" data-en="Founder &amp; Head Oenologist" data-el="Ιδρυτής &amp; Επικεφαλής Οινολόγος">Founder &amp; Head Oenologist</span></div>
+    </div>
+  </div>
+</section>
+<!-- FINE SEZIONE: CEO -->
+
 <!-- INIZIO SEZIONE: PROGETTI -->
 <section class="section" id="projects">
   <div class="wrap">
     <div class="section-head">
       <div class="kicker i18n" data-en="Projects" data-el="Έργα">Projects</div>
-      <h2 class="i18n" data-en="From the Cyclades to Argentina" data-el="Από τις Κυκλάδες έως την Αργεντινή">From the Cyclades to Argentina</h2>
+      <h2 class="i18n" data-en="From Santorini Island to Ningxia — China" data-el="Από τη Σαντορίνη έως τη Νινγκσιά — Κίνα">From Santorini Island to Ningxia — China</h2>
       <p class="i18n" data-en="From unexplored volcanic varieties to centenarian, ungrafted vines — from scratch to success." data-el="Από ανεξερεύνητες ηφαιστειογενείς ποικιλίες έως εκατοντάχρονα, μη εμβολιασμένα κλήματα — από το μηδέν έως την επιτυχία.">From unexplored volcanic varieties to centenarian, ungrafted vines — from scratch to success.</p>
     </div>
     <div id="projectsList"></div>
@@ -464,8 +543,27 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 </section>
 <!-- FINE SEZIONE: SERVIZI -->
 
+<!-- INIZIO SEZIONE: TEST WINE (carosello rotante, foto laboratorio/analisi) -->
+<section class="section alt" id="testwine">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker i18n" data-en="Test Wine" data-el="Test Wine">Test Wine</div>
+      <h2 class="i18n" data-en="Test Wine" data-el="Test Wine">Test Wine</h2>
+    </div>
+    <div class="gallery-stage" id="testwineStage">
+      <div class="gallery-ring" id="testwineRing"></div>
+    </div>
+    <div class="gallery-hint i18n" data-en="Drag to rotate — click a photo to enlarge" data-el="Σύρετε για περιστροφή — πατήστε για μεγέθυνση">Drag to rotate — click a photo to enlarge</div>
+    <div class="carousel-arrows">
+      <button id="testwinePrev" aria-label="Previous"><svg viewBox="0 0 34 12" fill="none" stroke="currentColor" stroke-width="1"><line x1="34" y1="6" x2="1" y2="6"/><polyline points="7,1 1,6 7,11"/></svg></button>
+      <button id="testwineNext" aria-label="Next"><svg viewBox="0 0 34 12" fill="none" stroke="currentColor" stroke-width="1"><line x1="0" y1="6" x2="33" y2="6"/><polyline points="27,1 33,6 27,11"/></svg></button>
+    </div>
+  </div>
+</section>
+<!-- FINE SEZIONE: TEST WINE -->
+
 <!-- INIZIO SEZIONE: PARTNERS -->
-<section class="section alt" id="partners">
+<section class="section" id="partners">
   <div class="wrap">
     <div class="section-head">
       <div class="kicker i18n" data-en="Partners" data-el="Συνεργάτες">Partners</div>
@@ -477,14 +575,25 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
         <img src="onassis.jpg" alt="Onassis Group">
         <div class="pt-caption i18n" data-en="New partnership with the Onassis Group, Athens." data-el="Νέα συνεργασία με τον Όμιλο Ωνάση, Αθήνα.">New partnership with the Onassis Group, Athens.</div>
       </div>
-      <div>—</div><div>—</div><div>—</div>
+      <div class="partner-tile logo-tile" id="cyprusTile">
+        <img src="partner_cyprus.jpg" alt="Cyprus Oenophile Association">
+        <div class="pt-caption i18n" data-en="Cyprus Oenophile Association" data-el="Όμιλος Οινοφίλων Κύπρου">Cyprus Oenophile Association</div>
+      </div>
+      <div class="partner-tile logo-tile" id="velillaTile">
+        <img src="partner_velilla.jpg" alt="Velilla Group">
+        <div class="pt-caption i18n" data-en="Velilla Group" data-el="Velilla Group">Velilla Group</div>
+      </div>
+      <div class="partner-tile logo-tile" id="phoenixTile">
+        <img src="partner_phoenix.jpg" alt="Phoenix Lebanon">
+        <div class="pt-caption i18n" data-en="Phoenix Lebanon" data-el="Phoenix Lebanon">Phoenix Lebanon</div>
+      </div>
     </div>
   </div>
 </section>
 <!-- FINE SEZIONE: PARTNERS -->
 
 <!-- INIZIO SEZIONE: FILM / MEDIA (carosello rotante, come la fotogallery) -->
-<section class="section" id="films">
+<section class="section alt" id="films">
   <div class="wrap">
     <div class="section-head">
       <div class="kicker i18n" data-en="Our films" data-el="Οι ταινίες μας">Our films</div>
@@ -504,7 +613,7 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 <!-- FINE SEZIONE: FILM / MEDIA -->
 
 <!-- INIZIO SEZIONE: MERCHANDISING -->
-<section class="section alt" id="merchandising">
+<section class="section" id="merchandising">
   <div class="wrap">
     <div class="section-head">
       <div class="kicker i18n" data-en="Merchandising" data-el="Merchandising">Merchandising</div>
@@ -523,40 +632,44 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 <!-- FINE SEZIONE: MERCHANDISING -->
 
 <!-- INIZIO SEZIONE: WEB RADIO -->
-<section class="section" id="webradio">
+<section class="section alt" id="webradio">
   <div class="wrap webradio-row">
     <div class="section-head" style="margin-bottom:0;">
       <div class="kicker i18n" data-en="Web Radio" data-el="Web Radio">Web Radio</div>
       <h2 class="i18n" data-en="Sormarí, on air soon" data-el="Sormarí, σύντομα στον αέρα">Sormarí, on air soon</h2>
       <p class="i18n" data-en="Music, conversations and stories from the vineyard — our web radio is coming soon." data-el="Μουσική, συζητήσεις και ιστορίες από τον αμπελώνα — το web radio μας έρχεται σύντομα.">Music, conversations and stories from the vineyard — our web radio is coming soon.</p>
-      <!--
-        NOTA IMPORTANTE PRIMA DEL LANCIO PUBBLICO:
-        "ambient.mp3" e' un placeholder di sviluppo (un breve tono generato, nessun
-        problema di licenza). Il link diretto di Freesound che mi avevi indicato NON
-        e' incorporabile: il loro server blocca le richieste da altri siti (risposta 403,
-        verificato). Per un suono ambientale vero: scarica una traccia regolarmente
-        licenziata per uso commerciale e caricala su GitHub come "ambient.mp3"
-        (stesso procedimento gia' usato per foto e video del sito).
-      -->
-      <div class="ambient-player" id="ambientPlayer">
-        <button class="ap-btn" id="ambientPlayBtn" aria-label="Play ambient sound">
+      <div class="ambient-player">
+        <button class="ap-btn ap-play" aria-label="Play ambient sound">
           <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
         </button>
-        <button class="ap-btn" id="ambientMuteBtn" aria-label="Mute">
+        <button class="ap-btn ap-mute" aria-label="Mute">
           <svg class="icon-vol-on" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-.77-3.29-2-4.24v8.48c1.23-.95 2-2.47 2-4.24z"/></svg>
           <svg class="icon-vol-off" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M16.5 12c0-1.77-.77-3.29-2-4.24v2.06l1.94 1.94c.04-.25.06-.5.06-.76zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 003.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
         </button>
         <span class="ap-label i18n" data-en="Ambient atmosphere" data-el="Ηχητική ατμόσφαιρα">Ambient atmosphere</span>
-        <audio id="ambientAudio" loop preload="none">
-          <source src="ambient.mp3" type="audio/mpeg">
-        </audio>
+        <audio class="ap-audio" loop preload="none"><source src="brezza_foglie.mp3" type="audio/mpeg"></audio>
       </div>
     </div>
     <div class="webradio-img"><img src="mic_wine.png" alt="Web Radio"></div>
   </div>
 </section>
 <!-- FINE SEZIONE: WEB RADIO -->
+
+<!-- INIZIO SEZIONE: ISTITUTIONAL PARTNERS -->
+<section class="section dark inst-partners">
+  <div class="inst-partners-grid">
+    <div class="inst-photo-col"><img src="ceo_statue.jpg" alt="Sormarí"></div>
+    <div class="inst-text-col">
+      <div class="kicker i18n" data-en="Institutional Partners" data-el="Θεσμικοί Συνεργάτες" style="color:var(--gold-pale);">Institutional Partners</div>
+      <div class="inst-logos">
+        <a href="https://www.asi.info" target="_blank" rel="noopener noreferrer" class="inst-logo-tile"><img src="asi_logo.png" alt="ASI — Association de la Sommellerie Internationale"></a>
+        <a href="https://www.oiv.int" target="_blank" rel="noopener noreferrer" class="inst-logo-tile"><img src="oiv_logo.png" alt="OIV — International Organisation of Vine and Wine"></a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- FINE SEZIONE: ISTITUTIONAL PARTNERS -->
 
 <!-- INIZIO SEZIONE: CONTATTI -->
 <section class="section" id="contact">
@@ -634,9 +747,27 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
    ============================================================ */
 const siteNav = document.getElementById('siteNav');
 const burgerBtn = document.getElementById('burgerBtn');
-document.getElementById('navCloseBtn').addEventListener('click', ()=> navLinks.classList.remove('open'));
 const navLinks = document.getElementById('navLinks');
-burgerBtn.addEventListener('click', ()=> navLinks.classList.toggle('open'));
+const mobileMenuPanel = document.getElementById('mobileMenuPanel');
+
+/* Sequenza: 1) il pannello (chiuso) scorre da destra verso sinistra;
+   2) una volta in posizione, la copertina si apre verso sinistra
+   rivelando i tasti. Chiusura: esattamente l'inverso. */
+function openMenu(){
+  mobileMenuPanel.classList.add('open');
+  burgerBtn.classList.add('menu-open-hide');
+  setTimeout(()=> mobileMenuPanel.classList.add('revealed'), 1600); // dopo scorrimento + apertura copertina
+}
+function closeMenu(){
+  mobileMenuPanel.classList.remove('revealed');
+  mobileMenuPanel.classList.remove('open');
+  setTimeout(()=> burgerBtn.classList.remove('menu-open-hide'), 1550); // riappare solo a chiusura completata
+}
+burgerBtn.addEventListener('click', ()=>{
+  mobileMenuPanel.classList.contains('open') ? closeMenu() : openMenu();
+});
+document.getElementById('menuCloseX').addEventListener('click', closeMenu);
+mobileMenuPanel.querySelectorAll('a').forEach(a=> a.addEventListener('click', closeMenu));
 navLinks.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navLinks.classList.remove('open')));
 
 const langButtons = document.querySelectorAll('[data-setlang]');
@@ -645,6 +776,14 @@ function setLang(lang){
   document.querySelectorAll('.i18n').forEach(el=>{ const v = el.getAttribute('data-'+lang); if(v) el.innerHTML = v; });
   langButtons.forEach(b=> b.classList.toggle('active', b.dataset.setlang===lang));
   renderProjects(); renderServices();
+}
+/* Applica la lingua corrente a un contenuto appena creato (es. una scheda
+   a schermo intero costruita al volo): senza questo, i nuovi elementi .i18n
+   mostrerebbero sempre l'inglese "di default" finché l'utente non aziona
+   di nuovo il cambio lingua. */
+function applyCurrentLang(container){
+  const lang = document.documentElement.getAttribute('data-lang') || 'en';
+  container.querySelectorAll('.i18n').forEach(el=>{ const v = el.getAttribute('data-'+lang); if(v) el.innerHTML = v; });
 }
 langButtons.forEach(b=> b.addEventListener('click', ()=> setLang(b.dataset.setlang)));
 
@@ -657,15 +796,12 @@ function scrollToId(id){
    CONTENUTI
    ============================================================ */
 const PROJECTS = [
-  { img:'IMG_2732.jpeg', tag:{en:'Case Study',el:'Μελέτη Περίπτωσης'}, title:{en:'Cyclades — Ungrafted Vines',el:'Κυκλάδες — Μη Εμβολιασμένα Κλήματα'},
-    body:{en:"On volcanic soil, phylloxera never took hold — some of these vines are over a century old, still ungrafted, still bush-trained low against the wind. Our role: bring modern winemaking only where it helps the grape, never where it fights it.",
-          el:"Στο ηφαιστειογενές έδαφος, η φυλλοξήρα δεν κατάφερε ποτέ να εγκατασταθεί — μερικά κλήματα είναι πάνω από εκατό ετών, ακόμα μη εμβολιασμένα."} },
-  { img:'IMG_2710.jpeg', tag:{en:'Case Study',el:'Μελέτη Περίπτωσης'}, title:{en:'Argentina — From Bare Land',el:'Αργεντινή — Από Ακαλλιέργητη Γη'},
-    body:{en:"A high-altitude valley, no vines yet planted. We walked the site, mapped the soil, chose the varieties, and stayed on through the first harvests — the whole 360° service, in one project.",
-          el:"Μια κοιλάδα σε μεγάλο υψόμετρο, χωρίς κλήματα ακόμα. Χαρτογραφήσαμε το έδαφος και μείναμε έως τους πρώτους τρύγους."} },
-  { img:'IMG_2712.jpeg', tag:{en:'Case Study',el:'Μελέτη Περίπτωσης'}, title:{en:'Santorini — Coastal Terraces',el:'Σαντορίνη — Παράκτιες Αναβαθμίδες'},
-    body:{en:"Vertiginous caldera cliffs, terraces cut into pumice, and vines that survive on sea mist alone through the dry summer months. Low intervention, careful timing, deep respect for the landscape.",
-          el:"Απόκρημνοι βράχοι της καλδέρας, αναβαθμίδες σκαμμένες στην ελαφρόπετρα, ελάχιστη παρέμβαση."} }
+  { img:'IMG_2732.jpeg', tag:{en:'Case Study',el:'Μελέτη Περίπτωσης'}, title:{en:'Santorini - Kingdom of Assyrtiko Autochthonous Grapes',el:'Σαντορίνη - Το Βασίλειο του Αυτόχθονου Ασύρτικου'},
+    body:{en:"Viticulture in Santorini Island is a clear representation of how, in a volcanic soil where phylloxera never took hold, vines remain still ungrafted, still bush-trained low against the wind. The Assyrtiko Autochthonous Grapes are sourced from vines that are typically 100-120 years old, ensuring a rich flavor profile with notes of lemon, grapefruit, and peach. Our role: bring modern winemaking only where it helps the grape, never where it fights it.",
+          el:"Η αμπελουργία στη Σαντορίνη είναι μια σαφής απεικόνιση του πώς, σε ένα ηφαιστειογενές έδαφος όπου η φυλλοξήρα δεν κατάφερε ποτέ να εγκατασταθεί, τα κλήματα παραμένουν ακόμα μη εμβολιασμένα, καλλιεργούμενα χαμηλά σαν θάμνοι ενάντια στον άνεμο. Τα αυτόχθονα σταφύλια Ασύρτικο προέρχονται από κλήματα ηλικίας συνήθως 100-120 ετών, εξασφαλίζοντας ένα πλούσιο προφίλ γεύσης με νότες λεμονιού, γκρέιπφρουτ και ροδάκινου. Ο ρόλος μας: να φέρουμε τη σύγχρονη οινοποίηση μόνο εκεί όπου βοηθά το σταφύλι, ποτέ εκεί όπου το αντιμάχεται."} },
+  { video:'https://drive.google.com/file/d/1qKiW14Yk8cvm_WW4a7kOx3ItVXp3UYmz/preview', tag:{en:'Region Spotlight',el:'Ανάδειξη Περιοχής'}, title:{en:'Ningxia — China',el:'Νινγκσιά — Κίνα'},
+    body:{en:"With over 18,000 hectares of vineyards, a Bordeaux-inspired classification, and a growing interest in wine tourism, Ningxia represents the modern and dynamic face of Chinese wine: a region still to be discovered, but already determined to make its mark on the world's tables.",
+          el:"Με πάνω από 18.000 εκτάρια αμπελώνων, μια ταξινόμηση εμπνευσμένη από το Μπορντό, και ένα αυξανόμενο ενδιαφέρον για τον οινοτουρισμό, η Νινγκσιά αντιπροσωπεύει το σύγχρονο και δυναμικό πρόσωπο του κινέζικου κρασιού: μια περιοχή που παραμένει προς ανακάλυψη, αλλά είναι ήδη αποφασισμένη να αφήσει το στίγμα της στα τραπέζια του κόσμου."} }
 ];
 
 const SERVICES = [
@@ -693,6 +829,7 @@ const SERVICES = [
 ];
 
 const GALLERY_IMAGES = ['IMG_2714.jpeg','IMG_2715.jpeg','IMG_2716.jpeg','IMG_2718.jpeg','IMG_2719.jpeg','IMG_2720.jpeg','IMG_2722.jpeg','IMG_2723.jpeg'];
+const TESTWINE_IMAGES = ['testwine1.jpg','testwine2.jpg','testwine3.jpg','testwine4.jpg','testwine5.jpg','testwine6.jpg','testwine7.jpg','testwine8.jpg','testwine9.jpg'];
 
 function t(f){ const lang = document.documentElement.getAttribute('data-lang')||'en'; return f?f[lang]:''; }
 
@@ -704,8 +841,11 @@ const modalBox = document.getElementById('modalBox');
 const modalClose = document.getElementById('modalClose');
 function openTextModal(item){
   modalBox.className = 'modal-box';
+  const mediaHtml = item.video
+    ? `<iframe src="${item.video}" allow="autoplay; fullscreen" allowfullscreen style="width:100%; height:100%; border:0;"></iframe>`
+    : `<img src="${item.img}" alt="">`;
   modalBox.innerHTML = `
-    <div class="modal-media"><img src="${item.img}" alt=""></div>
+    <div class="modal-media">${mediaHtml}</div>
     <div class="modal-body">
       <div class="m-tag">${t(item.tag)}</div>
       <h2>${t(item.title)}</h2>
@@ -740,8 +880,11 @@ function renderProjects(){
   PROJECTS.forEach((p,i)=>{
     const row = document.createElement('div');
     row.className = 'proj-row depth-el' + (i%2===1 ? ' rev' : '');
+    const mediaHtml = p.video
+      ? `<iframe src="${p.video}" allow="autoplay" style="width:100%; height:100%; border:0;"></iframe>`
+      : `<img src="${p.img}" alt="">`;
     row.innerHTML = `
-      <div class="proj-media"><img src="${p.img}" alt=""></div>
+      <div class="proj-media">${mediaHtml}</div>
       <div>
         <div class="proj-tag">${t(p.tag)}</div>
         <h3>${t(p.title)}</h3>
@@ -780,6 +923,13 @@ function initCarousel(stageId, ringId, n, buildCardEl){
   const step = 360/n;
   let draggedFar = false;
 
+  const fadeLeft = document.createElement('div');
+  fadeLeft.className = 'stage-fade left';
+  const fadeRight = document.createElement('div');
+  fadeRight.className = 'stage-fade right';
+  stage.appendChild(fadeLeft);
+  stage.appendChild(fadeRight);
+
   for(let i=0;i<n;i++){
     const card = buildCardEl(i, ()=> draggedFar);
     card.classList.add('g-card');
@@ -792,15 +942,16 @@ function initCarousel(stageId, ringId, n, buildCardEl){
   let dragging = false;
   let startX = 0, lastX = 0, lastT = 0, vel = 0;
   let draggedFarLocal = false;
-  let ringBlurTimer = null;
+  let stageFadeTimer = null;
 
   function apply(v){
     ring.style.transform = `rotateY(${angle}deg)`;
-    const amount = Math.min(4, Math.abs(v||0) * 1.8);
-    if(amount > 0.12){
-      ring.style.filter = `blur(${amount.toFixed(2)}px)`;
-      clearTimeout(ringBlurTimer);
-      ringBlurTimer = setTimeout(()=>{ ring.style.filter = ''; }, 160);
+    const amount = Math.min(0.4, Math.abs(v||0) * 0.22);
+    if(amount > 0.06){
+      fadeLeft.style.opacity = amount.toFixed(2);
+      fadeRight.style.opacity = amount.toFixed(2);
+      clearTimeout(stageFadeTimer);
+      stageFadeTimer = setTimeout(()=>{ fadeLeft.style.opacity = 0; fadeRight.style.opacity = 0; }, 160);
     }
   }
   function tick(){
@@ -863,13 +1014,27 @@ function initGallery(){
   document.getElementById('galleryNext').addEventListener('click', ()=> api.rotateStep(1));
 }
 
+function initTestWine(){
+  const api = initCarousel('testwineStage', 'testwineRing', TESTWINE_IMAGES.length, (i, isDraggedFar)=>{
+    const src = TESTWINE_IMAGES[i];
+    const card = document.createElement('div');
+    card.innerHTML = `<img src="${src}" alt="">`;
+    card.addEventListener('click', ()=>{ if(!isDraggedFar()) openPhotoModal(src); });
+    return card;
+  });
+  document.getElementById('testwinePrev').addEventListener('click', ()=> api.rotateStep(-1));
+  document.getElementById('testwineNext').addEventListener('click', ()=> api.rotateStep(1));
+}
+
 /* SEZIONE: FILM — carosello con 2 video reali (Facebook) + 4 schede "Coming Soon" */
 const FILMS = [
-  { kind:'video', poster:'bacchus_poster.jpg', embed:'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent('https://m.facebook.com/story.php?story_fbid=pfbid0qsj7HYGQWtKPtQRGrBF8bnXCAfaqekEP4kXkjPVKj1LTE941ekau4j6smrfPMcq5l&id=100064591725891') + '&show_text=false',
+  { kind:'video', poster:'bacchus_poster.jpg', embed:'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent('https://fb.watch/v/7DcDylCG1/') + '&show_text=false&width=560',
     title:{en:'Bacchus', el:'Βάκχος'} },
-  { kind:'video', poster:'fondazione_poster.jpg', embed:'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent('https://fb.watch/v/7DcDylCG1/') + '&show_text=false',
+  { kind:'video', poster:'fondazione_poster.jpg', embed:'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent('https://m.facebook.com/story.php?story_fbid=pfbid0r1NdFuJ8hdKLaPh3Xp6HNevRog6UY7bE6FmwfmUpAqpCJtJUXFNWQGEqJJFdUKvDl&id=100064591725891') + '&show_text=false&width=560',
     title:{en:'Foundation', el:'Θεμελίωση'} },
-  { kind:'soon' }, { kind:'soon' }, { kind:'soon' }, { kind:'soon' }
+  { kind:'video', poster:'thirdvideo_poster.jpg', embed:'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent('https://fb.watch/v/1znGKCFB1e/') + '&show_text=false&width=560',
+    title:{en:'Sormarí', el:'Sormarí'} },
+  { kind:'soon' }, { kind:'soon' }, { kind:'soon' }
 ];
 function openVideoModal(item){
   modalBox.className = 'modal-box photo-only';
@@ -910,6 +1075,7 @@ document.getElementById('merchImg').addEventListener('click', ()=>{
       <h2 class="i18n" data-en="An exclusive line, coming soon" data-el="Μια αποκλειστική σειρά, σύντομα">An exclusive line, coming soon</h2>
       <p class="i18n" data-en="${MERCH_TEXT.en}" data-el="${MERCH_TEXT.el}">${MERCH_TEXT[lang]}</p>
     </div>`;
+  applyCurrentLang(modalBox);
   modalBackdrop.classList.add('show');
   modalClose.classList.add('show');
   document.body.style.overflow='hidden';
@@ -929,16 +1095,39 @@ document.getElementById('onassisTile').addEventListener('click', ()=>{
       <div class="m-tag i18n" data-en="Partnership" data-el="Συνεργασία">Partnership</div>
       <h2 class="i18n" data-en="Sormarí Agriculture — Official Partner of the Onassis Group, Athens" data-el="Sormarí Agriculture — Επίσημος Συνεργάτης του Ομίλου Ωνάση, Αθήνα">Sormarí Agriculture — Official Partner of the Onassis Group, Athens</h2>
       <p class="i18n" data-en="${ONASSIS_TEXT.en}" data-el="${ONASSIS_TEXT.el}">${ONASSIS_TEXT[lang]}</p>
-      <a href="https://www.onassis.org" target="_blank" rel="noopener noreferrer" class="btn on-dark i18n" style="margin-top:10px;" data-en="Visit onassis.org" data-el="Επισκεφθείτε το onassis.org">Visit onassis.org</a>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; margin-top:10px;">
+        <a href="https://www.onassis.org" target="_blank" rel="noopener noreferrer" class="btn on-dark i18n" data-en="Visit onassis.org" data-el="Επισκεφθείτε το onassis.org">Visit onassis.org</a>
+        <a href="https://fb.watch/v/7DcDylCG1/" target="_blank" rel="noopener noreferrer" class="btn on-dark i18n" data-en="Watch the video" data-el="Δείτε το βίντεο">Watch the video</a>
+      </div>
     </div>`;
+  applyCurrentLang(modalBox);
   modalBackdrop.classList.add('show');
   modalClose.classList.add('show');
   document.body.style.overflow='hidden';
 });
 
+/* SEZIONE: NUOVI PARTNER (Cyprus Oenophile Association, Velilla Group, Phoenix Lebanon) */
+function openPartnerModal(imgSrc, nameEn, nameEl, url){
+  modalBox.className = 'modal-box';
+  modalBox.innerHTML = `
+    <div class="modal-media"><img src="${imgSrc}" alt="${nameEn}" style="object-fit:contain; padding:5%;"></div>
+    <div class="modal-body" style="text-align:center;">
+      <h2 class="i18n" data-en="Official Partner ${nameEn}" data-el="Επίσημος Συνεργάτης ${nameEl}">Official Partner ${nameEn}</h2>
+      <a href="${url}" target="_blank" rel="noopener noreferrer" class="btn on-dark i18n" style="margin-top:14px;" data-en="Visit website" data-el="Επισκεφθείτε τον ιστότοπο">Visit website</a>
+    </div>`;
+  applyCurrentLang(modalBox);
+  modalBackdrop.classList.add('show');
+  modalClose.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+document.getElementById('cyprusTile').addEventListener('click', ()=> openPartnerModal('partner_cyprus.jpg', 'Cyprus Oenophile Association', 'Όμιλος Οινοφίλων Κύπρου', 'https://cyprusoenophileassociation.com'));
+document.getElementById('velillaTile').addEventListener('click', ()=> openPartnerModal('partner_velilla.jpg', 'Velilla Group', 'Velilla Group', 'https://www.velilla-group.com'));
+document.getElementById('phoenixTile').addEventListener('click', ()=> openPartnerModal('partner_phoenix.jpg', 'Phoenix', 'Phoenix', 'https://phoenixlebanon.com'));
+
 renderProjects();
 renderServices();
 initGallery();
+initTestWine();
 initFilms();
 
 /* ============================================================
@@ -1047,33 +1236,35 @@ botInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ document.getEleme
 window.addEventListener('scroll', ()=>{ siteNav.style.boxShadow = window.scrollY>10 ? '0 2px 12px rgba(0,0,0,.06)' : 'none'; }, {passive:true});
 
 /* ============================================================
-   PLAYER AUDIO AMBIENTALE — play/pause + muto, loop continuo
-   finché l'utente non lo ferma. Traccia di sviluppo temporanea:
-   vedi nota HTML nella sezione Web Radio prima del lancio.
+   PLAYER AUDIO AMBIENTALE — play/pausa + muto per ciascuna traccia,
+   loop continuo finché l'utente non la ferma. Tracce di sviluppo
+   temporanee: vedi nota HTML nella sezione Web Radio prima del lancio.
    ============================================================ */
-const ambientAudio = document.getElementById('ambientAudio');
-const ambientPlayBtn = document.getElementById('ambientPlayBtn');
-const ambientMuteBtn = document.getElementById('ambientMuteBtn');
-let ambientPlaying = false;
-ambientPlayBtn.addEventListener('click', ()=>{
-  if(ambientPlaying){
-    ambientAudio.pause();
-    ambientPlayBtn.classList.remove('active');
-    ambientPlayBtn.querySelector('.icon-play').style.display = '';
-    ambientPlayBtn.querySelector('.icon-pause').style.display = 'none';
-  } else {
-    ambientAudio.play().catch(()=>{ /* riproduzione autom. bloccata finché non c'e' un'interazione: gia' garantita dal click */ });
-    ambientPlayBtn.classList.add('active');
-    ambientPlayBtn.querySelector('.icon-play').style.display = 'none';
-    ambientPlayBtn.querySelector('.icon-pause').style.display = '';
-  }
-  ambientPlaying = !ambientPlaying;
-});
-ambientMuteBtn.addEventListener('click', ()=>{
-  ambientAudio.muted = !ambientAudio.muted;
-  ambientMuteBtn.classList.toggle('active', ambientAudio.muted);
-  ambientMuteBtn.querySelector('.icon-vol-on').style.display = ambientAudio.muted ? 'none' : '';
-  ambientMuteBtn.querySelector('.icon-vol-off').style.display = ambientAudio.muted ? '' : 'none';
+document.querySelectorAll('.ambient-player').forEach(player=>{
+  const audio = player.querySelector('.ap-audio');
+  const playBtn = player.querySelector('.ap-play');
+  const muteBtn = player.querySelector('.ap-mute');
+  let playing = false;
+  playBtn.addEventListener('click', ()=>{
+    if(playing){
+      audio.pause();
+      playBtn.classList.remove('active');
+      playBtn.querySelector('.icon-play').style.display = '';
+      playBtn.querySelector('.icon-pause').style.display = 'none';
+    } else {
+      audio.play().catch(()=>{});
+      playBtn.classList.add('active');
+      playBtn.querySelector('.icon-play').style.display = 'none';
+      playBtn.querySelector('.icon-pause').style.display = '';
+    }
+    playing = !playing;
+  });
+  muteBtn.addEventListener('click', ()=>{
+    audio.muted = !audio.muted;
+    muteBtn.classList.toggle('active', audio.muted);
+    muteBtn.querySelector('.icon-vol-on').style.display = audio.muted ? 'none' : '';
+    muteBtn.querySelector('.icon-vol-off').style.display = audio.muted ? '' : 'none';
+  });
 });
 
 /* ============================================================
@@ -1101,12 +1292,13 @@ window.addEventListener('resize', updateDepth);
 setTimeout(updateDepth, 300);
 
 /* ============================================================
-   MOTION BLUR DINAMICO — lo scroll veloce sfoca leggermente il
-   contenuto, che torna subito nitido non appena il movimento si
-   ferma. Applicato a #pageContent (non al body) per non alterare
-   il comportamento "fixed" di header, bot e modali.
+   SCHIARITURA AI BORDI DURANTE LO SCROLL — non piu' un blur
+   uniforme: solo una fascia in alto e una in basso dello schermo
+   si schiarisce leggermente durante lo scroll veloce; il centro
+   resta sempre perfettamente nitido.
    ============================================================ */
-const pageContentEl = document.getElementById('pageContent');
+const edgeFadeTop = document.getElementById('edgeFadeTop');
+const edgeFadeBottom = document.getElementById('edgeFadeBottom');
 let lastBlurY = window.scrollY;
 let lastBlurT = performance.now();
 let blurClearTimer = null;
@@ -1114,14 +1306,17 @@ function handleScrollBlur(){
   const now = performance.now();
   const dt = Math.max(1, now - lastBlurT);
   const speed = Math.abs(window.scrollY - lastBlurY) / dt; // px per ms
-  const amount = Math.min(5, speed * 14);
-  pageContentEl.style.filter = amount > 0.12 ? `blur(${amount.toFixed(2)}px)` : '';
+  const amount = Math.min(1, speed * 3.4);
+  const val = amount > 0.06 ? amount.toFixed(2) : 0;
+  edgeFadeTop.style.opacity = val;
+  edgeFadeBottom.style.opacity = val;
   lastBlurY = window.scrollY;
   lastBlurT = now;
   clearTimeout(blurClearTimer);
-  blurClearTimer = setTimeout(()=>{ pageContentEl.style.filter = ''; }, 140);
+  blurClearTimer = setTimeout(()=>{ edgeFadeTop.style.opacity = 0; edgeFadeBottom.style.opacity = 0; }, 160);
 }
 window.addEventListener('scroll', handleScrollBlur, {passive:true});
 </script>
+
 </body>
 </html>
