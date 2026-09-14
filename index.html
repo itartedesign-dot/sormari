@@ -276,21 +276,11 @@ header.nav{
 .ap-label{ font-size:.7rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-soft); }
 /* FINE SEZIONE PLACEHOLDER */
 
-/* SEZIONE: ISTITUTIONAL PARTNERS */
-.inst-partners{ padding:0; overflow:hidden; }
-.inst-partners-grid{ display:grid; grid-template-columns:.9fr 1.1fr; align-items:stretch; min-height:380px; }
-.inst-photo-col{ position:relative; min-height:320px; background:var(--dark); }
-.inst-photo-col img{ position:absolute; bottom:0; left:50%; transform:translateX(-50%); height:100%; width:auto; max-width:none; object-fit:contain; }
-.inst-text-col{ display:flex; flex-direction:column; justify-content:center; gap:24px; padding:50px 8vw; }
-.inst-logos{ display:flex; gap:20px; flex-wrap:wrap; }
-.inst-logo-tile{ background:#fff; border-radius:4px; width:200px; height:90px; padding:14px 20px; display:flex; align-items:center; justify-content:center; transition:transform .3s ease; }
+/* SEZIONE: ISTITUTIONAL PARTNERS — stesso layout della sezione CEO */
+.inst-logos{ display:flex; flex-direction:column; gap:20px; align-items:flex-start; }
+.inst-logo-tile{ background:#fff; border-radius:4px; width:220px; height:90px; padding:14px 20px; display:flex; align-items:center; justify-content:center; transition:transform .3s ease; }
 .inst-logo-tile:hover{ transform:translateY(-3px); }
 .inst-logo-tile img{ width:100%; height:100%; object-fit:contain; }
-@media (max-width:800px){
-  .inst-partners-grid{ grid-template-columns:1fr; }
-  .inst-photo-col{ min-height:260px; }
-  .inst-text-col{ padding:40px 8vw; }
-}
 
 /* INIZIO SEZIONE: CONTATTI */
 .contact-grid{ display:grid; grid-template-columns:.9fr 1.1fr; gap:70px; }
@@ -489,7 +479,7 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 <!-- INIZIO SEZIONE: CEO (a se stante, sfondo scuro) -->
 <section class="section dark ceo-standalone">
   <div class="ceo-standalone-grid">
-    <div class="ceo-photo-col"><img src="ceo_statue.jpg" alt="Mario Sorbello"></div>
+    <div class="ceo-photo-col"><img src="ceo_mario.jpg" alt="Mario Sorbello"></div>
     <div class="ceo-text-col">
       <div class="quote i18n" data-en="“We have to be close to nature. Intervene as little as possible.”" data-el="«Πρέπει να είμαστε κοντά στη φύση. Να παρεμβαίνουμε όσο το δυνατόν λιγότερο.»">“We have to be close to nature. Intervene as little as possible.”</div>
       <div class="who"><b>Mario Sorbello</b><span class="i18n" data-en="Founder &amp; Head Oenologist" data-el="Ιδρυτής &amp; Επικεφαλής Οινολόγος">Founder &amp; Head Oenologist</span></div>
@@ -657,10 +647,10 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 <!-- FINE SEZIONE: WEB RADIO -->
 
 <!-- INIZIO SEZIONE: ISTITUTIONAL PARTNERS -->
-<section class="section dark inst-partners">
-  <div class="inst-partners-grid">
-    <div class="inst-photo-col"><img src="ceo_statue.jpg" alt="Sormarí"></div>
-    <div class="inst-text-col">
+<section class="section dark ceo-standalone">
+  <div class="ceo-standalone-grid">
+    <div class="ceo-photo-col"><img src="ceo_statue.jpg" alt="Sormarí"></div>
+    <div class="ceo-text-col">
       <div class="kicker i18n" data-en="Institutional Partners" data-el="Θεσμικοί Συνεργάτες" style="color:var(--gold-pale);">Institutional Partners</div>
       <div class="inst-logos">
         <a href="https://www.asi.info" target="_blank" rel="noopener noreferrer" class="inst-logo-tile"><img src="asi_logo.png" alt="ASI — Association de la Sommellerie Internationale"></a>
@@ -1028,20 +1018,16 @@ function initTestWine(){
 
 /* SEZIONE: FILM — carosello con 2 video reali (Facebook) + 4 schede "Coming Soon" */
 const FILMS = [
-  { kind:'video', poster:'bacchus_poster.jpg', embed:'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent('https://fb.watch/v/7DcDylCG1/') + '&show_text=false&width=560',
+  { kind:'video', poster:'bacchus_poster.jpg', url:'https://fb.watch/v/7DcDylCG1/',
     title:{en:'Bacchus', el:'Βάκχος'} },
-  { kind:'video', poster:'fondazione_poster.jpg', embed:'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent('https://m.facebook.com/story.php?story_fbid=pfbid0r1NdFuJ8hdKLaPh3Xp6HNevRog6UY7bE6FmwfmUpAqpCJtJUXFNWQGEqJJFdUKvDl&id=100064591725891') + '&show_text=false&width=560',
+  { kind:'video', poster:'fondazione_poster.jpg', url:'https://m.facebook.com/story.php?story_fbid=pfbid0r1NdFuJ8hdKLaPh3Xp6HNevRog6UY7bE6FmwfmUpAqpCJtJUXFNWQGEqJJFdUKvDl&id=100064591725891',
     title:{en:'Foundation', el:'Θεμελίωση'} },
-  { kind:'video', poster:'thirdvideo_poster.jpg', embed:'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent('https://fb.watch/v/1znGKCFB1e/') + '&show_text=false&width=560',
+  { kind:'video', poster:'thirdvideo_poster.jpg', url:'https://fb.watch/v/1znGKCFB1e/',
     title:{en:'Sormarí', el:'Sormarí'} },
   { kind:'soon' }, { kind:'soon' }, { kind:'soon' }
 ];
 function openVideoModal(item){
-  modalBox.className = 'modal-box photo-only';
-  modalBox.innerHTML = `<iframe src="${item.embed}" style="width:min(900px,92vw); height:min(506px,52vw); border:none; overflow:hidden;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
-  modalBackdrop.classList.add('show');
-  modalClose.classList.add('show');
-  document.body.style.overflow='hidden';
+  window.open(item.url, '_blank', 'noopener,noreferrer');
 }
 function initFilms(){
   const api = initCarousel('filmsStage', 'filmsRing', FILMS.length, (i, isDraggedFar)=>{
