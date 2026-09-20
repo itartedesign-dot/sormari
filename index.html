@@ -195,6 +195,17 @@ header.nav{
 .contrast-col h4{ color:#fff; font-size:1.5rem; font-style:italic; }
 .contrast-col p{ color:rgba(255,255,255,.8); font-size:.88rem; margin-top:8px; max-width:32ch; }
 @media (max-width:760px){ .contrast-row{ grid-template-columns:1fr; } }
+/* SEZIONE: WINEMAKING PHILOSOPHY (dentro About) */
+.philosophy-head{ margin:70px 0 30px; text-align:center; }
+.philosophy-head h3{ font-family:var(--serif); font-size:1.9rem; }
+.phil-row{ display:grid; grid-template-columns:.85fr 1.15fr; gap:5vw; align-items:center; padding:36px 0; border-bottom:1px solid var(--line); }
+.phil-row.rev{ direction:rtl; }
+.phil-row.rev > *{ direction:ltr; }
+.phil-media img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
+.phil-text h4{ font-family:var(--serif); font-size:1.35rem; margin-bottom:14px; }
+.phil-text p{ color:var(--ink-soft); line-height:1.7; }
+@media (max-width:800px){ .phil-row, .phil-row.rev{ grid-template-columns:1fr; direction:ltr; } }
+
 /* FINE SEZIONE: CHI SIAMO */
 
 /* INIZIO SEZIONE: PROGETTI */
@@ -258,8 +269,10 @@ header.nav{
 .partner-logos .partner-tile img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .partner-logos .partner-tile .pt-caption{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:10px 12px; font-size:.66rem; line-height:1.35; color:#fff; text-transform:none; letter-spacing:.2px; text-align:left; background:rgba(0,0,0,.82); }
 .partner-logos .partner-tile.logo-tile{ background:#fff; }
+#phoenixTile{ background:#0b0705; }
 .partner-logos .partner-tile.logo-tile img{ inset:0 0 26px 0; object-fit:contain; padding:16px; }
 .partner-logos .partner-tile.logo-tile .pt-caption{ background:#fff; color:var(--ink-soft); text-align:center; height:26px; display:flex; align-items:center; justify-content:center; }
+#phoenixTile .pt-caption{ background:#0b0705; color:#fff; }
 
 .merch-row{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
 .merch-row img{ width:100%; border-radius:2px; }
@@ -294,6 +307,8 @@ header.nav{
 .socials-inline a:hover{ background:var(--bordeaux-deep); transform:translateY(-2px); }
 .socials-inline a img{ width:16px; height:16px; }
 .form-field{ margin-bottom:18px; }
+.privacy-link{ display:block; margin-top:16px; font-size:.72rem; letter-spacing:.5px; color:var(--ink-soft); text-decoration:underline; text-align:center; }
+.privacy-link:hover{ color:var(--bordeaux); }
 .form-field label{ display:block; font-size:.7rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
 .form-field input, .form-field textarea{ width:100%; background:#fff; border:1px solid var(--line); padding:13px 16px; font-family:var(--sans); font-size:.95rem; color:var(--ink); }
 .form-field textarea{ min-height:120px; resize:vertical; }
@@ -376,6 +391,11 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 .bot-goto{ display:inline-block; margin-top:8px; font-size:.68rem; letter-spacing:1px; text-transform:uppercase; color:var(--bordeaux); border-bottom:1px solid var(--bordeaux); cursor:pointer; }
 .bot-chip-row{ display:flex; flex-wrap:wrap; gap:6px; padding:0 18px 12px; }
 .bot-chip{ font-size:.68rem; letter-spacing:.5px; border:1px solid var(--line); border-radius:14px; padding:6px 11px; color:var(--ink-soft); }
+.bot-results{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.bot-result-chip{ font-size:.72rem; letter-spacing:.3px; border:1px solid var(--bordeaux); border-radius:14px; padding:7px 13px; color:var(--bordeaux); background:#fff; transition:background .25s ease, color .25s ease; }
+.bot-result-chip:hover{ background:var(--bordeaux); color:#fff; }
+mark.search-hit{ background:var(--gold-pale); color:var(--dark); padding:1px 3px; border-radius:2px; transition:background-color .7s ease, color .7s ease; }
+mark.search-hit.fade-out{ background:transparent; color:inherit; padding:0; }
 .bot-chip:hover{ border-color:var(--bordeaux); color:var(--bordeaux); }
 .bot-input-row{ display:flex; border-top:1px solid var(--line); }
 .bot-input-row input{ flex:1; border:none; padding:14px 16px; font-family:var(--sans); font-size:.86rem; background:#fff; }
@@ -431,11 +451,11 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 <div class="edge-fade bottom" id="edgeFadeBottom"></div>
 <div id="pageContent">
 <section class="hero" id="home">
-  <div class="hero-bg"><img src="harvest_crate.jpg" alt="Sormarí grape harvest"></div>
+  <div class="hero-bg"><img src="hat_man.jpg" alt="Sormarí vineyard worker"></div>
   <div class="wrap hero-split">
     <div class="hero-inner">
       <div class="kicker i18n" data-en="Est. 2024" data-el="Ίδρυση 2024">Est. 2024</div>
-      <h1 class="i18n" data-en="Welcome to <em>Sormari.org</em>" data-el="Καλώς ήρθατε στη <em>Sormari.org</em>">Welcome to <em>Sormari.org</em></h1>
+      <h1 class="i18n" data-en="Welcome to <em>Sormarí.org</em>" data-el="Καλώς ήρθατε στη <em>Sormarí.org</em>">Welcome to <em>Sormarí.org</em></h1>
       <p class="i18n" data-en="Discover a world of oenology, great wine and amazing winemaking experiences. Find all the support and guidance you need to achieve your wine goals!<br><br>Get to know our philosophy, our work and our complete range of oenological consulting services. We hope that the next wine we make will tell your story." data-el="Ανακαλύψτε έναν κόσμο οινολογίας, εξαιρετικού κρασιού και μοναδικών εμπειριών οινοποίησης. Βρείτε όλη την υποστήριξη και την καθοδήγηση που χρειάζεστε για να πετύχετε τους στόχους σας στο κρασί!<br><br>Γνωρίστε τη φιλοσοφία μας, τη δουλειά μας και το πλήρες φάσμα των συμβουλευτικών μας υπηρεσιών οινολογίας. Ελπίζουμε το επόμενο κρασί που θα φτιάξουμε να αφηγηθεί τη δική σας ιστορία.">Discover a world of oenology, great wine and amazing winemaking experiences. Find all the support and guidance you need to achieve your wine goals!<br><br>Get to know our philosophy, our work and our complete range of oenological consulting services. We hope that the next wine we make will tell your story.</p>
       <div class="hero-cta">
         <a href="#services" class="btn solid i18n" data-en="Our services" data-el="Οι υπηρεσίες μας">Our services</a>
@@ -473,17 +493,45 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
         <div class="cc-inner"><h4 class="i18n" data-en="Innovation" data-el="Καινοτομία">Innovation</h4><p class="i18n" data-en="Precision viticulture, adapted to every terroir." data-el="Αμπελουργία ακριβείας, προσαρμοσμένη σε κάθε terroir.">Precision viticulture, adapted to every terroir.</p></div>
       </div>
     </div>
+
+    <div class="philosophy-head">
+      <h3 class="i18n" data-en="Winemaking philosophy" data-el="Φιλοσοφία Οινοποίησης">Winemaking philosophy</h3>
+    </div>
+
+    <div class="phil-row">
+      <div class="phil-media"><img src="principles_hand.jpg" alt="Our principles"></div>
+      <div class="phil-text">
+        <h4 class="i18n" data-en="Our principles" data-el="Οι αρχές μας">Our principles</h4>
+        <p class="i18n" data-en="We believe in doing as little as possible, and only when it truly matters. Throughout the whole journey from grape to bottle, we stay close — watching, checking, tasting. Our role is to be ready: present with scientific know-how, stepping in only when nature calls for it.<br><br>Think of the winery as a delivery room, and the wine as a newborn finding its own way into the world.<br><br>This respect for nature's own process is what shapes the wines we make: organic, no-intervention, and biodynamic." data-el="Πιστεύουμε στο να παρεμβαίνουμε όσο το δυνατόν λιγότερο, και μόνο όταν χρειάζεται πραγματικά. Σε όλη τη διαδρομή από το σταφύλι έως το μπουκάλι, μένουμε κοντά — παρατηρώντας, ελέγχοντας, δοκιμάζοντας. Ο ρόλος μας είναι να είμαστε έτοιμοι: παρόντες με επιστημονική γνώση, παρεμβαίνοντας μόνο όταν το ζητήσει η φύση.<br><br>Φανταστείτε το οινοποιείο σαν αίθουσα τοκετού, και το κρασί σαν ένα νεογέννητο που βρίσκει μόνο του τον δρόμο του στον κόσμο.<br><br>Αυτός ο σεβασμός στη φυσική διαδικασία είναι που διαμορφώνει τα κρασιά που φτιάχνουμε: βιολογικά, χωρίς παρέμβαση, και βιοδυναμικά.">We believe in doing as little as possible, and only when it truly matters. Throughout the whole journey from grape to bottle, we stay close — watching, checking, tasting. Our role is to be ready: present with scientific know-how, stepping in only when nature calls for it.<br><br>Think of the winery as a delivery room, and the wine as a newborn finding its own way into the world.<br><br>This respect for nature's own process is what shapes the wines we make: organic, no-intervention, and biodynamic.</p>
+      </div>
+    </div>
+
+    <div class="phil-row rev">
+      <div class="phil-media"><img src="aim_leaf.jpg" alt="Our aim"></div>
+      <div class="phil-text">
+        <h4 class="i18n" data-en="Our aim" data-el="Ο στόχος μας">Our aim</h4>
+        <p class="i18n" data-en="Our goal is simple to state, demanding to achieve: the best wine a place is capable of giving. We work to reveal the terroir — its hidden character, its quiet strengths — so the result reflects both the land and the ambitions of the people behind it.<br><br>No two places are the same, and we treat none of them as if they were. That is why every wine we help create is one of a kind.<br><br>As singular as where it comes from. As singular as you are." data-el="Ο στόχος μας είναι απλός να τον πούμε, απαιτητικός να τον πετύχουμε: το καλύτερο κρασί που μπορεί να δώσει ένας τόπος. Δουλεύουμε για να αναδείξουμε το terroir — τον κρυφό του χαρακτήρα, τις σιωπηλές του δυνάμεις — ώστε το αποτέλεσμα να αντανακλά και τη γη και τις φιλοδοξίες των ανθρώπων πίσω από αυτήν.<br><br>Δεν υπάρχουν δύο ίδιοι τόποι, και δεν αντιμετωπίζουμε κανέναν σαν να ήταν. Γι' αυτό κάθε κρασί που βοηθάμε να δημιουργηθεί είναι μοναδικό.<br><br>Τόσο μοναδικό όσο η προέλευσή του. Τόσο μοναδικό όσο εσείς.">Our goal is simple to state, demanding to achieve: the best wine a place is capable of giving. We work to reveal the terroir — its hidden character, its quiet strengths — so the result reflects both the land and the ambitions of the people behind it.<br><br>No two places are the same, and we treat none of them as if they were. That is why every wine we help create is one of a kind.<br><br>As singular as where it comes from. As singular as you are.</p>
+      </div>
+    </div>
+
+    <div class="phil-row">
+      <div class="phil-media"><img src="process_harvest.jpg" alt="Our winemaking process"></div>
+      <div class="phil-text">
+        <h4 class="i18n" data-en="Our winemaking process" data-el="Η διαδικασία οινοποίησής μας">Our winemaking process</h4>
+        <p class="i18n" data-en="Step 1 — Nature does the first work, ripening the grape in its own time.<br><br>Step 2 — We harvest by hand, carrying each cluster to the winery with the same care it grew with.<br><br>Step 3 — From there, science takes its turn: present, attentive, guiding the grape as it becomes wine.<br><br>A wine is a living thing — born in the vineyard, raised in the cellar. Fittingly, the French call this stage “élevage”, the Spanish “crianza”: both words that simply mean, to raise." data-el="Βήμα 1 — Η φύση κάνει την πρώτη δουλειά, ωριμάζοντας το σταφύλι στον δικό του χρόνο.<br><br>Βήμα 2 — Τρυγάμε με το χέρι, μεταφέροντας κάθε τσαμπί στο οινοποιείο με την ίδια φροντίδα με την οποία μεγάλωσε.<br><br>Βήμα 3 — Από εκεί, η επιστήμη αναλαμβάνει: παρούσα, προσεκτική, καθοδηγώντας το σταφύλι καθώς γίνεται κρασί.<br><br>Το κρασί είναι κάτι ζωντανό — γεννιέται στον αμπελώνα, μεγαλώνει στο κελάρι. Δεν είναι τυχαίο που οι Γάλλοι ονομάζουν αυτό το στάδιο «élevage» και οι Ισπανοί «crianza»: και οι δύο λέξεις σημαίνουν απλά, ανατροφή.">Step 1 — Nature does the first work, ripening the grape in its own time.<br><br>Step 2 — We harvest by hand, carrying each cluster to the winery with the same care it grew with.<br><br>Step 3 — From there, science takes its turn: present, attentive, guiding the grape as it becomes wine.<br><br>A wine is a living thing — born in the vineyard, raised in the cellar. Fittingly, the French call this stage “élevage”, the Spanish “crianza”: both words that simply mean, to raise.</p>
+      </div>
+    </div>
   </div>
 </section>
 <!-- FINE SEZIONE: CHI SIAMO -->
 
 <!-- INIZIO SEZIONE: CEO (a se stante, sfondo scuro) -->
-<section class="section dark ceo-standalone">
+<section class="section dark ceo-standalone" id="philosophy">
   <div class="ceo-standalone-grid">
     <div class="ceo-photo-col"><img src="ceo_mario.jpg" alt="Mario Sorbello" id="marioPhoto"></div>
     <div class="ceo-text-col">
       <div class="quote i18n" data-en="“We have to be close to nature. Intervene as little as possible.”" data-el="«Πρέπει να είμαστε κοντά στη φύση. Να παρεμβαίνουμε όσο το δυνατόν λιγότερο.»">“We have to be close to nature. Intervene as little as possible.”</div>
-      <div class="who"><b>Mario Sorbello</b><span class="i18n" data-en="Founder &amp; Head Oenologist" data-el="Ιδρυτής &amp; Επικεφαλής Οινολόγος">Founder &amp; Head Oenologist</span></div>
+      <div class="who"><b>Mario Sorbello</b><span class="i18n" data-en="CEO Sormari Agriculture LTD" data-el="CEO Sormari Agriculture LTD">CEO Sormari Agriculture LTD</span></div>
     </div>
   </div>
 </section>
@@ -576,7 +624,7 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
         <div class="pt-caption i18n" data-en="Velilla Group" data-el="Velilla Group">Velilla Group</div>
       </div>
       <div class="partner-tile logo-tile" id="phoenixTile">
-        <img src="partner_phoenix.png" alt="Phoenix Lebanon">
+        <img src="partner_phoenix_black.jpg" alt="Phoenix Lebanon">
         <div class="pt-caption i18n" data-en="Phoenix Lebanon" data-el="Phoenix Lebanon">Phoenix Lebanon</div>
       </div>
     </div>
@@ -649,7 +697,7 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
 <!-- FINE SEZIONE: WEB RADIO -->
 
 <!-- INIZIO SEZIONE: ISTITUTIONAL PARTNERS -->
-<section class="section dark ceo-standalone">
+<section class="section dark ceo-standalone" id="instpartners">
   <div class="ceo-standalone-grid">
     <div class="ceo-photo-col"><img src="ceo_statue.jpg" alt="Sormarí"></div>
     <div class="ceo-text-col">
@@ -676,7 +724,7 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
           <div class="label i18n" data-en="Registered Office" data-el="Έδρα">Registered Office</div>
           <div class="val"><b>SORMARI AGRICULTURE LTD</b><br><a href="https://www.google.com/maps/place/360+building/@35.1670439,33.3618144,3a,75y,303.31h,143.92t/data=!3m8!1e1!3m6!1sAF1QipNXlSTVuV-sstIEPYU_LqMD507uLRKcEI-Zranh!2e10!3e11!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipNXlSTVuV-sstIEPYU_LqMD507uLRKcEI-Zranh%3Dw900-h600-k-no-pi-53.91636432003523-ya334.04773470672336-ro0-fo100!7i5888!8i2944!4m14!1m7!3m6!1s0x14de1710eea13a51:0x9da6fd99e708b507!2s360+building!8m2!3d35.1670312!4d33.3616342!16s%2Fg%2F11j0tsvbjs!3m5!1s0x14de1710eea13a51:0x9da6fd99e708b507!8m2!3d35.1670312!4d33.3616342!16s%2Fg%2F11j0tsvbjs?entry=ttu" target="_blank" rel="noopener noreferrer">Makariou Avenue — Nicosia, Cyprus</a></div>
         </div>
-        <div class="row"><div class="label i18n" data-en="Phone" data-el="Τηλέφωνο">Phone</div><div class="val"><a href="tel:+35795968096">+357 95 968096</a></div></div>
+        <div class="row"><div class="label i18n" data-en="Phone" data-el="Τηλέφωνο">Phone</div><div class="val"><a href="tel:+35795968096">+357 95 968096</a> / <a href="tel:+35795157497">+357 95 157497</a></div></div>
         <div class="row"><div class="label i18n" data-en="Email" data-el="Email">Email</div><div class="val"><a href="mailto:sormaricy25@gmail.com">sormaricy25@gmail.com</a></div></div>
         <div class="socials-inline">
           <a href="https://www.instagram.com/sormariagriculture?igsh=OW9nY2o4NzQ4bXo3" target="_blank" rel="noopener noreferrer"><img src="instagram.png" alt="Instagram"></a>
@@ -688,6 +736,7 @@ footer .fcopy{ font-size:.72rem; letter-spacing:.5px; }
         <div class="form-field"><label class="i18n" data-en="Email" data-el="Email">Email</label><input type="email" id="cfEmail"></div>
         <div class="form-field"><label class="i18n" data-en="Message" data-el="Μήνυμα">Message</label><textarea id="cfMessage"></textarea></div>
         <button type="button" class="btn solid i18n" id="cfSendBtn" data-en="Send message" data-el="Αποστολή μηνύματος">Send message</button>
+        <a href="Sormari_Privacy_Policy.pdf" target="_blank" rel="noopener noreferrer" class="privacy-link i18n" data-en="Privacy Policy" data-el="Πολιτική Απορρήτου">Privacy Policy</a>
       </form>
     </div>
   </div>
@@ -791,18 +840,21 @@ const PROJECTS = [
   { video:'https://drive.google.com/file/d/19kB2tiPoWRTNLVt3BMtOGrVAVxxVub3e/preview', tag:{en:'Region Spotlight',el:'Ανάδειξη Περιοχής'}, title:{en:'Ningxia — China',el:'Νινγκσιά — Κίνα'},
     body:{en:"With over 18,000 hectares of vineyards, a Bordeaux-inspired classification, and a growing interest in wine tourism, Ningxia represents the modern and dynamic face of Chinese wine: a region still to be discovered, but already determined to make its mark on the world's tables.",
           el:"Με πάνω από 18.000 εκτάρια αμπελώνων, μια ταξινόμηση εμπνευσμένη από το Μπορντό, και ένα αυξανόμενο ενδιαφέρον για τον οινοτουρισμό, η Νινγκσιά αντιπροσωπεύει το σύγχρονο και δυναμικό πρόσωπο του κινέζικου κρασιού: μια περιοχή που παραμένει προς ανακάλυψη, αλλά είναι ήδη αποφασισμένη να αφήσει το στίγμα της στα τραπέζια του κόσμου."} },
-  { img:'ungrafted_roots.jpg', tag:{en:'',el:''}, title:{en:'Ungrafted vines',el:'Μη εμβολιασμένα κλήματα'},
+  { img:'ungrafted_roots.jpg', tag:{en:'',el:''}, title:{en:'Ungrafted',el:'Χωρίς εμβολιασμό'},
     body:{en:"Untouched by the phylloxera pest. Many of them, more than a century old. Deeper complex root system thus less affected by climate changes. Old hence wise enough to give fewer crops for richer, more concentrated taste. Purer expressions of terroir. Rare, precious, unique.<br><br>It is no coincidence the French call them “franc de pied”. That is, true, honest, authentic, genuine, frank from their “feet”, from their roots. Their “frankness” spreads all the way up to the crops, to their taste… to you.",
           el:"Ανέγγιχτα από τη φυλλοξήρα. Πολλά από αυτά, άνω των εκατό ετών. Βαθύτερο, πιο σύνθετο ριζικό σύστημα, άρα λιγότερο επηρεασμένα από τις κλιματικές αλλαγές. Τόσο παλιά που δίνουν, σοφά, λιγότερη σοδειά για μια πλουσιότερη, πιο συμπυκνωμένη γεύση. Πιο καθαρές εκφράσεις του terroir. Σπάνια, πολύτιμα, μοναδικά.<br><br>Δεν είναι τυχαίο που οι Γάλλοι τα αποκαλούν «franc de pied» — δηλαδή αληθινά, ειλικρινή, αυθεντικά, γνήσια, ντόπια από τα «πόδια» τους, από τις ρίζες τους. Η «ειλικρίνειά» τους φτάνει έως τη σοδειά, τη γεύση… έως εσάς."} },
-  { img:'greek_miracles.jpg', tag:{en:'',el:''}, title:{en:'Greek miracles',el:'Ελληνικά θαύματα'},
+  { img:'greek_miracles.jpg', tag:{en:'',el:''}, title:{en:'Unharmed',el:'Ανέγγιχτα'},
     body:{en:"When at the end of the 19th and throughout the 20th century phylloxera destroyed all European vineyards, the island of Santorini with its sandy, volcanic soil, resisted. Its vines survive today and offer us unique wine, famous all over the world.<br><br>Nowadays, we find a small number of ungrafted vines in many of the Cyclades, in Cephalonia, as well as in some areas of Mainland Greece, like in Naoussa and Nemea.",
           el:"Όταν στα τέλη του 19ου και καθ' όλη τη διάρκεια του 20ού αιώνα η φυλλοξήρα κατέστρεψε όλους τους ευρωπαϊκούς αμπελώνες, το νησί της Σαντορίνης, με το αμμώδες, ηφαιστειογενές έδαφός του, αντιστάθηκε. Τα κλήματά της επιβιώνουν έως σήμερα και μας χαρίζουν ένα μοναδικό κρασί, διάσημο σε όλο τον κόσμο.<br><br>Σήμερα, βρίσκουμε έναν μικρό αριθμό μη εμβολιασμένων κλημάτων σε πολλά νησιά των Κυκλάδων, στην Κεφαλονιά, καθώς και σε ορισμένες περιοχές της ηπειρωτικής Ελλάδας, όπως στη Νάουσα και τη Νεμέα."} },
-  { img:'ungrafted_story.jpg', tag:{en:'',el:''}, title:{en:'Our ungrafted story',el:'Η δική μας ιστορία χωρίς εμβολιασμό'},
+  { img:'ungrafted_story.jpg', tag:{en:'',el:''}, title:{en:'Unmatched',el:'Απαράμιλλα'},
     body:{en:"Oddly enough, our interest in ungrafted vines started in Argentina. A country undamaged by phylloxera. It is there we discovered the authentic taste of old vines. Thus, we set off to find our own roots in Greece.",
           el:"Όσο περίεργο κι αν ακούγεται, το ενδιαφέρον μας για τα μη εμβολιασμένα κλήματα ξεκίνησε στην Αργεντινή — μια χώρα που δεν επλήγη ποτέ από τη φυλλοξήρα. Εκεί ανακαλύψαμε την αυθεντική γεύση των παλιών κλημάτων. Έτσι, ξεκινήσαμε να αναζητούμε τις δικές μας ρίζες στην Ελλάδα."} },
   { img:'santorini_field.jpg', tag:{en:'Case Study',el:'Μελέτη Περίπτωσης'}, title:{en:'Santorini - Kingdom of Assyrtiko Autochthonous Grapes',el:'Σαντορίνη - Το Βασίλειο του Αυτόχθονου Ασύρτικου'},
     body:{en:"Viticulture in Santorini Island is a clear representation of how, in a volcanic soil where phylloxera never took hold, vines remain still ungrafted, still bush-trained low against the wind. The Assyrtiko Autochthonous Grapes are sourced from vines that are typically 100-120 years old, ensuring a rich flavor profile with notes of lemon, grapefruit, and peach. Our role: bring modern winemaking only where it helps the grape, never where it fights it.",
-          el:"Η αμπελουργία στη Σαντορίνη είναι μια σαφής απεικόνιση του πώς, σε ένα ηφαιστειογενές έδαφος όπου η φυλλοξήρα δεν κατάφερε ποτέ να εγκατασταθεί, τα κλήματα παραμένουν ακόμα μη εμβολιασμένα, καλλιεργούμενα χαμηλά σαν θάμνοι ενάντια στον άνεμο. Τα αυτόχθονα σταφύλια Ασύρτικο προέρχονται από κλήματα ηλικίας συνήθως 100-120 ετών, εξασφαλίζοντας ένα πλούσιο προφίλ γεύσης με νότες λεμονιού, γκρέιπφρουτ και ροδάκινου. Ο ρόλος μας: να φέρουμε τη σύγχρονη οινοποίηση μόνο εκεί όπου βοηθά το σταφύλι, ποτέ εκεί όπου το αντιμάχεται."} }
+          el:"Η αμπελουργία στη Σαντορίνη είναι μια σαφής απεικόνιση του πώς, σε ένα ηφαιστειογενές έδαφος όπου η φυλλοξήρα δεν κατάφερε ποτέ να εγκατασταθεί, τα κλήματα παραμένουν ακόμα μη εμβολιασμένα, καλλιεργούμενα χαμηλά σαν θάμνοι ενάντια στον άνεμο. Τα αυτόχθονα σταφύλια Ασύρτικο προέρχονται από κλήματα ηλικίας συνήθως 100-120 ετών, εξασφαλίζοντας ένα πλούσιο προφίλ γεύσης με νότες λεμονιού, γκρέιπφρουτ και ροδάκινου. Ο ρόλος μας: να φέρουμε τη σύγχρονη οινοποίηση μόνο εκεί όπου βοηθά το σταφύλι, ποτέ εκεί όπου το αντιμάχεται."} },
+  { img:'rose_glass.jpg', tag:{en:'Case Study',el:'Μελέτη Περίπτωσης'}, title:{en:'Rosé. A success story.',el:'Ροζέ. Μια ιστορία επιτυχίας.'},
+    body:{en:"In a red-and-white-only world, we took the risk to go pink. We are proud to be the first team of oenologists that, in 2012, dared to reintroduce, redefine and establish rosé wines in Greece. By making them as great as can be.<br><br>Create premium Provence style rosé from Greek varieties? Challenge accepted!<br><br>We shared with local winemakers our love for Provence style rosé. For its pale, almost white color, light taste, for its flavors, aromas and refreshing character that reflect the temperate climate and the rejuvenating nature of the Mediterranean.<br><br>Today, rosé is a favorite choice everywhere. In local wineries, wine bars, wine lists, cellars, shops, orders, palates.",
+          el:"Σε έναν κόσμο μόνο κόκκινου και λευκού, ρισκάραμε να πάμε στο ροζ. Είμαστε περήφανοι που ήμασταν η πρώτη ομάδα οινολόγων που, το 2012, τόλμησε να επανεισάγει, να επαναπροσδιορίσει και να καθιερώσει τα ροζέ κρασιά στην Ελλάδα. Φτιάχνοντάς τα όσο πιο εξαιρετικά γίνεται.<br><br>Να δημιουργήσουμε ροζέ στο πρότυπο της Προβηγκίας, από ελληνικές ποικιλίες; Πρόκληση αποδεκτή!<br><br>Μοιραστήκαμε με τους τοπικούς οινοποιούς την αγάπη μας για το ροζέ τύπου Προβηγκίας. Για το χλωμό, σχεδόν λευκό του χρώμα, την ελαφριά γεύση, τα αρώματα και τον δροσερό χαρακτήρα του που αντανακλά το εύκρατο κλίμα και την αναζωογονητική φύση της Μεσογείου.<br><br>Σήμερα, το ροζέ είναι αγαπημένη επιλογή παντού. Σε τοπικά οινοποιεία, wine bar, λίστες κρασιών, κάβες, καταστήματα, παραγγελίες, ουρανίσκους."} }
 ];
 
 const SERVICES = [
@@ -810,20 +862,20 @@ const SERVICES = [
     body:{en:"We are there for you, every step of the way. From choosing and acquiring your vineyard to affixing the labels on your wine bottles.<br><br>A complete range of services, as flexible as you need.",
           el:"Είμαστε δίπλα σας σε κάθε βήμα.<br><br>Ένα πλήρες φάσμα υπηρεσιών, τόσο ευέλικτο όσο χρειάζεστε."} },
   { tag:{en:'Grape to bottle',el:'Από το σταφύλι στο μπουκάλι'}, title:{en:'Oenological consulting',el:'Οινολογική Συμβουλευτική'},
-    body:{en:"Guidance throughout the procedure followed from harvesting the grape, to bottling your wine: oenological analyses, wine monitoring, vinification, aging, stabilization, bottling.<br><br>Modern techniques: organic, biodynamic, experimental, low SO₂, wild fermentation. Winery management: grape sourcing, negotiating with suppliers.",
-          el:"Καθοδήγηση από τη συγκομιδή έως την εμφιάλωση: αναλύσεις, παρακολούθηση, οινοποίηση, ωρίμανση, σταθεροποίηση. Βιολογική, βιοδυναμική, πειραματική οινοποίηση."} },
+    body:{en:"Guidance throughout the whole process, from harvesting the grape to bottling your wine:<br>- Oenological analyses<br>- Wine monitoring<br>- Vinification, aging, stabilization, bottling<br>- Modern techniques: organic, biodynamic, experimental, low SO₂, wild fermentation<br>- Winery management<br>- Grape sourcing and supplier negotiations",
+          el:"Καθοδήγηση σε όλη τη διαδικασία, από τη συγκομιδή έως την εμφιάλωση:<br>- Οινολογικές αναλύσεις<br>- Παρακολούθηση κρασιού<br>- Οινοποίηση, ωρίμανση, σταθεροποίηση, εμφιάλωση<br>- Σύγχρονες τεχνικές: βιολογική, βιοδυναμική, πειραματική, χαμηλή χρήση SO₂, αυθόρμητη ζύμωση<br>- Διαχείριση οινοποιείου<br>- Προμήθεια σταφυλιών και διαπραγμάτευση με προμηθευτές"} },
   { tag:{en:'In the field',el:'Στο χωράφι'}, title:{en:'Viticultural consulting',el:'Αμπελουργική Συμβουλευτική'},
-    body:{en:"Yearly, everyday cultivation consulting, until grape harvest. Precision viticulture, adapted to the terroir: vine monitoring, viticulture management, plant protection, irrigation.<br><br>Conversion into organic or biodynamic.",
-          el:"Ετήσια, καθημερινή συμβουλευτική καλλιέργειας.<br><br>Αμπελουργία ακριβείας, μετατροπή σε βιολογική ή βιοδυναμική."} },
+    body:{en:"Ongoing, year-round cultivation guidance until harvest — precision viticulture, adapted to the terroir:<br>- Vine monitoring<br>- Viticulture management<br>- Plant protection<br>- Irrigation management<br>- Conversion to organic or biodynamic",
+          el:"Ετήσια, καθημερινή συμβουλευτική καλλιέργειας έως τον τρύγο — αμπελουργία ακριβείας, προσαρμοσμένη στο terroir:<br>- Παρακολούθηση κλήματος<br>- Διαχείριση αμπελουργίας<br>- Φυτοπροστασία<br>- Διαχείριση άρδευσης<br>- Μετατροπή σε βιολογική ή βιοδυναμική"} },
   { tag:{en:'From scratch',el:'Από το μηδέν'}, title:{en:'Vineyard &amp; winery installation-optimization',el:'Εγκατάσταση Αμπελώνα &amp; Οινοποιείου'},
-    body:{en:"Advice on finding and purchasing the right field. Vineyard installation study: variety selection, soil preparation, cost evaluation, irrigation.<br><br>Design &amp; construction of a fully equipped winery, with complete project management.",
-          el:"Συμβουλές εύρεσης χωραφιού, μελέτη εγκατάστασης αμπελώνα, σχεδιασμός και κατασκευή οινοποιείου."} },
-  { tag:{en:'Assistance',el:'Υποστήριξη'}, title:{en:'Wine collections',el:'Συλλογές Κρασιού'},
-    body:{en:"Evaluation of wines or wine collections. Build a personal wine collection for aging, with our help.",
-          el:"Αξιολόγηση κρασιών ή συλλογών κρασιού. Δημιουργία προσωπικής συλλογής παλαίωσης."} },
+    body:{en:"Advice on finding and acquiring the right field, and building the winery around it:<br>- Vineyard installation study — variety selection, soil preparation, cost evaluation, irrigation<br>- Design and construction of a fully equipped winery, tailored to your needs<br>- Full project management, handling the oenological requirements from start to finish",
+          el:"Συμβουλές για την εύρεση και απόκτηση του κατάλληλου χωραφιού, και την ανάπτυξη του οινοποιείου γύρω του:<br>- Μελέτη εγκατάστασης αμπελώνα — επιλογή ποικιλίας, προετοιμασία εδάφους, αξιολόγηση κόστους, άρδευση<br>- Σχεδιασμός και κατασκευή πλήρως εξοπλισμένου οινοποιείου<br>- Πλήρης διαχείριση έργου, από τις οινολογικές απαιτήσεις έως το τελικό αποτέλεσμα"} },
+  { tag:{en:'Assistance',el:'Υποστήριξη'}, title:{en:'Assistance with wine collections',el:'Υποστήριξη Συλλογών Κρασιού'},
+    body:{en:"For those who already love wine, or want to start collecting it properly:<br>- Evaluation of wines or existing collections<br>- Building a personal collection for ageing, with our guidance",
+          el:"Για όσους αγαπούν ήδη το κρασί, ή θέλουν να ξεκινήσουν σωστά μια συλλογή:<br>- Αξιολόγηση κρασιών ή υπαρχουσών συλλογών<br>- Δημιουργία προσωπικής συλλογής παλαίωσης, με τη δική μας καθοδήγηση"} },
   { tag:{en:'Paperwork, handled',el:'Το χαρτί, τακτοποιημένο'}, title:{en:'Administrative support',el:'Διοικητική Υποστήριξη'},
-    body:{en:"We take on all the official-legal paperwork your project requires — plantation rights, production declarations, subsidy dossiers, organic and biodynamic certification.",
-          el:"Αναλαμβάνουμε όλη τη γραφειοκρατία — δικαιώματα φύτευσης, δηλώσεις παραγωγής, πιστοποιήσεις."} },
+    body:{en:"We take on the official paperwork your project requires, from an oenological standpoint:<br>- Applications for plantation rights and production declarations<br>- Subsidy dossiers, prepared and submitted<br>- Certification procedures for organic and biodynamic compliance",
+          el:"Αναλαμβάνουμε τη γραφειοκρατία που απαιτεί το έργο σας, από οινολογική σκοπιά:<br>- Αιτήσεις δικαιωμάτων φύτευσης και δηλώσεις παραγωγής<br>- Φάκελοι επιδοτήσεων, προετοιμασία και υποβολή<br>- Διαδικασίες πιστοποίησης για συμμόρφωση με βιολογικά και βιοδυναμικά πρότυπα"} },
   { tag:{en:'A small jewel',el:'Ένα μικρό κόσμημα'}, title:{en:'Garage Wine',el:'Garage Wine'},
     body:{en:"The term 'garage wine' refers to a small, private, high-quality wine production unit, that is not necessarily set up in a garage but at your place, your field, your gardens! If you aspire to make your own private label, let us guide you step by step.<br><br>With the right partner and know-how, creating such a small winery very much resembles creating a small jewel!",
           el:"Ο όρος «garage wine» αναφέρεται σε μια μικρή, ιδιωτική, υψηλής ποιότητας μονάδα παραγωγής κρασιού, στο σπίτι σας, στο χωράφι σας, στον κήπο σας!<br><br>Αφήστε μας να σας καθοδηγήσουμε βήμα-βήμα."} }
@@ -1119,7 +1171,7 @@ function openPartnerModal(imgSrc, nameEn, nameEl, url){
 }
 document.getElementById('cyprusTile').addEventListener('click', ()=> openPartnerModal('partner_cyprus.jpg', 'Cyprus Oenophile Association', 'Όμιλος Οινοφίλων Κύπρου', 'https://cyprusoenophileassociation.com'));
 document.getElementById('velillaTile').addEventListener('click', ()=> openPartnerModal('partner_velilla.jpg', 'Velilla Group', 'Velilla Group', 'https://www.velilla-group.com'));
-document.getElementById('phoenixTile').addEventListener('click', ()=> openPartnerModal('partner_phoenix.png', 'Phoenix', 'Phoenix', 'https://phoenixlebanon.com'));
+document.getElementById('phoenixTile').addEventListener('click', ()=> openPartnerModal('partner_phoenix_black.jpg', 'Phoenix Lebanon', 'Phoenix Lebanon', 'https://phoenixlebanon.com'));
 
 renderProjects();
 renderServices();
@@ -1143,36 +1195,78 @@ document.getElementById('cfSendBtn').addEventListener('click', ()=>{
 /* ============================================================
    BOT FINTO — risposte basate sui contenuti reali del sito
    ============================================================ */
-const BOT_KB = [
-  { keys:['service','servizi','consult','oenolog','vinif'], goto:'services',
-    a:{en:"We offer 360° oenological consulting — from choosing your vineyard to bottling and labelling your wine, including viticultural consulting and administrative support.", el:"Προσφέρουμε συμβουλευτική οινολογίας 360° — από την επιλογή του αμπελώνα έως την εμφιάλωση και επισήμανση του κρασιού σας."} },
-  { keys:['garage'], goto:'services',
-    a:{en:"Garage Wine is a small, private, high-quality production unit — at your place, your field, your garden. We guide you step by step to create your own private label.", el:"Το Garage Wine είναι μια μικρή, ιδιωτική, υψηλής ποιότητας μονάδα παραγωγής — στο σπίτι σας ή στο χωράφι σας."} },
-  { keys:['project','cyclad','santorini','argentina','κυκλαδ','αργεντιν'], goto:'projects',
-    a:{en:"Our projects span the volcanic soils of the Cyclades to a vineyard built from bare land in Argentina — real 360° consulting stories.", el:"Τα έργα μας εκτείνονται από τα ηφαιστειογενή εδάφη των Κυκλάδων έως έναν αμπελώνα από το μηδέν στην Αργεντινή."} },
-  { keys:['who','oenolog','team','sormar','mario','about','ποιοι','οινολ'], goto:'about',
-    a:{en:"We are a team of oenologists with muddy hands and shoes, led by Mario Sorbello, working as close to the vines as possible.", el:"Είμαστε μια ομάδα οινολόγων με λασπωμένα χέρια, με επικεφαλής τον Mario Sorbello."} },
-  { keys:['contact','email','phone','address','τηλεφ','επικοιν','διευθυν'], goto:'contact',
-    a:{en:"You can reach us by phone at +357 95 968096 or by email at sormaricy25@gmail.com. Our registered office is on Makariou Avenue, Nicosia, Cyprus.", el:"Μπορείτε να επικοινωνήσετε στο +357 95 968096 ή στο sormaricy25@gmail.com. Η έδρα μας είναι στη Λεωφόρο Μακαρίου, Λευκωσία."} },
-  { keys:['merch','shirt','maglietta','clothes','ρουχ'], goto:'merchandising',
-    a:{en:"Our own line of clothing carrying the Sormarí mark is coming soon — more than a t-shirt, an idea.", el:"Η δική μας σειρά ρούχων με το σήμα Sormarí έρχεται σύντομα."} },
-  { keys:['radio'], goto:'webradio',
-    a:{en:"Our web radio — music, conversations and stories from the vineyard — is coming soon.", el:"Το web radio μας έρχεται σύντομα."} },
-  { keys:['partner','συνεργ'], goto:'partners',
-    a:{en:"We are building relationships with wineries, distributors and institutions across the region — our partner network will be presented soon.", el:"Χτίζουμε σχέσεις με οινοποιεία και φορείς — το δίκτυο συνεργατών μας θα παρουσιαστεί σύντομα."} },
-  { keys:['film','video','bacchus','βακχ','ταιν'], goto:'films',
-    a:{en:"We have two short films — Bacchus and Foundation — with more on the way.", el:"Έχουμε δύο σύντομες ταινίες — Βάκχος και Θεμελίωση — κι άλλες έρχονται."} },
-  { keys:['gallery','photo','φωτο','εικον'], goto:'gallery',
-    a:{en:"Take a look at our rotating photo gallery — life among the vines, harvest after harvest.", el:"Ρίξτε μια ματιά στη συλλογή φωτογραφιών μας — η ζωή ανάμεσα στ' αμπέλια."} },
-  { keys:['sustain','nature','organic','biodynam','βιωσιμ','φυσ'], goto:'about',
-    a:{en:"Respect for nature guides everything we do — from organic and biodynamic techniques to low-intervention winemaking.", el:"Ο σεβασμός στη φύση καθοδηγεί ό,τι κάνουμε — από τη βιολογική έως τη βιοδυναμική καλλιέργεια."} },
+const SEARCH_SECTIONS = [
+  {id:'home', label:{en:'Home',el:'Αρχική'}},
+  {id:'about', label:{en:'About',el:'Σχετικά'}},
+  {id:'philosophy', label:{en:'Winemaking Philosophy',el:'Φιλοσοφία Οινοποίησης'}},
+  {id:'projects', label:{en:'Projects',el:'Έργα'}},
+  {id:'gallery', label:{en:'Gallery',el:'Συλλογή Φωτογραφιών'}},
+  {id:'services', label:{en:'Services',el:'Υπηρεσίες'}},
+  {id:'testwine', label:{en:'Laboratory',el:'Εργαστήριο'}},
+  {id:'partners', label:{en:'Partners',el:'Συνεργάτες'}},
+  {id:'films', label:{en:'Films',el:'Ταινίες'}},
+  {id:'merchandising', label:{en:'Merchandising',el:'Merchandising'}},
+  {id:'webradio', label:{en:'Web Radio',el:'Web Radio'}},
+  {id:'instpartners', label:{en:'Institutional Partners',el:'Θεσμικοί Συνεργάτες'}},
+  {id:'contact', label:{en:'Contact',el:'Επικοινωνία'}}
 ];
-const BOT_FALLBACK = {en:"I couldn't find anything specific on that. Try asking about our services, projects, or how to reach us.", el:"Δεν βρήκα κάτι συγκεκριμένο. Ρωτήστε με για τις υπηρεσίες, τα έργα ή πώς να επικοινωνήσετε μαζί μας."};
-const BOT_GREETING = {en:"Hello! I'm the Sormarí assistant. Ask me about our wines, services or projects — I'll point you to the right section.", el:"Γεια σας! Είμαι ο βοηθός της Sormarí. Ρωτήστε με για τα κρασιά, τις υπηρεσίες ή τα έργα μας."};
+function escapeHtml(s){ return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function searchSite(query){
+  const q = query.trim().toLowerCase();
+  if(!q) return [];
+  const results = [];
+  SEARCH_SECTIONS.forEach(sec=>{
+    const el = document.getElementById(sec.id);
+    if(!el) return;
+    const text = (el.innerText || el.textContent || '').toLowerCase();
+    if(text.includes(q)) results.push(sec);
+  });
+  return results;
+}
+function highlightInSection(sectionEl, query){
+  const q = query.trim();
+  if(!q || !sectionEl) return;
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp('(' + escaped + ')', 'gi');
+  const walker = document.createTreeWalker(sectionEl, NodeFilter.SHOW_TEXT, null);
+  const nodes = [];
+  let node;
+  while(node = walker.nextNode()){
+    const p = node.parentElement;
+    if(p && p.tagName!=='SCRIPT' && p.tagName!=='STYLE' && regex.test(node.nodeValue)) nodes.push(node);
+    regex.lastIndex = 0;
+  }
+  const marks = [];
+  nodes.forEach(n=>{
+    const frag = document.createDocumentFragment();
+    const parts = n.nodeValue.split(regex);
+    parts.forEach((part,i)=>{
+      if(i % 2 === 1){
+        const mark = document.createElement('mark');
+        mark.className = 'search-hit';
+        mark.textContent = part;
+        frag.appendChild(mark);
+        marks.push(mark);
+      } else if(part){
+        frag.appendChild(document.createTextNode(part));
+      }
+    });
+    n.parentNode.replaceChild(frag, n);
+  });
+  if(marks.length) marks[0].scrollIntoView({behavior:'smooth', block:'center'});
+  setTimeout(()=>{
+    marks.forEach(m=> m.classList.add('fade-out'));
+    setTimeout(()=>{
+      marks.forEach(m=>{ const parent=m.parentNode; if(parent){ parent.replaceChild(document.createTextNode(m.textContent), m); parent.normalize(); } });
+    }, 700);
+  }, 2800);
+}
+const BOT_FALLBACK = {en:"I couldn't find that anywhere on the site. Try a different word.", el:"Δεν το βρήκα πουθενά στον ιστότοπο. Δοκιμάστε μια άλλη λέξη."};
+const BOT_GREETING = {en:"Hello! I'm the Sormarí assistant. Type any word and I'll search the whole site for it.", el:"Γεια σας! Είμαι ο βοηθός της Sormarí. Γράψτε οποιαδήποτε λέξη και θα την αναζητήσω σε όλον τον ιστότοπο."};
 const BOT_CHIPS = [
-  {en:'Services',el:'Υπηρεσίες', k:'services'},
-  {en:'Projects',el:'Έργα', k:'projects'},
-  {en:'Contact',el:'Επικοινωνία', k:'contact'},
+  {en:'wine',el:'κρασί', k:'wine'},
+  {en:'services',el:'υπηρεσίες', k:'services'},
+  {en:'contact',el:'επικοινωνία', k:'contact'},
 ];
 
 const botFab = document.getElementById('botFab');
@@ -1205,12 +1299,35 @@ function renderBotChips(){
 }
 function handleBotQuery(query){
   const lang = document.documentElement.getAttribute('data-lang')||'en';
-  botAddMessage(query, 'user');
-  const q = query.toLowerCase();
-  const match = BOT_KB.find(item=> item.keys.some(k=> q.includes(k)));
+  botAddMessage(escapeHtml(query), 'user');
   setTimeout(()=>{
-    if(match) botAddMessage(match.a[lang], 'bot', match.goto);
-    else botAddMessage(BOT_FALLBACK[lang], 'bot');
+    const results = searchSite(query);
+    if(results.length === 0){
+      botAddMessage(BOT_FALLBACK[lang], 'bot');
+      return;
+    }
+    const intro = lang==='el'
+      ? `Βρήκα «${escapeHtml(query)}» σε ${results.length} ${results.length===1?'ενότητα':'ενότητες'}:`
+      : `I found “${escapeHtml(query)}” in ${results.length} section${results.length===1?'':'s'}:`;
+    const div = document.createElement('div');
+    div.className = 'bot-msg bot';
+    div.innerHTML = `<div>${intro}</div>`;
+    const wrap = document.createElement('div');
+    wrap.className = 'bot-results';
+    results.forEach(sec=>{
+      const btn = document.createElement('button');
+      btn.className = 'bot-result-chip';
+      btn.textContent = sec.label[lang];
+      btn.addEventListener('click', ()=>{
+        botPanel.classList.remove('open');
+        scrollToId(sec.id);
+        setTimeout(()=> highlightInSection(document.getElementById(sec.id), query), 550);
+      });
+      wrap.appendChild(btn);
+    });
+    div.appendChild(wrap);
+    botMessages.appendChild(div);
+    botMessages.scrollTop = botMessages.scrollHeight;
   }, 300);
 }
 botFab.addEventListener('click', ()=>{
